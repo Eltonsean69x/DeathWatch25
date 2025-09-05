@@ -1,0 +1,206 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Celebrity Death Bingo 2025 — Sean vs Morris</title>
+  <style>
+    :root {
+      --bg: #0b0c10;
+      --card: #111218;
+      --muted: #8b90a0;
+      --text: #e6e7eb;
+      --accent: #7c3aed;
+      --ok: #16a34a;
+      --danger: #ef4444;
+      --border: #1f2230;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: radial-gradient(1200px 600px at 20% -10%, #15172a 0%, var(--bg) 60%);
+      color: var(--text);
+      font: 16px/1.45 system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, Helvetica Neue, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+    }
+    .wrap { max-width: 980px; margin: 0 auto; padding: 24px; }
+    header {
+      display: grid; gap: 16px; align-items: center; justify-items: center;
+    }
+    h1 { margin: 0; font-size: clamp(24px, 4vw, 36px); letter-spacing: 0.3px; }
+    .sub { color: var(--muted); font-size: 14px; }
+    .board {
+      margin-top: 18px;
+      display: grid; gap: 16px;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      width: 100%;
+    }
+    .tile {
+      background: linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02));
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 18px;
+      box-shadow: 0 10px 20px rgba(0,0,0,0.35);
+      min-height: 84px;
+    }
+    .score {
+      display: flex; align-items: baseline; justify-content: space-between;
+    }
+    .score .name { font-weight: 600; font-size: 20px; }
+    .score .num { font-size: 40px; font-weight: 800; letter-spacing: -1px; }
+    .num.ok { color: var(--ok); }
+    .num.bad { color: var(--danger); }
+
+    .timer { text-align: center; }
+    .timer .big { font-variant-numeric: tabular-nums; font-size: 28px; font-weight: 700; }
+    .timer .label { color: var(--muted); font-size: 13px; }
+
+    .grid {
+      margin-top: 22px;
+      display: grid; gap: 16px;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    .card { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 16px; }
+    .card h2 { margin: 0 0 8px 0; font-size: 18px; }
+    .card p { margin: 0 0 8px 0; color: var(--muted); font-size: 14px; }
+    ul { list-style: none; padding: 0; margin: 8px 0 0 0; display: grid; gap: 8px; }
+    li { background: rgba(255,255,255,0.03); padding: 10px 12px; border-radius: 12px; border: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+    li .who { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    li.hit { text-decoration: line-through; opacity: 0.7; }
+    li .tag { font-size: 12px; padding: 2px 8px; border-radius: 999px; border: 1px solid var(--border); }
+    .tag.alive { color: var(--muted); }
+    .tag.dead { color: var(--danger); border-color: rgba(239,68,68,0.4); }
+
+    .footer { margin-top: 22px; display: grid; gap: 8px; justify-items: center; color: var(--muted); font-size: 13px; }
+    .tiny { font-size: 12px; color: var(--muted); }
+
+    @media (max-width: 700px) {
+      .board { grid-template-columns: 1fr; }
+      .grid { grid-template-columns: 1fr; }
+      .timer .big { font-size: 24px; }
+    }
+    /* Light mode, if someone's device prefers it */
+    @media (prefers-color-scheme: light) {
+      :root { --bg: #f6f7fb; --card: #ffffff; --text: #0d1220; --muted: #5a6170; --border: #e9eaf0; --accent: #7c3aed; }
+      body { background: radial-gradient(1200px 600px at 20% -10%, #f1f2ff 0%, var(--bg) 60%); }
+      li { background: #fbfbfe; }
+      .num.bad { color: #b42323; }
+      .num.ok { color: #0a7a32; }
+    }
+  </style>
+  <!--
+  HOW TO USE / EDIT (you'll also see these notes in the GitHub UI):
+  1) Replace the placeholder names under each player's list with your actual picks.
+  2) When a pick hits, change the <li> to include data-hit="1" (or add class="hit")
+     and change the <span class="tag"> to have class="tag dead". Example:
+        <li data-hit="1" class="hit"><span class="who">Celebrity Name</span><span class="tag dead">☠ dead</span></li>
+  3) The scoreboard at the top updates automatically by counting hits in each list.
+  4) The countdown assumes the game ends at Dublin time *start of 2026* (Jan 1, 2026, 00:00) to reflect "midnight at the end of Dec 31, 2025".
+     If you truly meant the *start* of Dec 31, 2025 instead, set TARGET_ISO below to "2025-12-31T00:00:00+00:00".
+  5) Publish via GitHub Pages and share the URL. To update, edit this file in GitHub and commit.
+  -->
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <h1>Celebrity Death Bingo 2025 — Sean vs Morris</h1>
+      <div class="sub">Dark-humour scoreboard for two consenting adults. No real malice intended.</div>
+      <section class="board">
+        <div class="tile score" aria-live="polite">
+          <div class="name">Sean</div>
+          <div id="score-sean" class="num ok">0</div>
+        </div>
+        <div class="tile timer">
+          <div class="label">Time left</div>
+          <div id="countdown" class="big">—</div>
+          <div class="tiny">Ends at 00:00 on 1 Jan 2026 (Europe/Dublin)</div>
+        </div>
+        <div class="tile score" aria-live="polite">
+          <div class="name">Morris</div>
+          <div id="score-morris" class="num bad">0</div>
+        </div>
+      </section>
+    </header>
+
+    <main class="grid">
+      <section class="card" data-player="Sean">
+        <h2>Sean's Picks</h2>
+        <p>Click the pencil in GitHub to edit picks. Mark a hit with <code>data-hit="1"</code> (and make the tag say dead).</p>
+        <ul>
+          <li data-hit="1" class="hit"><span class="who">Example A</span><span class="tag dead">☠ dead</span></li>
+          <li data-hit="0"><span class="who">Example B</span><span class="tag alive">alive</span></li>
+          <li data-hit="0"><span class="who">Example C</span><span class="tag alive">alive</span></li>
+          <li data-hit="0"><span class="who">Example D</span><span class="tag alive">alive</span></li>
+          <li data-hit="0"><span class="who">Example E</span><span class="tag alive">alive</span></li>
+        </ul>
+      </section>
+
+      <section class="card" data-player="Morris">
+        <h2>Morris's Picks</h2>
+        <p>Same deal: edit this list to match Morris's picks.</p>
+        <ul>
+          <li data-hit="1" class="hit"><span class="who">Example F</span><span class="tag dead">☠ dead</span></li>
+          <li data-hit="0"><span class="who">Example G</span><span class="tag alive">alive</span></li>
+          <li data-hit="0"><span class="who">Example H</span><span class="tag alive">alive</span></li>
+          <li data-hit="0"><span class="who">Example I</span><span class="tag alive">alive</span></li>
+          <li data-hit="0"><span class="who">Example J</span><span class="tag alive">alive</span></li>
+        </ul>
+      </section>
+    </main>
+
+    <div class="footer">
+      <div id="updated" class="tiny"></div>
+      <div class="tiny">Tip: Press <kbd>Ctrl</kbd>/<kbd>Cmd</kbd> + <kbd>Shift</kbd> + <kbd>R</kbd> to hard-refresh if changes don't appear right away.</div>
+    </div>
+  </div>
+
+  <script>
+    // ====== Countdown (assumes Europe/Dublin, which is UTC in late Dec) ======
+    const TARGET_ISO = "2026-01-01T00:00:00+00:00"; // Jan 1, 2026 at 00:00 Dublin time
+    const target = new Date(TARGET_ISO).getTime();
+    function fmt(n) { return String(n).padStart(2, "0"); }
+    function tick() {
+      const now = Date.now();
+      let delta = Math.max(0, target - now);
+      const d = Math.floor(delta / (1000*60*60*24));
+      delta -= d * 24*60*60*1000;
+      const h = Math.floor(delta / (1000*60*60));
+      delta -= h * 60*60*1000;
+      const m = Math.floor(delta / (1000*60));
+      delta -= m * 60*1000;
+      const s = Math.floor(delta / 1000);
+      document.getElementById("countdown").textContent = `${d}d ${fmt(h)}h ${fmt(m)}m ${fmt(s)}s`;
+    }
+    tick();
+    setInterval(tick, 1000);
+
+    // ====== Auto-score from list items ======
+    function updateScores() {
+      const getScore = (player) => {
+        const section = document.querySelector(`[data-player="${player}"]`);
+        if (!section) return 0;
+        return section.querySelectorAll('li[data-hit="1"], li.hit').length;
+      };
+      const sean = getScore("Sean");
+      const morris = getScore("Morris");
+      const sEl = document.getElementById("score-sean");
+      const mEl = document.getElementById("score-morris");
+      sEl.textContent = sean;
+      mEl.textContent = morris;
+
+      // Colour cue for who's ahead
+      sEl.classList.toggle('ok', sean >= morris);
+      sEl.classList.toggle('bad', sean < morris);
+      mEl.classList.toggle('ok', morris > sean);
+      mEl.classList.toggle('bad', morris <= sean);
+    }
+    updateScores();
+
+    // ====== Show last updated time (from the file timestamp) ======
+    const updated = document.getElementById('updated');
+    if (updated) {
+      const dt = new Date(document.lastModified);
+      updated.textContent = `Last updated: ${dt.toLocaleString(undefined, {dateStyle: 'medium', timeStyle: 'short'})}`;
+    }
+  </script>
+</body>
+</html>
