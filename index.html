@@ -60,15 +60,53 @@
       grid-template-columns: repeat(2, minmax(0, 1fr));
     }
     .card { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 16px; }
-    .card h2 { margin: 0 0 8px 0; font-size: 18px; }
-    .card p { margin: 0 0 8px 0; color: var(--muted); font-size: 14px; }
-    ul { list-style: none; padding: 0; margin: 8px 0 0 0; display: grid; gap: 8px; }
-    li { background: rgba(255,255,255,0.03); padding: 10px 12px; border-radius: 12px; border: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; gap: 10px; }
-    li .who { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-    li.hit { text-decoration: line-through; opacity: 0.7; }
-    li .tag { font-size: 12px; padding: 2px 8px; border-radius: 999px; border: 1px solid var(--border); }
-    .tag.alive { color: var(--muted); }
-    .tag.dead { color: var(--danger); border-color: rgba(239,68,68,0.4); }
+.card h2 { margin: 0 0 8px 0; font-size: 18px; }
+.card p { margin: 0 0 8px 0; color: var(--muted); font-size: 14px; }
+ul { list-style: none; padding: 0; margin: 8px 0 0 0; display: grid; gap: 8px; }
+li { background: rgba(255,255,255,0.03); padding: 10px 12px; border-radius: 12px; border: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+li .who { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+/* ✅ updated: glitch effect for dead names */
+li.hit { opacity: 0.7; }
+li.hit .who {
+  text-decoration: line-through;
+  position: relative;
+  color: #ff4d4d;
+}
+li.hit .who::before,
+li.hit .who::after {
+  content: attr(data-text);
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  overflow: hidden;
+  color: #ff0000;
+  clip: rect(0, 900px, 0, 0);
+  animation: glitch 1s infinite linear alternate-reverse;
+}
+li.hit .who::after {
+  color: #00ffff;
+  animation-duration: 1.2s;
+}
+@keyframes glitch {
+  0% { clip: rect(0, 9999px, 0, 0); }
+  10% { clip: rect(10px, 9999px, 40px, 0); }
+  20% { clip: rect(20px, 9999px, 50px, 0); }
+  30% { clip: rect(5px, 9999px, 25px, 0); }
+  40% { clip: rect(15px, 9999px, 55px, 0); }
+  50% { clip: rect(25px, 9999px, 65px, 0); }
+  60% { clip: rect(0, 9999px, 70px, 0); }
+  70% { clip: rect(35px, 9999px, 80px, 0); }
+  80% { clip: rect(15px, 9999px, 90px, 0); }
+  90% { clip: rect(45px, 9999px, 100px, 0); }
+  100% { clip: rect(10px, 9999px, 110px, 0); }
+}
+
+li .tag { font-size: 12px; padding: 2px 8px; border-radius: 999px; border: 1px solid var(--border); }
+.tag.alive { color: var(--muted); }
+.tag.dead { color: var(--danger); border-color: rgba(239,68,68,0.4); }
+ }
 
     .footer { margin-top: 22px; display: grid; gap: 8px; justify-items: center; color: var(--muted); font-size: 13px; }
     .tiny { font-size: 12px; color: var(--muted); }
