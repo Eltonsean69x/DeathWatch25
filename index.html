@@ -60,53 +60,30 @@
       grid-template-columns: repeat(2, minmax(0, 1fr));
     }
     .card { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 16px; }
-.card h2 { margin: 0 0 8px 0; font-size: 18px; }
-.card p { margin: 0 0 8px 0; color: var(--muted); font-size: 14px; }
-ul { list-style: none; padding: 0; margin: 8px 0 0 0; display: grid; gap: 8px; }
-li { background: rgba(255,255,255,0.03); padding: 10px 12px; border-radius: 12px; border: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; gap: 10px; }
-li .who { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .card h2 { margin: 0 0 8px 0; font-size: 18px; }
+    .card p { margin: 0 0 8px 0; color: var(--muted); font-size: 14px; }
+    ul { list-style: none; padding: 0; margin: 8px 0 0 0; display: grid; gap: 8px; }
+    li { background: rgba(255,255,255,0.03); padding: 10px 12px; border-radius: 12px; border: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+    li .who { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 
-/* ✅ updated: glitch effect for dead names */
-li.hit { opacity: 0.7; }
-li.hit .who {
-  text-decoration: line-through;
-  position: relative;
-  color: #ff4d4d;
-}
-li.hit .who::before,
-li.hit .who::after {
-  content: attr(data-text);
-  position: absolute;
-  left: 0;
-  top: 0;
-  width: 100%;
-  overflow: hidden;
-  color: #ff0000;
-  clip: rect(0, 900px, 0, 0);
-  animation: glitch 1s infinite linear alternate-reverse;
-}
-li.hit .who::after {
-  color: #00ffff;
-  animation-duration: 1.2s;
-}
-@keyframes glitch {
-  0% { clip: rect(0, 9999px, 0, 0); }
-  10% { clip: rect(10px, 9999px, 40px, 0); }
-  20% { clip: rect(20px, 9999px, 50px, 0); }
-  30% { clip: rect(5px, 9999px, 25px, 0); }
-  40% { clip: rect(15px, 9999px, 55px, 0); }
-  50% { clip: rect(25px, 9999px, 65px, 0); }
-  60% { clip: rect(0, 9999px, 70px, 0); }
-  70% { clip: rect(35px, 9999px, 80px, 0); }
-  80% { clip: rect(15px, 9999px, 90px, 0); }
-  90% { clip: rect(45px, 9999px, 100px, 0); }
-  100% { clip: rect(10px, 9999px, 110px, 0); }
-}
+    /* ✅ Retro CRT flicker/glow effect for dead names */
+    li.hit { opacity: 0.85; }
+    li.hit .who {
+      text-decoration: line-through;
+      color: #ff4d4d;
+      text-shadow: 0 0 2px #ff0000, 0 0 5px #ff0000, 0 0 10px #ff0000;
+      animation: flicker 1.5s infinite alternate;
+    }
+    @keyframes flicker {
+      0% { opacity: 1; text-shadow: 0 0 2px #ff0000, 0 0 5px #ff0000, 0 0 10px #ff0000; }
+      30% { opacity: 0.9; text-shadow: 0 0 1px #ff0000, 0 0 4px #ff0000; }
+      60% { opacity: 1; text-shadow: 0 0 3px #ff0000, 0 0 6px #ff0000, 0 0 12px #ff0000; }
+      100% { opacity: 0.85; text-shadow: 0 0 2px #ff0000, 0 0 5px #ff0000; }
+    }
 
-li .tag { font-size: 12px; padding: 2px 8px; border-radius: 999px; border: 1px solid var(--border); }
-.tag.alive { color: var(--muted); }
-.tag.dead { color: var(--danger); border-color: rgba(239,68,68,0.4); }
- }
+    li .tag { font-size: 12px; padding: 2px 8px; border-radius: 999px; border: 1px solid var(--border); }
+    .tag.alive { color: var(--muted); }
+    .tag.dead { color: var(--danger); border-color: rgba(239,68,68,0.4); }
 
     .footer { margin-top: 22px; display: grid; gap: 8px; justify-items: center; color: var(--muted); font-size: 13px; }
     .tiny { font-size: 12px; color: var(--muted); }
@@ -116,7 +93,6 @@ li .tag { font-size: 12px; padding: 2px 8px; border-radius: 999px; border: 1px s
       .grid { grid-template-columns: 1fr; }
       .timer .big { font-size: 24px; }
     }
-    /* Light mode, if someone's device prefers it */
     @media (prefers-color-scheme: light) {
       :root { --bg: #f6f7fb; --card: #ffffff; --text: #0d1220; --muted: #5a6170; --border: #e9eaf0; --accent: #7c3aed; }
       body { background: radial-gradient(1200px 600px at 20% -10%, #f1f2ff 0%, var(--bg) 60%); }
@@ -125,17 +101,6 @@ li .tag { font-size: 12px; padding: 2px 8px; border-radius: 999px; border: 1px s
       .num.ok { color: #0a7a32; }
     }
   </style>
-  <!--
-  HOW TO USE / EDIT (you'll also see these notes in the GitHub UI):
-  1) Replace the placeholder names under each player's list with your actual picks.
-  2) When a pick hits, change the <li> to include data-hit="1" (or add class="hit")
-     and change the <span class="tag"> to have class="tag dead". Example:
-        <li data-hit="1" class="hit"><span class="who">Celebrity Name</span><span class="tag dead">☠ dead</span></li>
-  3) The scoreboard at the top updates automatically by counting hits in each list.
-  4) The countdown assumes the game ends at Dublin time *start of 2026* (Jan 1, 2026, 00:00) to reflect "midnight at the end of Dec 31, 2025".
-     If you truly meant the *start* of Dec 31, 2025 instead, set TARGET_ISO below to "2025-12-31T00:00:00+00:00".
-  5) Publish via GitHub Pages and share the URL. To update, edit this file in GitHub and commit.
-  -->
 </head>
 <body>
   <div class="wrap">
@@ -163,71 +128,71 @@ li .tag { font-size: 12px; padding: 2px 8px; border-radius: 999px; border: 1px s
       <section class="card" data-player="Sean">
         <h2>Sean's Picks</h2>
         <ul>
-<li data-hit="0"><span class="who" data-text="David Attenborough">David Attenborough</span><span class="tag alive">alive</span></li>
-<li data-hit="0"><span class="who" data-text="Bruce Willis">Bruce Willis</span><span class="tag alive">alive</span></li>
-<li data-hit="1" class="hit"><span class="who" data-text="Ozzy Osbourne">Ozzy Osbourne</span><span class="tag dead">☠ dead</span></li>
-<li data-hit="0"><span class="who" data-text="Charlie Sheen">Charlie Sheen</span><span class="tag alive">alive</span></li>
-<li data-hit="0"><span class="who" data-text="Gerard Depardieu">Gerard Depardieu</span><span class="tag alive">alive</span></li>
-<li data-hit="0"><span class="who" data-text="Richie Blackmore">Richie Blackmore</span><span class="tag alive">alive</span></li>
-<li data-hit="0"><span class="who" data-text="Mick Fleetwood">Mick Fleetwood</span><span class="tag alive">alive</span></li>
-<li data-hit="0"><span class="who" data-text="Anthony Hopkins">Anthony Hopkins</span><span class="tag alive">alive</span></li>
-<li data-hit="1" class="hit"><span class="who" data-text="Val Kilmer">Val Kilmer</span><span class="tag dead">☠ dead</span></li>
-<li data-hit="0"><span class="who" data-text="Michael York">Michael York</span><span class="tag alive">alive</span></li>
-<li data-hit="0"><span class="who" data-text="Yoko Ono">Yoko Ono</span><span class="tag alive">alive</span></li>
-<li data-hit="0"><span class="who" data-text="Joni Mitchell">Joni Mitchell</span><span class="tag alive">alive</span></li>
-<li data-hit="0"><span class="who" data-text="Noddy Holder">Noddy Holder</span><span class="tag alive">alive</span></li>
-<li data-hit="0"><span class="who" data-text="Brian Blessed">Brian Blessed</span><span class="tag alive">alive</span></li>
-<li data-hit="0"><span class="who" data-text="Robert Wagner">Robert Wagner</span><span class="tag alive">alive</span></li>
-<li data-hit="0"><span class="who" data-text="Tim Curry">Tim Curry</span><span class="tag alive">alive</span></li>
-<li data-hit="0"><span class="who" data-text="James Van Der Beek">James Van Der Beek</span><span class="tag alive">alive</span></li>
-<li data-hit="0"><span class="who" data-text="Britany Spears">Britany Spears</span><span class="tag alive">alive</span></li>
-<li data-hit="1" class="hit"><span class="who" data-text="Marianne Faithful">Marianne Faithful</span><span class="tag dead">☠ dead</span></li>
-<li data-hit="0"><span class="who" data-text="Joe Pesci">Joe Pesci</span><span class="tag alive">alive</span></li>
-<li data-hit="0"><span class="who" data-text="Billy Connolly">Billy Connolly</span><span class="tag alive">alive</span></li>
-<li data-hit="0"><span class="who" data-text="Ian McKellen">Ian McKellen</span><span class="tag alive">alive</span></li>
-<li data-hit="0"><span class="who" data-text="Buzz Aldrin">Buzz Aldrin</span><span class="tag alive">alive</span></li>
-<li data-hit="0"><span class="who" data-text="Robert Duvall">Robert Duvall</span><span class="tag alive">alive</span></li>
-<li data-hit="0"><span class="who" data-text="Queen Camilla">Queen Camilla</span><span class="tag alive">alive</span></li>
-<li data-hit="0"><span class="who" data-text="Ron Wood">Ron Wood</span><span class="tag alive">alive</span></li>
-<li data-hit="0"><span class="who" data-text="Jack Nicholson">Jack Nicholson</span><span class="tag alive">alive</span></li>
-<li data-hit="0"><span class="who" data-text="Eamon Holmes">Eamon Holmes</span><span class="tag alive">alive</span></li>
-<li data-hit="0"><span class="who" data-text="Michael Douglas">Michael Douglas</span><span class="tag alive">alive</span></li>
+<li data-hit="0"><span class="who">David Attenborough</span><span class="tag alive">alive</span></li>
+<li data-hit="0"><span class="who">Bruce Willis</span><span class="tag alive">alive</span></li>
+<li data-hit="1" class="hit"><span class="who">Ozzy Osbourne</span><span class="tag dead">☠ dead</span></li>
+<li data-hit="0"><span class="who">Charlie Sheen</span><span class="tag alive">alive</span></li>
+<li data-hit="0"><span class="who">Gerard Depardieu</span><span class="tag alive">alive</span></li>
+<li data-hit="0"><span class="who">Richie Blackmore</span><span class="tag alive">alive</span></li>
+<li data-hit="0"><span class="who">Mick Fleetwood</span><span class="tag alive">alive</span></li>
+<li data-hit="0"><span class="who">Anthony Hopkins</span><span class="tag alive">alive</span></li>
+<li data-hit="1" class="hit"><span class="who">Val Kilmer</span><span class="tag dead">☠ dead</span></li>
+<li data-hit="0"><span class="who">Michael York</span><span class="tag alive">alive</span></li>
+<li data-hit="0"><span class="who">Yoko Ono</span><span class="tag alive">alive</span></li>
+<li data-hit="0"><span class="who">Joni Mitchell</span><span class="tag alive">alive</span></li>
+<li data-hit="0"><span class="who">Noddy Holder</span><span class="tag alive">alive</span></li>
+<li data-hit="0"><span class="who">Brian Blessed</span><span class="tag alive">alive</span></li>
+<li data-hit="0"><span class="who">Robert Wagner</span><span class="tag alive">alive</span></li>
+<li data-hit="0"><span class="who">Tim Curry</span><span class="tag alive">alive</span></li>
+<li data-hit="0"><span class="who">James Van Der Beek</span><span class="tag alive">alive</span></li>
+<li data-hit="0"><span class="who">Britany Spears</span><span class="tag alive">alive</span></li>
+<li data-hit="1" class="hit"><span class="who">Marianne Faithful</span><span class="tag dead">☠ dead</span></li>
+<li data-hit="0"><span class="who">Joe Pesci</span><span class="tag alive">alive</span></li>
+<li data-hit="0"><span class="who">Billy Connolly</span><span class="tag alive">alive</span></li>
+<li data-hit="0"><span class="who">Ian McKellen</span><span class="tag alive">alive</span></li>
+<li data-hit="0"><span class="who">Buzz Aldrin</span><span class="tag alive">alive</span></li>
+<li data-hit="0"><span class="who">Robert Duvall</span><span class="tag alive">alive</span></li>
+<li data-hit="0"><span class="who">Queen Camilla</span><span class="tag alive">alive</span></li>
+<li data-hit="0"><span class="who">Ron Wood</span><span class="tag alive">alive</span></li>
+<li data-hit="0"><span class="who">Jack Nicholson</span><span class="tag alive">alive</span></li>
+<li data-hit="0"><span class="who">Eamon Holmes</span><span class="tag alive">alive</span></li>
+<li data-hit="0"><span class="who">Michael Douglas</span><span class="tag alive">alive</span></li>
         </ul>
       </section>
 
       <section class="card" data-player="Morris">
         <h2>Maurice's Picks</h2>
         <ul>
-          <li data-hit="1"><span class="who" data-text="Ruby Druce">Ruby Druce</span><span class="tag dead">☠ dead</span></li>
-          <li data-hit="0"><span class="who" data-text="Billy Connolly">Billy Connolly</span><span class="tag alive">alive</span></li>
-          <li data-hit="0"><span class="who" data-text="Julie Andrews">Julie Andrews</span><span class="tag alive">alive</span></li>
-          <li data-hit="1"><span class="who" data-text="Giorgio Armani">Giorgio Armani</span><span class="tag dead">☠ dead</span></li>
-          <li data-hit="0"><span class="who" data-text="Pat Buchanan">Pat Buchanan</span><span class="tag alive">alive</span></li>
-          <li data-hit="0"><span class="who" data-text="Carol Burnett">Carol Burnett</span><span class="tag alive">alive</span></li>
-          <li data-hit="0"><span class="who" data-text="Joan Collins">Joan Collins</span><span class="tag alive">alive</span></li>
-          <li data-hit="0"><span class="who" data-text="Bill Cosby">Bill Cosby</span><span class="tag alive">alive</span></li>
-          <li data-hit="0"><span class="who" data-text="Noam Chomsky">Noam Chomsky</span><span class="tag alive">alive</span></li>
-          <li data-hit="0"><span class="who" data-text="Cleo Laine">Cleo Laine</span><span class="tag alive">alive</span></li>
-          <li data-hit="0"><span class="who" data-text="Yoko Ono">Yoko Ono</span><span class="tag alive">alive</span></li>
-          <li data-hit="1"><span class="who" data-text="Gene Hackman">Gene Hackman</span><span class="tag dead">☠ dead</span></li>
-          <li data-hit="0"><span class="who" data-text="Rupert Murdoch">Rupert Murdoch</span><span class="tag alive">alive</span></li>
-          <li data-hit="0"><span class="who" data-text="Michael Caine">BMichael Caine</span><span class="tag alive">alive</span></li>
-          <li data-hit="0"><span class="who" data-text="Juan Carlos I">Juan Carlos I</span><span class="tag alive">alive</span></li>
-          <li data-hit="0"><span class="who" data-text="Raul Castro">Raul Castro</span><span class="tag alive">alive</span></li>
-          <li data-hit="0"><span class="who" data-text="George Soros">George Soros</span><span class="tag alive">alive</span></li>
-          <li data-hit="1"><span class="who" data-text="Roberta Flack">Roberta Flack</span><span class="tag dead">☠ dead</span></li>
-          <li data-hit="0"><span class="who" data-text="Kim Novak">Kim Novak</span><span class="tag alive">alive</span></li>
-          <li data-hit="0"><span class="who" data-text="Wilie Nelson">Willie Nelson</span><span class="tag alive">alive</span></li>
-          <li data-hit="0"><span class="who" data-text="William Shatner">William Shatner</span><span class="tag alive">alive</span></li>
-          <li data-hit="0"><span class="who" data-text="Dalai Lama">Dalai Lama</span><span class="tag alive">alive</span></li>
-          <li data-hit="1"><span class="who" data-text="Pape Fracnois I">Pape Francois I</span><span class="tag dead">☠ dead</span></li>
-          <li data-hit="0"><span class="who" data-text="Clint Eastwood">Clint Eastwood</span><span class="tag alive">alive</span></li>
-          <li data-hit="0"><span class="who" data-text="Mel Brooks">Mel Brooks</span><span class="tag alive">alive</span></li>
-          <li data-hit="0"><span class="who" data-text="Judi Dench">Judi Dench</span><span class="tag alive">alive</span></li>
-          <li data-hit="0"><span class="who" data-text="Morgan Freeman">Morgan Freeman</span><span class="tag alive">alive</span></li>
-          <li data-hit="0"><span class="who" data-text="Daniel O Donnell">Daniel O Donnell</span><span class="tag alive">alive</span></li>
-          <li data-hit="0"><span class="who" data-text="Arnold Schwarzenegger">Arnold Schwarzenegger</span><span class="tag alive">alive</span></li
-          <li data-hit="0"><span class="who" data-text="Simon Harris">Simon Harris</span><span class="tag alive">alive</span></li>                                                                                                                                      
+<li data-hit="1" class="hit"><span class="who">Ruby Druce</span><span class="tag dead">☠ dead</span></li>
+<li data-hit="0"><span class="who">Billy Connolly</span><span class="tag alive">alive</span></li>
+<li data-hit="0"><span class="who">Julie Andrews</span><span class="tag alive">alive</span></li>
+<li data-hit="1" class="hit"><span class="who">Giorgio Armani</span><span class="tag dead">☠ dead</span></li>
+<li data-hit="0"><span class="who">Pat Buchanan</span><span class="tag alive">alive</span></li>
+<li data-hit="0"><span class="who">Carol Burnett</span><span class="tag alive">alive</span></li>
+<li data-hit="0"><span class="who">Joan Collins</span><span class="tag alive">alive</span></li>
+<li data-hit="0"><span class="who">Bill Cosby</span><span class="tag alive">alive</span></li>
+<li data-hit="0"><span class="who">Noam Chomsky</span><span class="tag alive">alive</span></li>
+<li data-hit="0"><span class="who">Cleo Laine</span><span class="tag alive">alive</span></li>
+<li data-hit="0"><span class="who">Yoko Ono</span><span class="tag alive">alive</span></li>
+<li data-hit="1" class="hit"><span class="who">Gene Hackman</span><span class="tag dead">☠ dead</span></li>
+<li data-hit="0"><span class="who">Rupert Murdoch</span><span class="tag alive">alive</span></li>
+<li data-hit="0"><span class="who">Michael Caine</span><span class="tag alive">alive</span></li>
+<li data-hit="0"><span class="who">Juan Carlos I</span><span class="tag alive">alive</span></li>
+<li data-hit="0"><span class="who">Raul Castro</span><span class="tag alive">alive</span></li>
+<li data-hit="0"><span class="who">George Soros</span><span class="tag alive">alive</span></li>
+<li data-hit="1" class="hit"><span class="who">Roberta Flack</span><span class="tag dead">☠ dead</span></li>
+<li data-hit="0"><span class="who">Kim Novak</span><span class="tag alive">alive</span></li>
+<li data-hit="0"><span class="who">Willie Nelson</span><span class="tag alive">alive</span></li>
+<li data-hit="0"><span class="who">William Shatner</span><span class="tag alive">alive</span></li>
+<li data-hit="0"><span class="who">Dalai Lama</span><span class="tag alive">alive</span></li>
+<li data-hit="1" class="hit"><span class="who">Pape Francois I</span><span class="tag dead">☠ dead</span></li>
+<li data-hit="0"><span class="who">Clint Eastwood</span><span class="tag alive">alive</span></li>
+<li data-hit="0"><span class="who">Mel Brooks</span><span class="tag alive">alive</span></li>
+<li data-hit="0"><span class="who">Judi Dench</span><span class="tag alive">alive</span></li>
+<li data-hit="0"><span class="who">Morgan Freeman</span><span class="tag alive">alive</span></li>
+<li data-hit="0"><span class="who">Daniel O Donnell</span><span class="tag alive">alive</span></li>
+<li data-hit="0"><span class="who">Arnold Schwarzenegger</span><span class="tag alive">alive</span></li>
+<li data-hit="0"><span class="who">Simon Harris</span><span class="tag alive">alive</span></li>
         </ul>
       </section>
     </main>
@@ -239,8 +204,7 @@ li .tag { font-size: 12px; padding: 2px 8px; border-radius: 999px; border: 1px s
   </div>
 
   <script>
-    // ====== Countdown (assumes Europe/Dublin, which is UTC in late Dec) ======
-    const TARGET_ISO = "2026-01-01T00:00:00+00:00"; // Jan 1, 2026 at 00:00 Dublin time
+    const TARGET_ISO = "2026-01-01T00:00:00+00:00";
     const target = new Date(TARGET_ISO).getTime();
     function fmt(n) { return String(n).padStart(2, "0"); }
     function tick() {
@@ -258,34 +222,26 @@ li .tag { font-size: 12px; padding: 2px 8px; border-radius: 999px; border: 1px s
     tick();
     setInterval(tick, 1000);
 
-    // ====== Auto-score from list items ======
     function updateScores() {
       const getScore = (player) => {
         const section = document.querySelector(`[data-player="${player}"]`);
         if (!section) return 0;
-        return section.querySelectorAll('li[data-hit="1"], li.hit').length;
+        return section.querySelectorAll('li[data-hit="1"]').length;
       };
-      const sean = getScore("Sean");
-      const morris = getScore("Morris");
-      const sEl = document.getElementById("score-sean");
-      const mEl = document.getElementById("score-morris");
-      sEl.textContent = sean;
-      mEl.textContent = morris;
-
-      // Colour cue for who's ahead
-      sEl.classList.toggle('ok', sean >= morris);
-      sEl.classList.toggle('bad', sean < morris);
-      mEl.classList.toggle('ok', morris > sean);
-      mEl.classList.toggle('bad', morris <= sean);
+      document.getElementById("score-sean").textContent = getScore("Sean");
+      document.getElementById("score-morris").textContent = getScore("Morris");
     }
     updateScores();
 
-    // ====== Show last updated time (from the file timestamp) ======
-    const updated = document.getElementById('updated');
-    if (updated) {
-      const dt = new Date(document.lastModified);
-      updated.textContent = `Last updated: ${dt.toLocaleString(undefined, {dateStyle: 'medium', timeStyle: 'short'})}`;
+    function updateTime() {
+      const el = document.getElementById("updated");
+      const now = new Date();
+      el.textContent = "Updated: " + now.toLocaleString("en-GB", {
+        weekday:"short", year:"numeric", month:"short", day:"numeric",
+        hour:"2-digit", minute:"2-digit", second:"2-digit"
+      });
     }
+    updateTime();
   </script>
 </body>
 </html>
