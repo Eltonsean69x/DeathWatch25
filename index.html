@@ -3,7 +3,11 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>DEATHWATCH25 — Sean vs Maurice</title>
+  <title>DEATHWATCH25 — Sean vs Morris</title>
+
+  <!-- spooky header font -->
+  <link href="https://fonts.googleapis.com/css2?family=Creepster&display=swap" rel="stylesheet">
+
   <style>
     :root {
       --bg: #0b0c10;
@@ -15,30 +19,53 @@
       --danger: #ef4444;
       --border: #1f2230;
     }
+
     * { box-sizing: border-box; }
+
     body {
       margin: 0;
+
+      /* Graveyard: 1) local graveyard.png, 2) inline SVG fallback silhouette, 3) radial gradient background */
       background:
+        linear-gradient(to top, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0) 55%),
         url("graveyard.png") repeat-x bottom,
+        url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0%200%201200%20200"><g fill="%23000000" fill-opacity="0.95"><rect x="0" y="140" width="1200" height="60"/><rect x="60" y="100" width="40" height="40" rx="6"/><rect x="150" y="80" width="60" height="60" rx="10"/><rect x="260" y="110" width="30" height="30" rx="5"/><rect x="340" y="90" width="50" height="50" rx="8"/><rect x="430" y="120" width="20" height="20" rx="4"/><rect x="500" y="85" width="45" height="60" rx="8"/><rect x="600" y="110" width="25" height="30" rx="4"/><rect x="700" y="95" width="50" height="55" rx="8"/><rect x="800" y="120" width="30" height="30" rx="4"/><rect x="900" y="100" width="40" height="40" rx="6"/><rect x="1010" y="85" width="60" height="60" rx="10"/></g></svg>') repeat-x bottom,
         radial-gradient(1200px 600px at 20% -10%, #15172a 0%, var(--bg) 60%);
-      background-size: auto 200px, cover;
+      background-size: auto 220px, auto 220px, cover;
       background-attachment: fixed;
+      image-rendering: auto;
+
       color: var(--text);
+      /* proper quoted font stack so it doesn't break */
       font: 16px/1.45 system-ui, -apple-system, "Segoe UI", Roboto, Ubuntu, Cantarell,
-      "Noto Sans", "Helvetica Neue", Arial, "Apple Color Emoji", "Segoe UI Emoji";
+            "Noto Sans", "Helvetica Neue", Arial, "Apple Color Emoji", "Segoe UI Emoji";
     }
+
     .wrap { max-width: 980px; margin: 0 auto; padding: 24px; }
+
     header {
-      display: grid; gap: 16px; align-items: center; justify-items: center;
+      display: grid; gap: 12px; align-items: center; justify-items: center;
     }
-    h1 { margin: 0; font-size: clamp(24px, 4vw, 36px); letter-spacing: 0.3px; }
+
+    /* spooky header only */
+    h1 {
+      margin: 0;
+      font-family: "Creepster", cursive;
+      font-size: clamp(28px, 5vw, 44px);
+      letter-spacing: 1px;
+      color: #ffdede;
+      text-shadow: 0 6px 18px rgba(0,0,0,0.6), 0 0 6px rgba(255, 60, 60, 0.12);
+    }
+
     .sub { color: var(--muted); font-size: 14px; }
+
     .board {
       margin-top: 18px;
       display: grid; gap: 16px;
       grid-template-columns: repeat(3, minmax(0, 1fr));
       width: 100%;
     }
+
     .tile {
       background: linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02));
       border: 1px solid var(--border);
@@ -47,9 +74,8 @@
       box-shadow: 0 10px 20px rgba(0,0,0,0.35);
       min-height: 84px;
     }
-    .score {
-      display: flex; align-items: baseline; justify-content: space-between;
-    }
+
+    .score { display: flex; align-items: baseline; justify-content: space-between; }
     .score .name { font-weight: 600; font-size: 20px; }
     .score .num { font-size: 40px; font-weight: 800; letter-spacing: -1px; }
     .num.ok { color: var(--ok); }
@@ -64,23 +90,25 @@
       display: grid; gap: 16px;
       grid-template-columns: repeat(2, minmax(0, 1fr));
     }
+
     .card { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 16px; }
     .card h2 { margin: 0 0 8px 0; font-size: 18px; }
     .card p { margin: 0 0 8px 0; color: var(--muted); font-size: 14px; }
+
     ul { list-style: none; padding: 0; margin: 8px 0 0 0; display: grid; gap: 8px; }
     li { background: rgba(255,255,255,0.03); padding: 10px 12px; border-radius: 12px; border: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; gap: 10px; }
     li .who { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 
-    /* ✅ Retro CRT flicker/glow effect for dead names */
+    /* retro flicker effect for dead names (keeps tag clean) */
     li.hit { opacity: 0.85; }
     li.hit .who {
       text-decoration: line-through;
       color: #ff4d4d;
-      text-shadow: 0 0 2px #ff0000, 0 0 5px #ff0000, 0 0 10px #ff0000;
+      text-shadow: 0 0 2px #ff0000, 0 0 6px #ff0000, 0 0 10px #ff0000;
       animation: flicker 1.5s infinite alternate;
     }
     @keyframes flicker {
-      0% { opacity: 1; text-shadow: 0 0 2px #ff0000, 0 0 5px #ff0000, 0 0 10px #ff0000; }
+      0% { opacity: 1; text-shadow: 0 0 2px #ff0000, 0 0 6px #ff0000, 0 0 10px #ff0000; }
       30% { opacity: 0.9; text-shadow: 0 0 1px #ff0000, 0 0 4px #ff0000; }
       60% { opacity: 1; text-shadow: 0 0 3px #ff0000, 0 0 6px #ff0000, 0 0 12px #ff0000; }
       100% { opacity: 0.85; text-shadow: 0 0 2px #ff0000, 0 0 5px #ff0000; }
@@ -98,6 +126,7 @@
       .grid { grid-template-columns: 1fr; }
       .timer .big { font-size: 24px; }
     }
+
     @media (prefers-color-scheme: light) {
       :root { --bg: #f6f7fb; --card: #ffffff; --text: #0d1220; --muted: #5a6170; --border: #e9eaf0; --accent: #7c3aed; }
       body { background: radial-gradient(1200px 600px at 20% -10%, #f1f2ff 0%, var(--bg) 60%); }
@@ -110,7 +139,7 @@
 <body>
   <div class="wrap">
     <header>
-      <h1>Celebrity Death Bingo 2025!! — Sean vs Maurice</h1>
+      <h1>Celebrity Death Bingo 2025!! — Sean vs Morris</h1>
       <div class="sub">Dark-humour scoreboard for two consenting adults. No real malice intended.</div>
       <section class="board">
         <div class="tile score" aria-live="polite">
@@ -123,7 +152,7 @@
           <div class="tiny">Ends at 00:00 on 1 Jan 2026 (Europe/Dublin)</div>
         </div>
         <div class="tile score" aria-live="polite">
-          <div class="name">Maurice</div>
+          <div class="name">Morris</div>
           <div id="score-morris" class="num bad">0</div>
         </div>
       </section>
@@ -156,10 +185,9 @@
 <li data-hit="0"><span class="who">Billy Connolly</span><span class="tag alive">alive</span></li>
 <li data-hit="0"><span class="who">Ian McKellen</span><span class="tag alive">alive</span></li>
 <li data-hit="0"><span class="who">Buzz Aldrin</span><span class="tag alive">alive</span></li>
-<li data-hit="0"><span class="who">Shirley MacLaine</span><span class="tag alive">alive</span></li>
+<li data-hit="0"><span class="who">Robert Duvall</span><span class="tag alive">alive</span></li>
 <li data-hit="0"><span class="who">Queen Camilla</span><span class="tag alive">alive</span></li>
 <li data-hit="0"><span class="who">Ron Wood</span><span class="tag alive">alive</span></li>
-<li data-hit="0"><span class="who">Robert Duvall</span><span class="tag alive">alive</span></li>
 <li data-hit="0"><span class="who">Jack Nicholson</span><span class="tag alive">alive</span></li>
 <li data-hit="0"><span class="who">Eamon Holmes</span><span class="tag alive">alive</span></li>
 <li data-hit="0"><span class="who">Michael Douglas</span><span class="tag alive">alive</span></li>
@@ -210,6 +238,7 @@
   </div>
 
   <script>
+    // ====== Countdown ======
     const TARGET_ISO = "2026-01-01T00:00:00+00:00";
     const target = new Date(TARGET_ISO).getTime();
     function fmt(n) { return String(n).padStart(2, "0"); }
@@ -228,19 +257,22 @@
     tick();
     setInterval(tick, 1000);
 
+    // ====== Auto-score ======
     function updateScores() {
       const getScore = (player) => {
         const section = document.querySelector(`[data-player="${player}"]`);
         if (!section) return 0;
-        return section.querySelectorAll('li[data-hit="1"]').length;
+        return section.querySelectorAll('li[data-hit="1"], li.hit').length;
       };
       document.getElementById("score-sean").textContent = getScore("Sean");
       document.getElementById("score-morris").textContent = getScore("Morris");
     }
     updateScores();
 
+    // ====== Updated timestamp ======
     function updateTime() {
       const el = document.getElementById("updated");
+      if (!el) return;
       const now = new Date();
       el.textContent = "Updated: " + now.toLocaleString("en-GB", {
         weekday:"short", year:"numeric", month:"short", day:"numeric",
