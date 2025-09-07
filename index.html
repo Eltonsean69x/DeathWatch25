@@ -81,9 +81,92 @@
     .num.ok { color: var(--ok); }
     .num.bad { color: var(--danger); }
 
-    .timer { text-align: center; }
-    .timer .big { font-variant-numeric: tabular-nums; font-size: 28px; font-weight: 700; }
-    .timer .label { color: var(--muted); font-size: 13px; }
+    <div class="timer">
+    <div class="big" id="days">00</div><span class="separator">:</span>
+    <div class="big" id="hours">00</div><span class="separator">:</span>
+    <div class="big" id="minutes">00</div><span class="separator">:</span>
+    <div class="big" id="seconds">00</div>
+    <div class="label">Days &nbsp;&nbsp; Hours &nbsp;&nbsp; Minutes &nbsp;&nbsp; Seconds</div>
+
+    <!-- Styles for doomsday effect -->
+    <style>
+    .timer {
+        font-family: 'Orbitron', monospace;
+        color: #ff0000;
+        text-shadow: 0 0 5px #ff0000, 0 0 10px #ff4500, 0 0 20px #ff6347;
+        display: inline-block;
+        text-align: center;
+    }
+
+    .timer .big {
+        font-variant-numeric: tabular-nums;
+        font-size: 48px;
+        font-weight: 700;
+        letter-spacing: 0.1em;
+        display: inline-block;
+        animation: flicker 1.5s infinite;
+    }
+
+    .timer .separator {
+        display: inline-block;
+        animation: blink 1s steps(1) infinite, flicker 2s infinite;
+        color: #ff6600;
+        font-size: 48px;
+        vertical-align: top;
+    }
+
+    @keyframes blink {
+        0%,50%,100% { opacity: 1; }
+        25%,75% { opacity: 0; }
+    }
+
+    @keyframes flicker {
+        0%,19%,21%,23%,25%,54%,56%,100% { opacity: 1; }
+        20%,22%,24%,55% { opacity: 0.4; }
+    }
+
+    .timer .label {
+        color: #ff3333;
+        font-size: 14px;
+        letter-spacing: 0.05em;
+        margin-top: 10px;
+        display: block;
+    }
+    </style>
+
+    <!-- Countdown JS -->
+    <script>
+    const countdownDate = new Date("Jan 1, 2026 00:00:00").getTime();
+    const interval = setInterval(() => {
+        const now = new Date().getTime();
+        const distance = countdownDate - now;
+
+        document.getElementById("days").textContent = String(Math.floor(distance / (1000*60*60*24))).padStart(2,'0');
+        document.getElementById("hours").textContent = String(Math.floor((distance % (1000*60*60*24))/(1000*60*60))).padStart(2,'0');
+        document.getElementById("minutes").textContent = String(Math.floor((distance % (1000*60*60))/(1000*60))).padStart(2,'0');
+        document.getElementById("seconds").textContent = String(Math.floor((distance % (1000*60))/1000)).padStart(2,'0');
+
+        // Last minute dramatic glow pulse
+        if(distance < 60000) {
+            document.querySelector('.timer').style.textShadow = `
+                0 0 10px #ff0000,
+                0 0 20px #ff4500,
+                0 0 40px #ff6347,
+                0 0 80px #ff0000
+            `;
+        }
+
+        if(distance < 0) {
+            clearInterval(interval);
+            document.querySelector('.timer').innerHTML = "<div class='big'>💥 BOOM 💥</div>";
+        }
+    }, 1000);
+    </script>
+
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&display=swap" rel="stylesheet">
+</div>
+
 
     .grid {
       margin-top: 22px;
@@ -185,9 +268,10 @@
 <li data-hit="0"><span class="who">Billy Connolly</span><span class="tag alive">alive</span></li>
 <li data-hit="0"><span class="who">Ian McKellen</span><span class="tag alive">alive</span></li>
 <li data-hit="0"><span class="who">Buzz Aldrin</span><span class="tag alive">alive</span></li>
-<li data-hit="0"><span class="who">Robert Duvall</span><span class="tag alive">alive</span></li>
+<li data-hit="0"><span class="who">Shirley MacLaine</span><span class="tag alive">alive</span></li>
 <li data-hit="0"><span class="who">Queen Camilla</span><span class="tag alive">alive</span></li>
 <li data-hit="0"><span class="who">Ron Wood</span><span class="tag alive">alive</span></li>
+<li data-hit="0"><span class="who">Robert Duvall</span><span class="tag alive">alive</span></li>          
 <li data-hit="0"><span class="who">Jack Nicholson</span><span class="tag alive">alive</span></li>
 <li data-hit="0"><span class="who">Eamon Holmes</span><span class="tag alive">alive</span></li>
 <li data-hit="0"><span class="who">Michael Douglas</span><span class="tag alive">alive</span></li>
