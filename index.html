@@ -3,10 +3,11 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>DEATHWATCH25 — Sean vs Morris</title>
+  <title>DEATHWATCH25 — Sean vs Maurice</title>
 
   <!-- spooky header font -->
   <link href="https://fonts.googleapis.com/css2?family=Creepster&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&display=swap" rel="stylesheet">
 
   <style>
     :root {
@@ -24,8 +25,6 @@
 
     body {
       margin: 0;
-
-      /* Graveyard: 1) local graveyard.png, 2) inline SVG fallback silhouette, 3) radial gradient background */
       background:
         linear-gradient(to top, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0) 55%),
         url("graveyard.png") repeat-x bottom,
@@ -34,29 +33,14 @@
       background-size: auto 220px, auto 220px, cover;
       background-attachment: fixed;
       image-rendering: auto;
-
       color: var(--text);
-      /* proper quoted font stack so it doesn't break */
       font: 16px/1.45 system-ui, -apple-system, "Segoe UI", Roboto, Ubuntu, Cantarell,
             "Noto Sans", "Helvetica Neue", Arial, "Apple Color Emoji", "Segoe UI Emoji";
     }
 
     .wrap { max-width: 980px; margin: 0 auto; padding: 24px; }
-
-    header {
-      display: grid; gap: 12px; align-items: center; justify-items: center;
-    }
-
-    /* spooky header only */
-    h1 {
-      margin: 0;
-      font-family: "Creepster", cursive;
-      font-size: clamp(28px, 5vw, 44px);
-      letter-spacing: 1px;
-      color: #ffdede;
-      text-shadow: 0 6px 18px rgba(0,0,0,0.6), 0 0 6px rgba(255, 60, 60, 0.12);
-    }
-
+    header { display: grid; gap: 12px; align-items: center; justify-items: center; }
+    h1 { margin: 0; font-family: "Creepster", cursive; font-size: clamp(28px,5vw,44px); letter-spacing: 1px; color: #ffdede; text-shadow: 0 6px 18px rgba(0,0,0,0.6),0 0 6px rgba(255,60,60,0.12);}
     .sub { color: var(--muted); font-size: 14px; }
 
     .board {
@@ -81,170 +65,70 @@
     .num.ok { color: var(--ok); }
     .num.bad { color: var(--danger); }
 
-    <div class="timer">
+    /* ===== DOOMSDAY TIMER ===== */
+    .timer {
+      font-family: 'Orbitron', monospace;
+      color: #ff0000;
+      text-align: center;
+      display: inline-block;
+      text-shadow: 0 0 5px #ff0000,0 0 10px #ff4500,0 0 20px #ff6347;
+    }
+
+    .timer .big { font-size: 48px; font-weight: 700; letter-spacing: 0.1em; display: inline-block; animation: flicker 1.5s infinite; }
+    .timer .separator { display: inline-block; animation: blink 1s steps(1) infinite, flicker 2s infinite; color: #ff6600; font-size: 48px; vertical-align: top; }
+    .timer .label { color: #ff3333; font-size: 14px; letter-spacing: 0.05em; margin-top: 10px; display: block; }
+
+    @keyframes blink {0%,50%,100%{opacity:1;}25%,75%{opacity:0;}}
+    @keyframes flicker {0%,19%,21%,23%,25%,54%,56%,100%{opacity:1;}20%,22%,24%,55%{opacity:0.4;}}
+
+    /* ===== CARDS ===== */
+    .grid { margin-top: 22px; display: grid; gap: 16px; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .card { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 16px; }
+    .card h2 { margin: 0 0 8px 0; font-size: 18px; }
+    ul { list-style:none; padding:0; margin:8px 0 0 0; display:grid; gap:8px;}
+    li { background: rgba(255,255,255,0.03); padding:10px 12px; border-radius:12px; border:1px solid var(--border); display:flex; align-items:center; justify-content:space-between; gap:10px;}
+    li .who { overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+    li.hit { opacity:0.85; }
+    li.hit .who { text-decoration: line-through; color:#ff4d4d; text-shadow:0 0 2px #ff0000,0 0 6px #ff0000,0 0 10px #ff0000; animation:flicker 1.5s infinite alternate; }
+    li .tag { font-size:12px; padding:2px 8px; border-radius:999px; border:1px solid var(--border); }
+    .tag.alive { color: var(--muted); }
+    .tag.dead { color: var(--danger); border-color: rgba(239,68,68,0.4); }
+
+    .footer { margin-top: 22px; display:grid; gap:8px; justify-items:center; color:var(--muted); font-size:13px; }
+    .tiny { font-size:12px; color:var(--muted); }
+
+    @media(max-width:700px){.board{grid-template-columns:1fr;}.grid{grid-template-columns:1fr;}.timer .big{font-size:24px;}}
+  </style>
+</head>
+<body>
+<div class="wrap">
+<header>
+<h1>Celebrity Death Bingo 2025!! — Sean vs Maurice</h1>
+<div class="sub">Dark-humour scoreboard for two consenting adults. No real malice intended.</div>
+<section class="board">
+  <div class="tile score" aria-live="polite">
+    <div class="name">Sean</div>
+    <div id="score-sean" class="num ok">0</div>
+  </div>
+  <div class="tile timer">
     <div class="big" id="days">00</div><span class="separator">:</span>
     <div class="big" id="hours">00</div><span class="separator">:</span>
     <div class="big" id="minutes">00</div><span class="separator">:</span>
     <div class="big" id="seconds">00</div>
     <div class="label">Days &nbsp;&nbsp; Hours &nbsp;&nbsp; Minutes &nbsp;&nbsp; Seconds</div>
+  </div>
+  <div class="tile score" aria-live="polite">
+    <div class="name">Morris</div>
+    <div id="score-morris" class="num bad">0</div>
+  </div>
+</section>
+</header>
 
-    <!-- Styles for doomsday effect -->
-    <style>
-    .timer {
-        font-family: 'Orbitron', monospace;
-        color: #ff0000;
-        text-shadow: 0 0 5px #ff0000, 0 0 10px #ff4500, 0 0 20px #ff6347;
-        display: inline-block;
-        text-align: center;
-    }
-
-    .timer .big {
-        font-variant-numeric: tabular-nums;
-        font-size: 48px;
-        font-weight: 700;
-        letter-spacing: 0.1em;
-        display: inline-block;
-        animation: flicker 1.5s infinite;
-    }
-
-    .timer .separator {
-        display: inline-block;
-        animation: blink 1s steps(1) infinite, flicker 2s infinite;
-        color: #ff6600;
-        font-size: 48px;
-        vertical-align: top;
-    }
-
-    @keyframes blink {
-        0%,50%,100% { opacity: 1; }
-        25%,75% { opacity: 0; }
-    }
-
-    @keyframes flicker {
-        0%,19%,21%,23%,25%,54%,56%,100% { opacity: 1; }
-        20%,22%,24%,55% { opacity: 0.4; }
-    }
-
-    .timer .label {
-        color: #ff3333;
-        font-size: 14px;
-        letter-spacing: 0.05em;
-        margin-top: 10px;
-        display: block;
-    }
-    </style>
-
-    <!-- Countdown JS -->
-    <script>
-    const countdownDate = new Date("Jan 1, 2026 00:00:00").getTime();
-    const interval = setInterval(() => {
-        const now = new Date().getTime();
-        const distance = countdownDate - now;
-
-        document.getElementById("days").textContent = String(Math.floor(distance / (1000*60*60*24))).padStart(2,'0');
-        document.getElementById("hours").textContent = String(Math.floor((distance % (1000*60*60*24))/(1000*60*60))).padStart(2,'0');
-        document.getElementById("minutes").textContent = String(Math.floor((distance % (1000*60*60))/(1000*60))).padStart(2,'0');
-        document.getElementById("seconds").textContent = String(Math.floor((distance % (1000*60))/1000)).padStart(2,'0');
-
-        // Last minute dramatic glow pulse
-        if(distance < 60000) {
-            document.querySelector('.timer').style.textShadow = `
-                0 0 10px #ff0000,
-                0 0 20px #ff4500,
-                0 0 40px #ff6347,
-                0 0 80px #ff0000
-            `;
-        }
-
-        if(distance < 0) {
-            clearInterval(interval);
-            document.querySelector('.timer').innerHTML = "<div class='big'>💥 BOOM 💥</div>";
-        }
-    }, 1000);
-    </script>
-
-    <!-- Google Font -->
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&display=swap" rel="stylesheet">
-</div>
-
-
-    .grid {
-      margin-top: 22px;
-      display: grid; gap: 16px;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
-
-    .card { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 16px; }
-    .card h2 { margin: 0 0 8px 0; font-size: 18px; }
-    .card p { margin: 0 0 8px 0; color: var(--muted); font-size: 14px; }
-
-    ul { list-style: none; padding: 0; margin: 8px 0 0 0; display: grid; gap: 8px; }
-    li { background: rgba(255,255,255,0.03); padding: 10px 12px; border-radius: 12px; border: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; gap: 10px; }
-    li .who { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-
-    /* retro flicker effect for dead names (keeps tag clean) */
-    li.hit { opacity: 0.85; }
-    li.hit .who {
-      text-decoration: line-through;
-      color: #ff4d4d;
-      text-shadow: 0 0 2px #ff0000, 0 0 6px #ff0000, 0 0 10px #ff0000;
-      animation: flicker 1.5s infinite alternate;
-    }
-    @keyframes flicker {
-      0% { opacity: 1; text-shadow: 0 0 2px #ff0000, 0 0 6px #ff0000, 0 0 10px #ff0000; }
-      30% { opacity: 0.9; text-shadow: 0 0 1px #ff0000, 0 0 4px #ff0000; }
-      60% { opacity: 1; text-shadow: 0 0 3px #ff0000, 0 0 6px #ff0000, 0 0 12px #ff0000; }
-      100% { opacity: 0.85; text-shadow: 0 0 2px #ff0000, 0 0 5px #ff0000; }
-    }
-
-    li .tag { font-size: 12px; padding: 2px 8px; border-radius: 999px; border: 1px solid var(--border); }
-    .tag.alive { color: var(--muted); }
-    .tag.dead { color: var(--danger); border-color: rgba(239,68,68,0.4); }
-
-    .footer { margin-top: 22px; display: grid; gap: 8px; justify-items: center; color: var(--muted); font-size: 13px; }
-    .tiny { font-size: 12px; color: var(--muted); }
-
-    @media (max-width: 700px) {
-      .board { grid-template-columns: 1fr; }
-      .grid { grid-template-columns: 1fr; }
-      .timer .big { font-size: 24px; }
-    }
-
-    @media (prefers-color-scheme: light) {
-      :root { --bg: #f6f7fb; --card: #ffffff; --text: #0d1220; --muted: #5a6170; --border: #e9eaf0; --accent: #7c3aed; }
-      body { background: radial-gradient(1200px 600px at 20% -10%, #f1f2ff 0%, var(--bg) 60%); }
-      li { background: #fbfbfe; }
-      .num.bad { color: #b42323; }
-      .num.ok { color: #0a7a32; }
-    }
-  </style>
-</head>
-<body>
-  <div class="wrap">
-    <header>
-      <h1>Celebrity Death Bingo 2025!! — Sean vs Morris</h1>
-      <div class="sub">Dark-humour scoreboard for two consenting adults. No real malice intended.</div>
-      <section class="board">
-        <div class="tile score" aria-live="polite">
-          <div class="name">Sean</div>
-          <div id="score-sean" class="num ok">0</div>
-        </div>
-        <div class="tile timer">
-          <div class="label">Time left</div>
-          <div id="countdown" class="big">—</div>
-          <div class="tiny">Ends at 00:00 on 1 Jan 2026 (Europe/Dublin)</div>
-        </div>
-        <div class="tile score" aria-live="polite">
-          <div class="name">Morris</div>
-          <div id="score-morris" class="num bad">0</div>
-        </div>
-      </section>
-    </header>
-
-    <main class="grid">
-      <section class="card" data-player="Sean">
-        <h2>Sean's Picks</h2>
-        <ul>
+<main class="grid">
+<section class="card" data-player="Sean">
+<h2>Sean's Picks</h2>
+<ul>
+<!-- full Sean list here -->
 <li data-hit="0"><span class="who">David Attenborough</span><span class="tag alive">alive</span></li>
 <li data-hit="0"><span class="who">Bruce Willis</span><span class="tag alive">alive</span></li>
 <li data-hit="1" class="hit"><span class="who">Ozzy Osbourne</span><span class="tag dead">☠ dead</span></li>
@@ -275,12 +159,13 @@
 <li data-hit="0"><span class="who">Jack Nicholson</span><span class="tag alive">alive</span></li>
 <li data-hit="0"><span class="who">Eamon Holmes</span><span class="tag alive">alive</span></li>
 <li data-hit="0"><span class="who">Michael Douglas</span><span class="tag alive">alive</span></li>
-        </ul>
-      </section>
+</ul>
+</section>
 
-      <section class="card" data-player="Morris">
-        <h2>Maurice's Picks</h2>
-        <ul>
+<section class="card" data-player="Morris">
+<h2>Maurice's Picks</h2>
+<ul>
+<!-- full Morris list here -->
 <li data-hit="1" class="hit"><span class="who">Ruby Druce</span><span class="tag dead">☠ dead</span></li>
 <li data-hit="0"><span class="who">Billy Connolly</span><span class="tag alive">alive</span></li>
 <li data-hit="0"><span class="who">Julie Andrews</span><span class="tag alive">alive</span></li>
@@ -311,59 +196,77 @@
 <li data-hit="0"><span class="who">Daniel O Donnell</span><span class="tag alive">alive</span></li>
 <li data-hit="0"><span class="who">Arnold Schwarzenegger</span><span class="tag alive">alive</span></li>
 <li data-hit="0"><span class="who">Simon Harris</span><span class="tag alive">alive</span></li>
-        </ul>
-      </section>
-    </main>
+</ul>
+</section>
+</main>
 
-    <div class="footer">
-      <div id="updated" class="tiny"></div>
-      <div class="tiny">Tip: Press <kbd>Ctrl</kbd>/<kbd>Cmd</kbd> + <kbd>Shift</kbd> + <kbd>R</kbd> to hard-refresh if changes don't appear right away.</div>
-    </div>
-  </div>
+<div class="footer">
+  <div id="updated" class="tiny"></div>
+  <div class="tiny">Tip: Press <kbd>Ctrl</kbd>/<kbd>Cmd</kbd> + <kbd>Shift</kbd> + <kbd>R</kbd> to hard-refresh if changes don't appear right away.</div>
+</div>
+</div>
 
-  <script>
-    // ====== Countdown ======
-    const TARGET_ISO = "2026-01-01T00:00:00+00:00";
-    const target = new Date(TARGET_ISO).getTime();
-    function fmt(n) { return String(n).padStart(2, "0"); }
-    function tick() {
-      const now = Date.now();
-      let delta = Math.max(0, target - now);
-      const d = Math.floor(delta / (1000*60*60*24));
-      delta -= d * 24*60*60*1000;
-      const h = Math.floor(delta / (1000*60*60));
-      delta -= h * 60*60*1000;
-      const m = Math.floor(delta / (1000*60));
-      delta -= m * 60*1000;
-      const s = Math.floor(delta / 1000);
-      document.getElementById("countdown").textContent = `${d}d ${fmt(h)}h ${fmt(m)}m ${fmt(s)}s`;
+<script>
+  // ===== DOOMSDAY TIMER =====
+  const countdownDate = new Date("Jan 1, 2026 00:00:00").getTime();
+  const daysEl = document.getElementById("days");
+  const hoursEl = document.getElementById("hours");
+  const minutesEl = document.getElementById("minutes");
+  const secondsEl = document.getElementById("seconds");
+
+  const interval = setInterval(() => {
+    const now = new Date().getTime();
+    let distance = countdownDate - now;
+
+    const days = Math.floor(distance / (1000*60*60*24));
+    distance -= days*1000*60*60*24;
+    const hours = Math.floor(distance / (1000*60*60));
+    distance -= hours*1000*60*60;
+    const minutes = Math.floor(distance / (1000*60));
+    distance -= minutes*1000*60;
+    const seconds = Math.floor(distance / 1000);
+
+    daysEl.textContent = String(days).padStart(2,'0');
+    hoursEl.textContent = String(hours).padStart(2,'0');
+    minutesEl.textContent = String(minutes).padStart(2,'0');
+    secondsEl.textContent = String(seconds).padStart(2,'0');
+
+    // last minute dramatic glow
+    if(countdownDate - now < 60000) {
+      document.querySelector('.timer').style.textShadow = `
+        0 0 10px #ff0000,
+        0 0 20px #ff4500,
+        0 0 40px #ff6347,
+        0 0 80px #ff0000
+      `;
     }
-    tick();
-    setInterval(tick, 1000);
 
-    // ====== Auto-score ======
-    function updateScores() {
-      const getScore = (player) => {
-        const section = document.querySelector(`[data-player="${player}"]`);
-        if (!section) return 0;
-        return section.querySelectorAll('li[data-hit="1"], li.hit').length;
-      };
-      document.getElementById("score-sean").textContent = getScore("Sean");
-      document.getElementById("score-morris").textContent = getScore("Morris");
+    if(countdownDate - now <= 0) {
+      clearInterval(interval);
+      document.querySelector('.timer').innerHTML = "<div class='big'>💥 BOOM 💥</div>";
     }
-    updateScores();
+  }, 1000);
 
-    // ====== Updated timestamp ======
-    function updateTime() {
-      const el = document.getElementById("updated");
-      if (!el) return;
-      const now = new Date();
-      el.textContent = "Updated: " + now.toLocaleString("en-GB", {
-        weekday:"short", year:"numeric", month:"short", day:"numeric",
-        hour:"2-digit", minute:"2-digit", second:"2-digit"
-      });
-    }
-    updateTime();
-  </script>
+  // ===== Auto-score =====
+  function updateScores() {
+    const getScore = (player) => {
+      const section = document.querySelector(`[data-player="${player}"]`);
+      if(!section) return 0;
+      return section.querySelectorAll('li[data-hit="1"], li.hit').length;
+    };
+    document.getElementById("score-sean").textContent = getScore("Sean");
+    document.getElementById("score-morris").textContent = getScore("Morris");
+  }
+  updateScores();
+
+  // ===== Updated timestamp =====
+  function updateTime() {
+    const el = document.getElementById("updated");
+    if(!el) return;
+    const now = new Date();
+    el.textContent = "Updated: "+now.toLocaleString("en-GB",{weekday:"short",year:"numeric",month:"short",day:"numeric",hour:"2-digit",minute:"2-digit",second:"2-digit"});
+  }
+  updateTime();
+</script>
 </body>
 </html>
