@@ -66,20 +66,52 @@
     .num.bad { color: var(--danger); }
 
     /* ===== DOOMSDAY TIMER ===== */
-    .timer {
-      font-family: 'Orbitron', monospace;
-      color: #ff0000;
-      text-align: center;
-      display: inline-block;
-      text-shadow: 0 0 5px #ff0000,0 0 10px #ff4500,0 0 20px #ff6347;
-    }
+/* ===== DOOMSDAY TIMER (toned down) ===== */
+.timer {
+  font-family: 'Orbitron', monospace;
+  color: #cc1f1f; /* darker red */
+  text-align: center;
+  display: inline-block;
+  text-shadow: 0 0 4px #800000, 0 0 8px #330000;
+}
 
-    .timer .big { font-size: 48px; font-weight: 700; letter-spacing: 0.1em; display: inline-block; animation: flicker 1.5s infinite; }
-    .timer .separator { display: inline-block; animation: blink 1s steps(1) infinite, flicker 2s infinite; color: #ff6600; font-size: 48px; vertical-align: top; }
-    .timer .label { color: #ff3333; font-size: 14px; letter-spacing: 0.05em; margin-top: 10px; display: block; }
+.timer .big {
+  font-size: 42px; /* a bit smaller */
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  display: inline-block;
+  animation: slowflicker 3s infinite alternate;
+}
 
-    @keyframes blink {0%,50%,100%{opacity:1;}25%,75%{opacity:0;}}
-    @keyframes flicker {0%,19%,21%,23%,25%,54%,56%,100%{opacity:1;}20%,22%,24%,55%{opacity:0.4;}}
+.timer .separator {
+  display: inline-block;
+  color: #a94400; /* ember orange */
+  font-size: 42px;
+  vertical-align: top;
+  opacity: 0.8;
+  animation: dimblink 2s infinite;
+}
+
+.timer .label {
+  color: #a33;
+  font-size: 13px;
+  letter-spacing: 0.05em;
+  margin-top: 8px;
+  display: block;
+}
+
+/* slower, subtler effects */
+@keyframes dimblink {
+  0%, 100% { opacity: 0.8; }
+  50% { opacity: 0.3; }
+}
+
+@keyframes slowflicker {
+  0%, 100% { opacity: 1; text-shadow: 0 0 4px #660000, 0 0 8px #330000; }
+  40% { opacity: 0.85; text-shadow: 0 0 2px #550000; }
+  70% { opacity: 0.95; text-shadow: 0 0 6px #990000; }
+}
+
 
     /* ===== CARDS ===== */
     .grid { margin-top: 22px; display: grid; gap: 16px; grid-template-columns: repeat(2, minmax(0, 1fr)); }
