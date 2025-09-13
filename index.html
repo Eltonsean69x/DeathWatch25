@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Bad Luck Bingo 2025 — Sean vs Maurice</title>
+  <title>Bad Luck Bingo Bash — Sean vs Maurice</title>
   <!-- Keeping your spooky yet fun fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Creepster&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&display=swap" rel="stylesheet">
@@ -13,7 +13,7 @@
       --card: #111218;
       --muted: #8b90a0;
       --text: #e6e7eb;
-      --accent: #7c3aed; /* Purple for a playful pop */
+      --accent: #7c3aed;
       --ok: #16a34a;
       --danger: #ef4444;
       --border: #1f2230;
@@ -51,43 +51,48 @@
       box-shadow: 0 10px 20px rgba(0,0,0,0.35);
       min-height: 84px;
     }
-    .score { display: flex; align-items: baseline; justify-content: space-between; }
-    .score .name { font-weight: 600; font-size: 20px; color: var(--accent); }
-    .score .num { font-size: 40px; font-weight: 800; letter-spacing: -1px; }
+    /* Enhanced scoreboard with tombstones */
+    .score {
+      display: flex; align-items: center; justify-content: center;
+      position: relative; width: 100%; height: 100%;
+    }
+    .tombstone {
+      position: relative; width: 120px; height: 150px;
+      background: linear-gradient(135deg, #5c4033 0%, #3b2f23 60%, #2c2118 100%);
+      border: 4px solid #4a3627;
+      border-radius: 10px 10px 40px 10px;
+      text-align: center;
+      padding-top: 20px;
+      color: #fff;
+      font-family: 'Creepster', cursive;
+      font-size: 24px;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.7);
+      box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    }
+    .tombstone:before {
+      content: ""; position: absolute; top: -10px; left: 50%; transform: translateX(-50%);
+      width: 0; height: 0; border-left: 15px solid transparent; border-right: 15px solid transparent;
+      border-bottom: 10px solid #4a3627;
+    }
+    .tombstone .name { font-size: 18px; color: #d1a074; margin-bottom: 5px; }
+    .tombstone .num { font-size: 32px; }
     .num.ok { color: var(--ok); }
     .num.bad { color: var(--danger); }
-    /* Timer with ironic flair */
+    /* Standout timer with toned-down glow */
     .timer {
       font-family: 'Orbitron', monospace;
-      color: #cc1f1f;
+      color: #ff4500;
       text-align: center;
-      display: inline-block;
-      text-shadow: 0 0 4px #800000, 0 0 8px #330000;
-    }
-    .timer .big {
-      font-size: 42px;
+      font-size: 32px;
       font-weight: 700;
-      letter-spacing: 0.08em;
-      display: inline-block;
+      text-shadow: 0 0 6px rgba(255,69,0,0.4), 0 0 12px rgba(255,69,0,0.2); /* Softer glow */
     }
-    .timer .separator {
-      display: inline-block;
-      color: #a94400;
-      font-size: 42px;
-      vertical-align: top;
-      opacity: 0.8;
-    }
-    .timer .label {
-      color: #a33;
-      font-size: 13px;
-      letter-spacing: 0.05em;
-      margin-top: 8px;
-      display: block;
-    }
-    /* Prediction lists with quips */
+    .timer div { display: inline-block; margin: 0 4px; }
+    .timer .separator { color: #a94400; opacity: 0.8; }
+    /* Rest of the styles (lists, footer) remain for now */
     .grid { margin-top: 22px; display: grid; gap: 16px; grid-template-columns: repeat(2, minmax(0, 1fr)); }
     .card { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 16px; }
-    .card h2 { margin: 0 0 8px 0; font-size: 18px; color: var(--accent); } /* Team names with flair */
+    .card h2 { margin: 0 0 8px 0; font-size: 18px; color: var(--accent); }
     ul { list-style:none; padding:0; margin:8px 0 0 0; display:grid; gap:8px;}
     li { background: rgba(255,255,255,0.03); padding:10px 12px; border-radius:12px; border:1px solid var(--border); display:flex; align-items:center; justify-content:space-between; gap:10px;}
     li .who { overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
@@ -95,123 +100,116 @@
     li .tag { font-size:12px; padding:2px 8px; border-radius:999px; border:1px solid var(--border); }
     .tag.alive { color: var(--ok); }
     .tag.dead { color: var(--danger); border-color: rgba(239,68,68,0.4); }
-    .quip { font-style: italic; color: var(--muted); margin-left: 10px; font-size: 12px; }
-    /* Trash talk section */
-    .trash-talk { margin-top: 16px; text-align: center; }
-    .trash-btn { background: var(--accent); color: #fff; border: none; padding: 8px 16px; border-radius: 8px; cursor: pointer; font-weight: bold; }
-    .trash-btn:hover { background: #5e2dd2; }
-    #trash-output { margin-top: 8px; color: var(--ok); font-style: italic; }
     .footer { margin-top: 22px; display:grid; gap:8px; justify-items:center; color:var(--muted); font-size:13px; }
     .tiny { font-size:12px; color:var(--muted); }
-    @media(max-width:700px){.board{grid-template-columns:1fr;}.grid{grid-template-columns:1fr;}.timer .big{font-size:24px;}}
+    @media(max-width:700px){.board{grid-template-columns:1fr;}.grid{grid-template-columns:1fr;}.timer{font-size:24px;}}
   </style>
 </head>
 <body>
 <div class="wrap">
 <header>
-<h1>Bad Luck Bingo 2025 — Sean vs Maurice</h1>
+<h1>Bad Luck Bingo Bash — Sean vs Maurice</h1>
 <div class="sub">Two pals betting on bad luck. All fun, no foul play intended.</div>
 <section class="board">
-  <div class="tile score" aria-live="polite">
-    <div class="name">Sean's Wins</div>
-    <div id="score-sean" class="num ok">0</div>
+  <div class="tile score">
+    <div class="tombstone">
+      <div class="name">Sean</div>
+      <div id="score-sean" class="num ok">0</div>
+    </div>
   </div>
   <div class="tile timer">
-    <div class="big" id="days">00</div><span class="separator">:</span>
-    <div class="big" id="hours">00</div><span class="separator">:</span>
-    <div class="big" id="minutes">00</div><span class="separator">:</span>
-    <div class="big" id="seconds">00</div>
-    <div class="label">Time Until Title Tilt: Days : Hours : Minutes : Seconds</div>
+    <div id="days">00</div><span class="separator">:</span>
+    <div id="hours">00</div><span class="separator">:</span>
+    <div id="minutes">00</div><span class="separator">:</span>
+    <div id="seconds">00</div>
   </div>
-  <div class="tile score" aria-live="polite">
-    <div class="name">Maurice's Wins</div>
-    <div id="score-morris" class="num bad">0</div>
+  <div class="tile score">
+    <div class="tombstone">
+      <div class="name">Maurice</div>
+      <div id="score-morris" class="num bad">0</div>
+    </div>
   </div>
 </section>
 </header>
 <main class="grid">
 <section class="card" data-player="Sean">
-<h2>Sean's Doom Dealers</h2>
+<h2>Sean’s Picks</h2>
 <ul>
-<li data-hit="0"><span class="who">David Attenborough</span><span class="tag alive">Still Narrating Life</span><span class="quip">Will he outlive the penguins?</span></li>
-<li data-hit="0"><span class="who">Bruce Willis</span><span class="tag alive">Still Kicking (Sort Of)</span><span class="quip">Die Hard or Die Trying?</span></li>
-<li data-hit="1" class="hit"><span class="who">Ozzy Osbourne</span><span class="tag dead">Checked Out</span><span class="quip">Bat-tered but Legendary!</span></li>
-<li data-hit="0"><span class="who">Charlie Sheen</span><span class="tag alive">Winning (For Now)</span><span class="quip">Tiger blood still pumping?</span></li>
-<li data-hit="0"><span class="who">Gerard Depardieu</span><span class="tag alive">Holding Strong</span><span class="quip">French Exit Pending?</span></li>
-<li data-hit="0"><span class="who">Richie Blackmore</span><span class="tag alive">Strumming On</span><span class="quip">Riffs outlast us all?</span></li>
-<li data-hit="0"><span class="who">Mick Fleetwood</span><span class="tag alive">Drumming Away</span><span class="quip">Rumours of survival!</span></li>
-<li data-hit="0"><span class="who">Anthony Hopkins</span><span class="tag alive">Silence of the Lambs</span><span class="quip">Still chewing the scenery?</span></li>
-<li data-hit="1" class="hit"><span class="who">Val Kilmer</span><span class="tag dead">Top Gun Down</span><span class="quip">Top Gun to Top Gone!</span></li>
-<li data-hit="0"><span class="who">Michael York</span><span class="tag alive">Cabaret Continues</span><span class="quip">Will he dance out?</span></li>
-<li data-hit="0"><span class="who">Yoko Ono</span><span class="tag alive">Peaceful Still</span><span class="quip">Breaking up bands forever?</span></li>
-<li data-hit="0"><span class="who">Joni Mitchell</span><span class="tag alive">Singing On</span><span class="quip">Clouds won’t stop her!</span></li>
-<li data-hit="0"><span class="who">Noddy Holder</span><span class="tag alive">Merry Still</span><span class="quip">Shouting through the years?</span></li>
-<li data-hit="0"><span class="who">Brian Blessed</span><span class="tag alive">Booming Loud</span><span class="quip">Gordon’s alive, too!</span></li>
-<li data-hit="0"><span class="who">Robert Wagner</span><span class="tag alive">Hart Still Beats</span><span class="quip">Mystery man endures?</span></li>
-<li data-hit="0"><span class="who">Tim Curry</span><span class="tag alive">Rocky Still</span><span class="quip">Sweet Transvestite survives?</span></li>
-<li data-hit="0"><span class="who">James Van Der Beek</span><span class="tag alive">Creek Flows</span><span class="quip">Dawson’s still crying?</span></li>
-<li data-hit="0"><span class="who">Britney Spears</span><span class="tag alive">Toxic Free</span><span class="quip">Oops, she did it again!</span></li>
-<li data-hit="1" class="hit"><span class="who">Marianne Faithful</span><span class="tag dead">Fallen Star</span><span class="quip">Faith No More Indeed!</span></li>
-<li data-hit="0"><span class="who">Joe Pesci</span><span class="tag alive">Goodfella Going</span><span class="quip">Still a funny guy?</span></li>
-<li data-hit="0"><span class="who">Billy Connolly</span><span class="tag alive">Joking On</span><span class="quip">Laughter’s his shield!</span></li>
-<li data-hit="0"><span class="who">Ian McKellen</span><span class="tag alive">Wizardly Wise</span><span class="quip">Gandalf’s staff holds?</span></li>
-<li data-hit="0"><span class="who">Buzz Aldrin</span><span class="tag alive">Moon Man</span><span class="quip">One small step left?</span></li>
-<li data-hit="0"><span class="who">Shirley MacLaine</span><span class="tag alive">Past Lives</span><span class="quip">Reincarnating yet?</span></li>
-<li data-hit="0"><span class="who">Queen Camilla</span><span class="tag alive">Royal Still</span><span class="quip">Crowning achievement?</span></li>
-<li data-hit="0"><span class="who">Ron Wood</span><span class="tag alive">Rolling On</span><span class="quip">Stones keep rolling?</span></li>
-<li data-hit="0"><span class="who">Robert Duvall</span><span class="tag alive">Tender Still</span><span class="quip">Godfather’s mercy?</span></li>
-<li data-hit="0"><span class="who">Jack Nicholson</span><span class="tag alive">Shining On</span><span class="quip">Here’s Johnny still!</span></li>
-<li data-hit="0"><span class="who">Eamon Holmes</span><span class="tag alive">Talking Head</span><span class="quip">Chatty as ever?</span></li>
-<li data-hit="0"><span class="who">Michael Douglas</span><span class="tag alive">Wall Street</span><span class="quip">Greed keeps him going?</span></li>
+<li data-hit="0"><span class="who">David Attenborough</span><span class="tag alive">Alive</span></li>
+<li data-hit="0"><span class="who">Bruce Willis</span><span class="tag alive">Alive</span></li>
+<li data-hit="1" class="hit"><span class="who">Ozzy Osbourne</span><span class="tag dead">Dead</span></li>
+<li data-hit="0"><span class="who">Charlie Sheen</span><span class="tag alive">Alive</span></li>
+<li data-hit="0"><span class="who">Gerard Depardieu</span><span class="tag alive">Alive</span></li>
+<li data-hit="0"><span class="who">Richie Blackmore</span><span class="tag alive">Alive</span></li>
+<li data-hit="0"><span class="who">Mick Fleetwood</span><span class="tag alive">Alive</span></li>
+<li data-hit="0"><span class="who">Anthony Hopkins</span><span class="tag alive">Alive</span></li>
+<li data-hit="1" class="hit"><span class="who">Val Kilmer</span><span class="tag dead">Dead</span></li>
+<li data-hit="0"><span class="who">Michael York</span><span class="tag alive">Alive</span></li>
+<li data-hit="0"><span class="who">Yoko Ono</span><span class="tag alive">Alive</span></li>
+<li data-hit="0"><span class="who">Joni Mitchell</span><span class="tag alive">Alive</span></li>
+<li data-hit="0"><span class="who">Noddy Holder</span><span class="tag alive">Alive</span></li>
+<li data-hit="0"><span class="who">Brian Blessed</span><span class="tag alive">Alive</span></li>
+<li data-hit="0"><span class="who">Robert Wagner</span><span class="tag alive">Alive</span></li>
+<li data-hit="0"><span class="who">Tim Curry</span><span class="tag alive">Alive</span></li>
+<li data-hit="0"><span class="who">James Van Der Beek</span><span class="tag alive">Alive</span></li>
+<li data-hit="0"><span class="who">Britney Spears</span><span class="tag alive">Alive</span></li>
+<li data-hit="1" class="hit"><span class="who">Marianne Faithful</span><span class="tag dead">Dead</span></li>
+<li data-hit="0"><span class="who">Joe Pesci</span><span class="tag alive">Alive</span></li>
+<li data-hit="0"><span class="who">Billy Connolly</span><span class="tag alive">Alive</span></li>
+<li data-hit="0"><span class="who">Ian McKellen</span><span class="tag alive">Alive</span></li>
+<li data-hit="0"><span class="who">Buzz Aldrin</span><span class="tag alive">Alive</span></li>
+<li data-hit="0"><span class="who">Shirley MacLaine</span><span class="tag alive">Alive</span></li>
+<li data-hit="0"><span class="who">Queen Camilla</span><span class="tag alive">Alive</span></li>
+<li data-hit="0"><span class="who">Ron Wood</span><span class="tag alive">Alive</span></li>
+<li data-hit="0"><span class="who">Robert Duvall</span><span class="tag alive">Alive</span></li>
+<li data-hit="0"><span class="who">Jack Nicholson</span><span class="tag alive">Alive</span></li>
+<li data-hit="0"><span class="who">Eamon Holmes</span><span class="tag alive">Alive</span></li>
+<li data-hit="0"><span class="who">Michael Douglas</span><span class="tag alive">Alive</span></li>
 </ul>
 </section>
 <section class="card" data-player="Morris">
-<h2>Maurice's Fate Flippers</h2>
+<h2>Maurice’s Picks</h2>
 <ul>
-<li data-hit="1" class="hit"><span class="who">Ruby Druce</span><span class="tag dead">Gem Gone</span><span class="quip">No More Sparkle!</span></li>
-<li data-hit="0"><span class="who">Billy Connolly</span><span class="tag alive">Joking On</span><span class="quip">Laughter’s his shield!</span></li>
-<li data-hit="0"><span class="who">Julie Andrews</span><span class="tag alive">Singing Still</span><span class="quip">Hills are alive?</span></li>
-<li data-hit="1" class="hit"><span class="who">Giorgio Armani</span><span class="tag dead">Fashion Fade</span><span class="quip">Style Out of Stock!</span></li>
-<li data-hit="0"><span class="who">Pat Buchanan</span><span class="tag alive">Debating On</span><span class="quip">Still arguing points?</span></li>
-<li data-hit="0"><span class="who">Carol Burnett</span><span class="tag alive">Laughing On</span><span class="quip">Comedy endures?</span></li>
-<li data-hit="0"><span class="who">Joan Collins</span><span class="tag alive">Dynasty Days</span><span class="quip">Still ruling soaps?</span></li>
-<li data-hit="0"><span class="who">Bill Cosby</span><span class="tag alive">Quiet Now</span><span class="quip">Jell-O still jiggling?</span></li>
-<li data-hit="0"><span class="who">Noam Chomsky</span><span class="tag alive">Thinking On</span><span class="quip">Words won’t stop!</span></li>
-<li data-hit="0"><span class="who">Cleo Laine</span><span class="tag alive">Singing On</span><span class="quip">Melody lingers?</span></li>
-<li data-hit="0"><span class="who">Yoko Ono</span><span class="tag alive">Peaceful Still</span><span class="quip">Breaking up bands forever?</span></li>
-<li data-hit="1" class="hit"><span class="who">Gene Hackman</span><span class="tag dead">Retired Role</span><span class="quip">Hack No More Action!</span></li>
-<li data-hit="0"><span class="who">Rupert Murdoch</span><span class="tag alive">Media Mogul</span><span class="quip">Still pulling strings?</span></li>
-<li data-hit="0"><span class="who">Michael Caine</span><span class="tag alive">Alfie Alive</span><span class="quip">Not quite done yet?</span></li>
-<li data-hit="0"><span class="who">Juan Carlos I</span><span class="tag alive">Royal Retreat</span><span class="quip">King of quiet?</span></li>
-<li data-hit="0"><span class="who">Raul Castro</span><span class="tag alive">Revolution On</span><span class="quip">Still in command?</span></li>
-<li data-hit="0"><span class="who">George Soros</span><span class="tag alive">Funding On</span><span class="quip">Money never sleeps?</span></li>
-<li data-hit="1" class="hit"><span class="who">Roberta Flack</span><span class="tag dead">Silent Song</span><span class="quip">Killing Me Softly... Done!</span></li>
-<li data-hit="0"><span class="who">Kim Novak</span><span class="tag alive">Vertigo Holds</span><span class="quip">Still dizzying us?</span></li>
-<li data-hit="0"><span class="who">Willie Nelson</span><span class="tag alive">On the Road</span><span class="quip">Still rolling joints?</span></li>
-<li data-hit="0"><span class="who">William Shatner</span><span class="tag alive">Boldly Going</span><span class="quip">To infinity and...?</span></li>
-<li data-hit="0"><span class="who">Dalai Lama</span><span class="tag alive">Peace Prevails</span><span class="quip">Om still humming?</span></li>
-<li data-hit="1" class="hit"><span class="who">Pape Francois I</span><span class="tag dead">Holy Exit</span><span class="quip">Pope No More!</span></li>
-<li data-hit="0"><span class="who">Clint Eastwood</span><span class="tag alive">Dirty Harry</span><span class="quip">Still making my day?</span></li>
-<li data-hit="0"><span class="who">Mel Brooks</span><span class="tag alive">Comedy King</span><span class="quip">Springtime for laughs?</span></li>
-<li data-hit="0"><span class="who">Judi Dench</span><span class="tag alive">M Stands Firm</span><span class="quip">Bond’s boss endures?</span></li>
-<li data-hit="0"><span class="who">Morgan Freeman</span><span class="tag alive">Narrating Life</span><span class="quip">Voice of the ages?</span></li>
-<li data-hit="0"><span class="who">Daniel O Donnell</span><span class="tag alive">Irish Charm</span><span class="quip">Singing on still?</span></li>
-<li data-hit="0"><span class="who">Arnold Schwarzenegger</span><span class="tag alive">Terminator</span><span class="quip">I’ll be back... maybe?</span></li>
-<li data-hit="0"><span class="who">Simon Harris</span><span class="tag alive">Leading On</span><span class="quip">Politics persists?</span></li>
+<li data-hit="1" class="hit"><span class="who">Ruby Druce</span><span class="tag dead">Dead</span></li>
+<li data-hit="0"><span class="who">Billy Connolly</span><span class="tag alive">Alive</span></li>
+<li data-hit="0"><span class="who">Julie Andrews</span><span class="tag alive">Alive</span></li>
+<li data-hit="1" class="hit"><span class="who">Giorgio Armani</span><span class="tag dead">Dead</span></li>
+<li data-hit="0"><span class="who">Pat Buchanan</span><span class="tag alive">Alive</span></li>
+<li data-hit="0"><span class="who">Carol Burnett</span><span class="tag alive">Alive</span></li>
+<li data-hit="0"><span class="who">Joan Collins</span><span class="tag alive">Alive</span></li>
+<li data-hit="0"><span class="who">Bill Cosby</span><span class="tag alive">Alive</span></li>
+<li data-hit="0"><span class="who">Noam Chomsky</span><span class="tag alive">Alive</span></li>
+<li data-hit="0"><span class="who">Cleo Laine</span><span class="tag alive">Alive</span></li>
+<li data-hit="0"><span class="who">Yoko Ono</span><span class="tag alive">Alive</span></li>
+<li data-hit="1" class="hit"><span class="who">Gene Hackman</span><span class="tag dead">Dead</span></li>
+<li data-hit="0"><span class="who">Rupert Murdoch</span><span class="tag alive">Alive</span></li>
+<li data-hit="0"><span class="who">Michael Caine</span><span class="tag alive">Alive</span></li>
+<li data-hit="0"><span class="who">Juan Carlos I</span><span class="tag alive">Alive</span></li>
+<li data-hit="0"><span class="who">Raul Castro</span><span class="tag alive">Alive</span></li>
+<li data-hit="0"><span class="who">George Soros</span><span class="tag alive">Alive</span></li>
+<li data-hit="1" class="hit"><span class="who">Roberta Flack</span><span class="tag dead">Dead</span></li>
+<li data-hit="0"><span class="who">Kim Novak</span><span class="tag alive">Alive</span></li>
+<li data-hit="0"><span class="who">Willie Nelson</span><span class="tag alive">Alive</span></li>
+<li data-hit="0"><span class="who">William Shatner</span><span class="tag alive">Alive</span></li>
+<li data-hit="0"><span class="who">Dalai Lama</span><span class="tag alive">Alive</span></li>
+<li data-hit="1" class="hit"><span class="who">Pape Francois I</span><span class="tag dead">Dead</span></li>
+<li data-hit="0"><span class="who">Clint Eastwood</span><span class="tag alive">Alive</span></li>
+<li data-hit="0"><span class="who">Mel Brooks</span><span class="tag alive">Alive</span></li>
+<li data-hit="0"><span class="who">Judi Dench</span><span class="tag alive">Alive</span></li>
+<li data-hit="0"><span class="who">Morgan Freeman</span><span class="tag alive">Alive</span></li>
+<li data-hit="0"><span class="who">Daniel O Donnell</span><span class="tag alive">Alive</span></li>
+<li data-hit="0"><span class="who">Arnold Schwarzenegger</span><span class="tag alive">Alive</span></li>
+<li data-hit="0"><span class="who">Simon Harris</span><span class="tag alive">Alive</span></li>
 </ul>
 </section>
 </main>
-<div class="trash-talk">
-  <button class="trash-btn" id="trash-btn">Drop Some Trash Talk</button>
-  <div id="trash-output"></div>
-</div>
 <div class="footer">
   <div id="updated" class="tiny"></div>
-  <div class="tiny">Tip: Press <kbd>Ctrl</kbd>/<kbd>Cmd</kbd> + <kbd>Shift</kbd> + <kbd>R</kbd> to hard-refresh if changes don't appear right away.</div>
+  <div class="tiny">Tip: Press <kbd>Ctrl</kbd>/<kbd>Cmd</kbd> + <kbd>Shift</kbd> + <kbd>R</kbd> to hard-refresh if changes don’t appear right away.</div>
 </div>
 </div>
 <script>
-  // Countdown Timer (adjusted for IST, Sep 13, 2025, 4:23 PM)
+  // Countdown Timer (adjusted for IST, Sep 13, 2025, 5:04 PM)
   const countdownDate = new Date("Jan 1, 2026 00:00:00 GMT+0530").getTime();
   const daysEl = document.getElementById("days");
   const hoursEl = document.getElementById("hours");
@@ -220,30 +218,27 @@
   const interval = setInterval(() => {
     const now = new Date().getTime();
     let distance = countdownDate - now;
-    const days = Math.floor(distance / (1000*60*60*24));
-    distance -= days*1000*60*60*24;
-    const hours = Math.floor(distance / (1000*60*60));
-    distance -= hours*1000*60*60;
-    const minutes = Math.floor(distance / (1000*60));
-    distance -= minutes*1000*60;
+    const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+    distance -= days * 1000 * 60 * 60 * 24;
+    const hours = Math.floor(distance / (1000 * 60 * 60));
+    distance -= hours * 1000 * 60 * 60;
+    const minutes = Math.floor(distance / (1000 * 60));
+    distance -= minutes * 1000 * 60;
     const seconds = Math.floor(distance / 1000);
-    daysEl.textContent = String(days).padStart(2,'0');
-    hoursEl.textContent = String(hours).padStart(2,'0');
-    minutesEl.textContent = String(minutes).padStart(2,'0');
-    secondsEl.textContent = String(seconds).padStart(2,'0');
-    if(distance < 60000) {
-      document.querySelector('.timer').style.textShadow = `0 0 10px #ff0000, 0 0 20px #ff4500`;
-    }
-    if(distance <= 0) {
+    daysEl.textContent = String(days).padStart(2, '0');
+    hoursEl.textContent = String(hours).padStart(2, '0');
+    minutesEl.textContent = String(minutes).padStart(2, '0');
+    secondsEl.textContent = String(seconds).padStart(2, '0');
+    if (distance <= 0) {
       clearInterval(interval);
-      document.querySelector('.timer').innerHTML = "<div class='big'>Game Over: Crown the Cadaver King!</div>";
+      document.querySelector('.timer').innerHTML = "<div>Game Over: Crown the Cadaver King!</div>";
     }
   }, 1000);
   // Auto-score
   function updateScores() {
     const getScore = (player) => {
       const section = document.querySelector(`[data-player="${player}"]`);
-      if(!section) return 0;
+      if (!section) return 0;
       return section.querySelectorAll('li[data-hit="1"], li.hit').length;
     };
     document.getElementById("score-sean").textContent = getScore("Sean");
@@ -253,23 +248,11 @@
   // Updated timestamp
   function updateTime() {
     const el = document.getElementById("updated");
-    if(!el) return;
+    if (!el) return;
     const now = new Date();
-    el.textContent = "Updated: "+now.toLocaleString("en-GB",{weekday:"short",year:"numeric",month:"short",day:"numeric",hour:"2-digit",minute:"2-digit",second:"2-digit"});
+    el.textContent = "Updated: " + now.toLocaleString("en-GB", { weekday: "short", year: "numeric", month: "short", day: "numeric", hour: "2-digit", minute: "2-digit", second: "2-digit" });
   }
   updateTime();
-  // Trash Talk Generator
-  const trashTalks = [
-    "Sean’s Doom Dealers are dropping like flies—Maurice’s laughing stock!",
-    "Maurice’s Fate Flippers flipping the odds—Sean’s in trouble!",
-    "Bad luck bingo? More like Sean’s losing streak symphony!",
-    "Maurice’s winning—Sean, time to bet on better luck next year!",
-    "One more hit and the loser buys the winner a victory pint!"
-  ];
-  document.getElementById('trash-btn').addEventListener('click', () => {
-    const randomTalk = trashTalks[Math.floor(Math.random() * trashTalks.length)];
-    document.getElementById('trash-output').textContent = randomTalk;
-  });
 </script>
 </body>
 </html>
