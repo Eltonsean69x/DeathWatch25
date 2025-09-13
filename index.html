@@ -3,143 +3,109 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>DEATHWATCH25 — Sean vs Maurice</title>
-
-  <!-- spooky header font -->
-  <link href="https://fonts.googleapis.com/css2?family=Creepster&display=swap" rel="stylesheet">
+  <title>Bad Luck Betting League — Sean vs Maurice</title>
+  <!-- Fun fonts for light-hearted vibe -->
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&display=swap" rel="stylesheet">
-
   <style>
     :root {
-      --bg: #0b0c10;
-      --card: #111218;
-      --muted: #8b90a0;
+      --bg: #0f3460; /* Navy for softer dark */
+      --card: #1a1a2e;
+      --muted: #a0a0b0;
       --text: #e6e7eb;
-      --accent: #7c3aed;
-      --ok: #16a34a;
+      --accent: #4a90e2; /* Teal accents */
+      --ok: #ffd700; /* Yellow for wins */
       --danger: #ef4444;
-      --border: #1f2230;
+      --border: #2a2a40;
     }
-
     * { box-sizing: border-box; }
-
     body {
       margin: 0;
-      background:
-        linear-gradient(to top, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0) 55%),
-        url("graveyard.png") repeat-x bottom,
-        url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0%200%201200%20200"><g fill="%23000000" fill-opacity="0.95"><rect x="0" y="140" width="1200" height="60"/><rect x="60" y="100" width="40" height="40" rx="6"/><rect x="150" y="80" width="60" height="60" rx="10"/><rect x="260" y="110" width="30" height="30" rx="5"/><rect x="340" y="90" width="50" height="50" rx="8"/><rect x="430" y="120" width="20" height="20" rx="4"/><rect x="500" y="85" width="45" height="60" rx="8"/><rect x="600" y="110" width="25" height="30" rx="4"/><rect x="700" y="95" width="50" height="55" rx="8"/><rect x="800" y="120" width="30" height="30" rx="4"/><rect x="900" y="100" width="40" height="40" rx="6"/><rect x="1010" y="85" width="60" height="60" rx="10"/></g></svg>') repeat-x bottom,
-        radial-gradient(1200px 600px at 20% -10%, #15172a 0%, var(--bg) 60%);
-      background-size: auto 220px, auto 220px, cover;
-      background-attachment: fixed;
-      image-rendering: auto;
+      background: var(--bg);
       color: var(--text);
-      font: 16px/1.45 system-ui, -apple-system, "Segoe UI", Roboto, Ubuntu, Cantarell,
-            "Noto Sans", "Helvetica Neue", Arial, "Apple Color Emoji", "Segoe UI Emoji";
+      font: 16px/1.45 'Roboto', sans-serif;
     }
-
     .wrap { max-width: 980px; margin: 0 auto; padding: 24px; }
     header { display: grid; gap: 12px; align-items: center; justify-items: center; }
-    h1 { margin: 0; font-family: "Creepster", cursive; font-size: clamp(28px,5vw,44px); letter-spacing: 1px; color: #ffdede; text-shadow: 0 6px 18px rgba(0,0,0,0.6),0 0 6px rgba(255,60,60,0.12);}
+    h1 { margin: 0; font-size: clamp(28px,5vw,44px); letter-spacing: 1px; color: var(--accent); text-shadow: 0 2px 4px rgba(0,0,0,0.3); }
     .sub { color: var(--muted); font-size: 14px; }
-
     .board {
       margin-top: 18px;
       display: grid; gap: 16px;
       grid-template-columns: repeat(3, minmax(0, 1fr));
       width: 100%;
     }
-
     .tile {
-      background: linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02));
+      background: var(--card);
       border: 1px solid var(--border);
       border-radius: 16px;
       padding: 18px;
-      box-shadow: 0 10px 20px rgba(0,0,0,0.35);
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2); /* Lighter shadows */
       min-height: 84px;
     }
-
     .score { display: flex; align-items: baseline; justify-content: space-between; }
-    .score .name { font-weight: 600; font-size: 20px; }
+    .score .name { font-weight: 600; font-size: 20px; color: var(--accent); }
     .score .num { font-size: 40px; font-weight: 800; letter-spacing: -1px; }
     .num.ok { color: var(--ok); }
     .num.bad { color: var(--danger); }
-
-    /* ===== DOOMSDAY TIMER ===== */
-/* ===== DOOMSDAY TIMER (toned down) ===== */
-.timer {
-  font-family: 'Orbitron', monospace;
-  color: #cc1f1f; /* darker red */
-  text-align: center;
-  display: inline-block;
-  text-shadow: 0 0 4px #800000, 0 0 8px #330000;
-}
-
-.timer .big {
-  font-size: 42px; /* a bit smaller */
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  display: inline-block;
-  animation: slowflicker 3s infinite alternate;
-}
-
-.timer .separator {
-  display: inline-block;
-  color: #a94400; /* ember orange */
-  font-size: 42px;
-  vertical-align: top;
-  opacity: 0.8;
-  animation: dimblink 2s infinite;
-}
-
-.timer .label {
-  color: #a33;
-  font-size: 13px;
-  letter-spacing: 0.05em;
-  margin-top: 8px;
-  display: block;
-}
-
-/* slower, subtler effects */
-@keyframes dimblink {
-  0%, 100% { opacity: 0.8; }
-  50% { opacity: 0.3; }
-}
-
-@keyframes slowflicker {
-  0%, 100% { opacity: 1; text-shadow: 0 0 4px #660000, 0 0 8px #330000; }
-  40% { opacity: 0.85; text-shadow: 0 0 2px #550000; }
-  70% { opacity: 0.95; text-shadow: 0 0 6px #990000; }
-}
-
-
-    /* ===== CARDS ===== */
+    /* Timer with ironic twist */
+    .timer {
+      font-family: 'Orbitron', monospace;
+      color: var(--accent);
+      text-align: center;
+      display: inline-block;
+      text-shadow: 0 0 4px rgba(74,144,226,0.5);
+    }
+    .timer .big {
+      font-size: 42px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      display: inline-block;
+    }
+    .timer .separator {
+      display: inline-block;
+      color: var(--muted);
+      font-size: 42px;
+      vertical-align: top;
+      opacity: 0.8;
+    }
+    .timer .label {
+      color: var(--muted);
+      font-size: 13px;
+      letter-spacing: 0.05em;
+      margin-top: 8px;
+      display: block;
+    }
+    /* Cards with stock ticker style */
     .grid { margin-top: 22px; display: grid; gap: 16px; grid-template-columns: repeat(2, minmax(0, 1fr)); }
     .card { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 16px; }
-    .card h2 { margin: 0 0 8px 0; font-size: 18px; }
+    .card h2 { margin: 0 0 8px 0; font-size: 18px; color: var(--ok); } /* Punny team names */
     ul { list-style:none; padding:0; margin:8px 0 0 0; display:grid; gap:8px;}
     li { background: rgba(255,255,255,0.03); padding:10px 12px; border-radius:12px; border:1px solid var(--border); display:flex; align-items:center; justify-content:space-between; gap:10px;}
-    li .who { overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
-    li.hit { opacity:0.85; }
-    li.hit .who { text-decoration: line-through; color:#ff4d4d; text-shadow:0 0 2px #ff0000,0 0 6px #ff0000,0 0 10px #ff0000; animation:flicker 1.5s infinite alternate; }
+    li .who { overflow:hidden; text-overflow:ellipsis; white-space:nowrap; font-weight: bold; } /* Ticker style */
+    li.hit .who { text-decoration: line-through; color: var(--danger); }
     li .tag { font-size:12px; padding:2px 8px; border-radius:999px; border:1px solid var(--border); }
-    .tag.alive { color: var(--muted); }
+    .tag.alive { color: var(--ok); }
     .tag.dead { color: var(--danger); border-color: rgba(239,68,68,0.4); }
-
+    .quip { font-style: italic; color: var(--muted); margin-left: 10px; font-size: 12px; }
+    /* Trash talk button */
+    .trash-talk { margin-top: 16px; text-align: center; }
+    .trash-btn { background: var(--accent); color: #fff; border: none; padding: 8px 16px; border-radius: 8px; cursor: pointer; font-weight: bold; }
+    .trash-btn:hover { background: #357abd; }
+    #trash-output { margin-top: 8px; color: var(--ok); font-style: italic; }
     .footer { margin-top: 22px; display:grid; gap:8px; justify-items:center; color:var(--muted); font-size:13px; }
     .tiny { font-size:12px; color:var(--muted); }
-
     @media(max-width:700px){.board{grid-template-columns:1fr;}.grid{grid-template-columns:1fr;}.timer .big{font-size:24px;}}
   </style>
 </head>
 <body>
 <div class="wrap">
 <header>
-<h1>Celebrity Death Bingo 2025!! — Sean vs Maurice</h1>
-<div class="sub">Dark-humour scoreboard for two consenting adults. No real malice intended.</div>
+<h1>Bad Luck Betting League — Sean's Doom Dealers vs Maurice's Fate Flippers</h1>
+<div class="sub">Just two pals betting on bad luck. No real malice, all ironic fun.</div>
 <section class="board">
   <div class="tile score" aria-live="polite">
-    <div class="name">Sean</div>
+    <div class="name">Sean's Wins</div>
     <div id="score-sean" class="num ok">0</div>
   </div>
   <div class="tile timer">
@@ -147,109 +113,105 @@
     <div class="big" id="hours">00</div><span class="separator">:</span>
     <div class="big" id="minutes">00</div><span class="separator">:</span>
     <div class="big" id="seconds">00</div>
-    <div class="label">Days &nbsp;&nbsp; Hours &nbsp;&nbsp; Minutes &nbsp;&nbsp; Seconds</div>
+    <div class="label">Odds Update: Days : Hours : Minutes : Seconds Til Market Close</div>
   </div>
   <div class="tile score" aria-live="polite">
-    <div class="name">Maurice</div>
+    <div class="name">Maurice's Wins</div>
     <div id="score-morris" class="num bad">0</div>
   </div>
 </section>
 </header>
-
 <main class="grid">
 <section class="card" data-player="Sean">
-<h2>Sean's Picks</h2>
+<h2>Sean's Stock Picks (Doom Dealers Portfolio)</h2>
 <ul>
-<!-- full Sean list here -->
-<li data-hit="0"><span class="who">David Attenborough</span><span class="tag alive">alive</span></li>
-<li data-hit="0"><span class="who">Bruce Willis</span><span class="tag alive">alive</span></li>
-<li data-hit="1" class="hit"><span class="who">Ozzy Osbourne</span><span class="tag dead">☠ dead</span></li>
-<li data-hit="0"><span class="who">Charlie Sheen</span><span class="tag alive">alive</span></li>
-<li data-hit="0"><span class="who">Gerard Depardieu</span><span class="tag alive">alive</span></li>
-<li data-hit="0"><span class="who">Richie Blackmore</span><span class="tag alive">alive</span></li>
-<li data-hit="0"><span class="who">Mick Fleetwood</span><span class="tag alive">alive</span></li>
-<li data-hit="0"><span class="who">Anthony Hopkins</span><span class="tag alive">alive</span></li>
-<li data-hit="1" class="hit"><span class="who">Val Kilmer</span><span class="tag dead">☠ dead</span></li>
-<li data-hit="0"><span class="who">Michael York</span><span class="tag alive">alive</span></li>
-<li data-hit="0"><span class="who">Yoko Ono</span><span class="tag alive">alive</span></li>
-<li data-hit="0"><span class="who">Joni Mitchell</span><span class="tag alive">alive</span></li>
-<li data-hit="0"><span class="who">Noddy Holder</span><span class="tag alive">alive</span></li>
-<li data-hit="0"><span class="who">Brian Blessed</span><span class="tag alive">alive</span></li>
-<li data-hit="0"><span class="who">Robert Wagner</span><span class="tag alive">alive</span></li>
-<li data-hit="0"><span class="who">Tim Curry</span><span class="tag alive">alive</span></li>
-<li data-hit="0"><span class="who">James Van Der Beek</span><span class="tag alive">alive</span></li>
-<li data-hit="0"><span class="who">Britney Spears</span><span class="tag alive">alive</span></li>
-<li data-hit="1" class="hit"><span class="who">Marianne Faithful</span><span class="tag dead">☠ dead</span></li>
-<li data-hit="0"><span class="who">Joe Pesci</span><span class="tag alive">alive</span></li>
-<li data-hit="0"><span class="who">Billy Connolly</span><span class="tag alive">alive</span></li>
-<li data-hit="0"><span class="who">Ian McKellen</span><span class="tag alive">alive</span></li>
-<li data-hit="0"><span class="who">Buzz Aldrin</span><span class="tag alive">alive</span></li>
-<li data-hit="0"><span class="who">Shirley MacLaine</span><span class="tag alive">alive</span></li>
-<li data-hit="0"><span class="who">Queen Camilla</span><span class="tag alive">alive</span></li>
-<li data-hit="0"><span class="who">Ron Wood</span><span class="tag alive">alive</span></li>
-<li data-hit="0"><span class="who">Robert Duvall</span><span class="tag alive">alive</span></li>          
-<li data-hit="0"><span class="who">Jack Nicholson</span><span class="tag alive">alive</span></li>
-<li data-hit="0"><span class="who">Eamon Holmes</span><span class="tag alive">alive</span></li>
-<li data-hit="0"><span class="who">Michael Douglas</span><span class="tag alive">alive</span></li>
+<li data-hit="0"><span class="who">DATTEN: David Attenborough</span><span class="tag alive">📈 Holding Steady</span></li>
+<li data-hit="0"><span class="who">BRWILL: Bruce Willis</span><span class="tag alive">📈 Holding Steady</span></li>
+<li data-hit="1" class="hit"><span class="who">OZZOSB: Ozzy Osbourne</span><span class="tag dead">📉 Crashed (Out of This World!)</span></li>
+<li data-hit="0"><span class="who">CHASHE: Charlie Sheen</span><span class="tag alive">📈 Holding Steady</span></li>
+<li data-hit="0"><span class="who">GERDEP: Gerard Depardieu</span><span class="tag alive">📈 Holding Steady</span></li>
+<li data-hit="0"><span class="who">RICBLA: Richie Blackmore</span><span class="tag alive">📈 Holding Steady</span></li>
+<li data-hit="0"><span class="who">MICFLE: Mick Fleetwood</span><span class="tag alive">📈 Holding Steady</span></li>
+<li data-hit="0"><span class="who">ANTHOP: Anthony Hopkins</span><span class="tag alive">📈 Holding Steady</span></li>
+<li data-hit="1" class="hit"><span class="who">VALKIL: Val Kilmer</span><span class="tag dead">📉 Crashed (Top Gun to Top Done!)</span></li>
+<li data-hit="0"><span class="who">MICYOR: Michael York</span><span class="tag alive">📈 Holding Steady</span></li>
+<li data-hit="0"><span class="who">YOKONO: Yoko Ono</span><span class="tag alive">📈 Holding Steady</span></li>
+<li data-hit="0"><span class="who">JONMIT: Joni Mitchell</span><span class="tag alive">📈 Holding Steady</span></li>
+<li data-hit="0"><span class="who">NODHOL: Noddy Holder</span><span class="tag alive">📈 Holding Steady</span></li>
+<li data-hit="0"><span class="who">BRIBLE: Brian Blessed</span><span class="tag alive">📈 Holding Steady</span></li>
+<li data-hit="0"><span class="who">ROBWAG: Robert Wagner</span><span class="tag alive">📈 Holding Steady</span></li>
+<li data-hit="0"><span class="who">TIMCUR: Tim Curry</span><span class="tag alive">📈 Holding Steady</span></li>
+<li data-hit="0"><span class="who">JAMVAN: James Van Der Beek</span><span class="tag alive">📈 Holding Steady</span></li>
+<li data-hit="0"><span class="who">BRISPE: Britney Spears</span><span class="tag alive">📈 Holding Steady</span></li>
+<li data-hit="1" class="hit"><span class="who">MARFAI: Marianne Faithful</span><span class="tag dead">📉 Crashed (Faith No More!)</span></li>
+<li data-hit="0"><span class="who">JOEPES: Joe Pesci</span><span class="tag alive">📈 Holding Steady</span></li>
+<li data-hit="0"><span class="who">BILCON: Billy Connolly</span><span class="tag alive">📈 Holding Steady</span></li>
+<li data-hit="0"><span class="who">IANMCK: Ian McKellen</span><span class="tag alive">📈 Holding Steady</span></li>
+<li data-hit="0"><span class="who">BUZALD: Buzz Aldrin</span><span class="tag alive">📈 Holding Steady</span></li>
+<li data-hit="0"><span class="who">SHIMAC: Shirley MacLaine</span><span class="tag alive">📈 Holding Steady</span></li>
+<li data-hit="0"><span class="who">QUECAM: Queen Camilla</span><span class="tag alive">📈 Holding Steady</span></li>
+<li data-hit="0"><span class="who">RONWOO: Ron Wood</span><span class="tag alive">📈 Holding Steady</span></li>
+<li data-hit="0"><span class="who">ROBDUV: Robert Duvall</span><span class="tag alive">📈 Holding Steady</span></li>
+<li data-hit="0"><span class="who">JACNIC: Jack Nicholson</span><span class="tag alive">📈 Holding Steady</span></li>
+<li data-hit="0"><span class="who">EAMHOL: Eamon Holmes</span><span class="tag alive">📈 Holding Steady</span></li>
+<li data-hit="0"><span class="who">MICDOU: Michael Douglas</span><span class="tag alive">📈 Holding Steady</span></li>
 </ul>
 </section>
-
 <section class="card" data-player="Morris">
-<h2>Maurice's Picks</h2>
+<h2>Maurice's Stock Picks (Fate Flippers Portfolio)</h2>
 <ul>
-<!-- full Morris list here -->
-<li data-hit="1" class="hit"><span class="who">Ruby Druce</span><span class="tag dead">☠ dead</span></li>
-<li data-hit="0"><span class="who">Billy Connolly</span><span class="tag alive">alive</span></li>
-<li data-hit="0"><span class="who">Julie Andrews</span><span class="tag alive">alive</span></li>
-<li data-hit="1" class="hit"><span class="who">Giorgio Armani</span><span class="tag dead">☠ dead</span></li>
-<li data-hit="0"><span class="who">Pat Buchanan</span><span class="tag alive">alive</span></li>
-<li data-hit="0"><span class="who">Carol Burnett</span><span class="tag alive">alive</span></li>
-<li data-hit="0"><span class="who">Joan Collins</span><span class="tag alive">alive</span></li>
-<li data-hit="0"><span class="who">Bill Cosby</span><span class="tag alive">alive</span></li>
-<li data-hit="0"><span class="who">Noam Chomsky</span><span class="tag alive">alive</span></li>
-<li data-hit="0"><span class="who">Cleo Laine</span><span class="tag alive">alive</span></li>
-<li data-hit="0"><span class="who">Yoko Ono</span><span class="tag alive">alive</span></li>
-<li data-hit="1" class="hit"><span class="who">Gene Hackman</span><span class="tag dead">☠ dead</span></li>
-<li data-hit="0"><span class="who">Rupert Murdoch</span><span class="tag alive">alive</span></li>
-<li data-hit="0"><span class="who">Michael Caine</span><span class="tag alive">alive</span></li>
-<li data-hit="0"><span class="who">Juan Carlos I</span><span class="tag alive">alive</span></li>
-<li data-hit="0"><span class="who">Raul Castro</span><span class="tag alive">alive</span></li>
-<li data-hit="0"><span class="who">George Soros</span><span class="tag alive">alive</span></li>
-<li data-hit="1" class="hit"><span class="who">Roberta Flack</span><span class="tag dead">☠ dead</span></li>
-<li data-hit="0"><span class="who">Kim Novak</span><span class="tag alive">alive</span></li>
-<li data-hit="0"><span class="who">Willie Nelson</span><span class="tag alive">alive</span></li>
-<li data-hit="0"><span class="who">William Shatner</span><span class="tag alive">alive</span></li>
-<li data-hit="0"><span class="who">Dalai Lama</span><span class="tag alive">alive</span></li>
-<li data-hit="1" class="hit"><span class="who">Pape Francois I</span><span class="tag dead">☠ dead</span></li>
-<li data-hit="0"><span class="who">Clint Eastwood</span><span class="tag alive">alive</span></li>
-<li data-hit="0"><span class="who">Mel Brooks</span><span class="tag alive">alive</span></li>
-<li data-hit="0"><span class="who">Judi Dench</span><span class="tag alive">alive</span></li>
-<li data-hit="0"><span class="who">Morgan Freeman</span><span class="tag alive">alive</span></li>
-<li data-hit="0"><span class="who">Daniel O Donnell</span><span class="tag alive">alive</span></li>
-<li data-hit="0"><span class="who">Arnold Schwarzenegger</span><span class="tag alive">alive</span></li>
-<li data-hit="0"><span class="who">Simon Harris</span><span class="tag alive">alive</span></li>
+<li data-hit="1" class="hit"><span class="who">RUBDRU: Ruby Druce</span><span class="tag dead">📉 Crashed (Gem No More!)</span></li>
+<li data-hit="0"><span class="who">BILCON: Billy Connolly</span><span class="tag alive">📈 Holding Steady</span></li>
+<li data-hit="0"><span class="who">JULAND: Julie Andrews</span><span class="tag alive">📈 Holding Steady</span></li>
+<li data-hit="1" class="hit"><span class="who">GIOARM: Giorgio Armani</span><span class="tag dead">📉 Crashed (Fashionably Late!)</span></li>
+<li data-hit="0"><span class="who">PATBUC: Pat Buchanan</span><span class="tag alive">📈 Holding Steady</span></li>
+<li data-hit="0"><span class="who">CARBUR: Carol Burnett</span><span class="tag alive">📈 Holding Steady</span></li>
+<li data-hit="0"><span class="who">JOACOL: Joan Collins</span><span class="tag alive">📈 Holding Steady</span></li>
+<li data-hit="0"><span class="who">BILCOS: Bill Cosby</span><span class="tag alive">📈 Holding Steady</span></li>
+<li data-hit="0"><span class="who">NOACHO: Noam Chomsky</span><span class="tag alive">📈 Holding Steady</span></li>
+<li data-hit="0"><span class="who">CLELAI: Cleo Laine</span><span class="tag alive">📈 Holding Steady</span></li>
+<li data-hit="0"><span class="who">YOKONO: Yoko Ono</span><span class="tag alive">📈 Holding Steady</span></li>
+<li data-hit="1" class="hit"><span class="who">GENHAC: Gene Hackman</span><span class="tag dead">📉 Crashed (Hack No More!)</span></li>
+<li data-hit="0"><span class="who">RUPMUR: Rupert Murdoch</span><span class="tag alive">📈 Holding Steady</span></li>
+<li data-hit="0"><span class="who">MICCAI: Michael Caine</span><span class="tag alive">📈 Holding Steady</span></li>
+<li data-hit="0"><span class="who">JUACAR: Juan Carlos I</span><span class="tag alive">📈 Holding Steady</span></li>
+<li data-hit="0"><span class="who">RAUCAS: Raul Castro</span><span class="tag alive">📈 Holding Steady</span></li>
+<li data-hit="0"><span class="who">GEOSOR: George Soros</span><span class="tag alive">📈 Holding Steady</span></li>
+<li data-hit="1" class="hit"><span class="who">ROBFLA: Roberta Flack</span><span class="tag dead">📉 Crashed (Killing Me Softly... Done!)</span></li>
+<li data-hit="0"><span class="who">KIMNOV: Kim Novak</span><span class="tag alive">📈 Holding Steady</span></li>
+<li data-hit="0"><span class="who">WILNEL: Willie Nelson</span><span class="tag alive">📈 Holding Steady</span></li>
+<li data-hit="0"><span class="who">WILSHA: William Shatner</span><span class="tag alive">📈 Holding Steady</span></li>
+<li data-hit="0"><span class="who">DALLAM: Dalai Lama</span><span class="tag alive">📈 Holding Steady</span></li>
+<li data-hit="1" class="hit"><span class="who">PAPFRA: Pape Francois I</span><span class="tag dead">📉 Crashed (Holy Exit!)</span></li>
+<li data-hit="0"><span class="who">CLIEAS: Clint Eastwood</span><span class="tag alive">📈 Holding Steady</span></li>
+<li data-hit="0"><span class="who">MELBRO: Mel Brooks</span><span class="tag alive">📈 Holding Steady</span></li>
+<li data-hit="0"><span class="who">JUDDEN: Judi Dench</span><span class="tag alive">📈 Holding Steady</span></li>
+<li data-hit="0"><span class="who">MORFRE: Morgan Freeman</span><span class="tag alive">📈 Holding Steady</span></li>
+<li data-hit="0"><span class="who">DANODO: Daniel O Donnell</span><span class="tag alive">📈 Holding Steady</span></li>
+<li data-hit="0"><span class="who">ARNSCH: Arnold Schwarzenegger</span><span class="tag alive">📈 Holding Steady</span></li>
+<li data-hit="0"><span class="who">SIMHAR: Simon Harris</span><span class="tag alive">📈 Holding Steady</span></li>
 </ul>
 </section>
 </main>
-
+<div class="trash-talk">
+  <button class="trash-btn" id="trash-btn">Generate Trash Talk</button>
+  <div id="trash-output"></div>
+</div>
 <div class="footer">
   <div id="updated" class="tiny"></div>
   <div class="tiny">Tip: Press <kbd>Ctrl</kbd>/<kbd>Cmd</kbd> + <kbd>Shift</kbd> + <kbd>R</kbd> to hard-refresh if changes don't appear right away.</div>
 </div>
 </div>
-
 <script>
-  // ===== DOOMSDAY TIMER =====
+  // Countdown Timer
   const countdownDate = new Date("Jan 1, 2026 00:00:00").getTime();
   const daysEl = document.getElementById("days");
   const hoursEl = document.getElementById("hours");
   const minutesEl = document.getElementById("minutes");
   const secondsEl = document.getElementById("seconds");
-
   const interval = setInterval(() => {
     const now = new Date().getTime();
     let distance = countdownDate - now;
-
     const days = Math.floor(distance / (1000*60*60*24));
     distance -= days*1000*60*60*24;
     const hours = Math.floor(distance / (1000*60*60));
@@ -257,29 +219,16 @@
     const minutes = Math.floor(distance / (1000*60));
     distance -= minutes*1000*60;
     const seconds = Math.floor(distance / 1000);
-
     daysEl.textContent = String(days).padStart(2,'0');
     hoursEl.textContent = String(hours).padStart(2,'0');
     minutesEl.textContent = String(minutes).padStart(2,'0');
     secondsEl.textContent = String(seconds).padStart(2,'0');
-
-    // last minute dramatic glow
-    if(countdownDate - now < 60000) {
-      document.querySelector('.timer').style.textShadow = `
-        0 0 10px #ff0000,
-        0 0 20px #ff4500,
-        0 0 40px #ff6347,
-        0 0 80px #ff0000
-      `;
-    }
-
     if(countdownDate - now <= 0) {
       clearInterval(interval);
-      document.querySelector('.timer').innerHTML = "<div class='big'>💥 BOOM 💥</div>";
+      document.querySelector('.timer').innerHTML = "<div class='big'>Market Closed: Time to Pay Up!</div>";
     }
   }, 1000);
-
-  // ===== Auto-score =====
+  // Auto-score
   function updateScores() {
     const getScore = (player) => {
       const section = document.querySelector(`[data-player="${player}"]`);
@@ -290,8 +239,7 @@
     document.getElementById("score-morris").textContent = getScore("Morris");
   }
   updateScores();
-
-  // ===== Updated timestamp =====
+  // Updated timestamp
   function updateTime() {
     const el = document.getElementById("updated");
     if(!el) return;
@@ -299,6 +247,18 @@
     el.textContent = "Updated: "+now.toLocaleString("en-GB",{weekday:"short",year:"numeric",month:"short",day:"numeric",hour:"2-digit",minute:"2-digit",second:"2-digit"});
   }
   updateTime();
+  // Trash Talk Generator
+  const trashTalks = [
+    "Looks like Sean's portfolio is tanking—better luck next apocalypse!",
+    "Maurice is flipping fate like a pro. Sean, time to hedge your bets?",
+    "Bad luck streak? Nah, just 'strategic diversification' failing spectacularly.",
+    "If this were stocks, we'd both be bankrupt. Good thing it's just fun!",
+    "One more crash and the winner buys the loser a sympathy beer."
+  ];
+  document.getElementById('trash-btn').addEventListener('click', () => {
+    const randomTalk = trashTalks[Math.floor(Math.random() * trashTalks.length)];
+    document.getElementById('trash-output').textContent = randomTalk;
+  });
 </script>
 </body>
 </html>
