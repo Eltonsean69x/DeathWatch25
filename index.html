@@ -4,8 +4,8 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Bad luck Bingo 2025 — Sean vs Maurice</title>
-  <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Creepster&family=Cinzel:wght@400;700&display=swap" rel="stylesheet">
+  <!-- Keeping your spooky yet fun fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Creepster&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&display=swap" rel="stylesheet">
   <style>
     :root {
@@ -22,248 +22,256 @@
     body {
       margin: 0;
       background:
+        linear-gradient(to top, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0) 55%),
         url("graveyard.png") repeat-x bottom,
+        url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0%200%201200%20200"><g fill="%23000000" fill-opacity="0.95"><rect x="0" y="140" width="1200" height="60"/><rect x="60" y="100" width="40" height="40" rx="6"/><rect x="150" y="80" width="60" height="60" rx="10"/><rect x="260" y="110" width="30" height="30" rx="5"/><rect x="340" y="90" width="50" height="50" rx="8"/><rect x="430" y="120" width="20" height="20" rx="4"/><rect x="500" y="85" width="45" height="60" rx="8"/><rect x="600" y="110" width="25" height="30" rx="4"/><rect x="700" y="95" width="50" height="55" rx="8"/><rect x="800" y="120" width="30" height="30" rx="4"/><rect x="900" y="100" width="40" height="40" rx="6"/><rect x="1010" y="85" width="60" height="60" rx="10"/></g></svg>') repeat-x bottom,
         radial-gradient(1200px 600px at 20% -10%, #15172a 0%, var(--bg) 60%);
-      background-size: auto 200px, cover;
+      background-size: auto 220px, auto 220px, cover;
       background-attachment: fixed;
+      image-rendering: auto;
       color: var(--text);
       font: 16px/1.45 system-ui, -apple-system, "Segoe UI", Roboto, Ubuntu, Cantarell,
             "Noto Sans", "Helvetica Neue", Arial, "Apple Color Emoji", "Segoe UI Emoji";
     }
     .wrap { max-width: 980px; margin: 0 auto; padding: 24px; }
-    header { display: grid; gap: 16px; align-items: center; justify-items: center; }
-    h1 { margin: 0; font-size: clamp(24px, 4vw, 36px); font-family: 'Creepster', cursive; letter-spacing: 0.3px; text-shadow: 2px 2px 6px #000; }
+    header { display: grid; gap: 12px; align-items: center; justify-items: center; }
+    h1 { margin: 0; font-family: "Creepster", cursive; font-size: clamp(28px,5vw,44px); letter-spacing: 1px; color: #ffdede; text-shadow: 0 6px 18px rgba(0,0,0,0.6), 0 0 6px rgba(255,60,60,0.12); }
     .sub { color: var(--muted); font-size: 14px; }
-
-    /* ===== Tombstone scoreboard ===== */
     .board {
       margin-top: 18px;
       display: grid; gap: 16px;
       grid-template-columns: repeat(3, minmax(0, 1fr));
       width: 100%;
     }
-    .tomb {
-      background: url("tombstone.png") no-repeat center/contain;
-      aspect-ratio: 3 / 4;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      color: #ddd;
-      text-shadow: 1px 1px 4px #000;
-      font-family: 'Cinzel', serif;
-      padding: 10px;
-    }
-    .tomb .name { font-weight: 600; font-size: 18px; margin-bottom: 6px; }
-    .tomb .num {
-      font-size: 36px; font-weight: 800; letter-spacing: -1px;
-      text-shadow: 2px 2px 6px #000;
-    }
-    .num.ok { color: #9be79b; }
-    .num.bad { color: #ff7c7c; }
-
-    /* Timer styled like a clock slab */
-    .timer {
-      background: var(--card);
-      border: 2px solid var(--border);
-      border-radius: 12px;
-      text-align: center;
-      padding: 16px;
-      font-family: 'Cinzel', serif;
-      box-shadow: inset 0 0 10px rgba(0,0,0,0.6);
-    }
-    .timer .big { font-variant-numeric: tabular-nums; font-size: 26px; font-weight: 700; }
-    .timer .label { color: var(--muted); font-size: 13px; }
-
-    /* ===== Cards for player picks ===== */
-    .grid {
-      margin-top: 22px;
-      display: grid; gap: 16px;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
-    .card {
-      background: var(--card);
+    .tile {
+      background: linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02));
       border: 1px solid var(--border);
       border-radius: 16px;
-      padding: 16px;
+      padding: 18px;
+      box-shadow: 0 10px 20px rgba(0,0,0,0.35);
+      min-height: 84px;
     }
-    .card h2 { margin: 0 0 8px 0; font-size: 18px; font-family: 'Cinzel', serif; color: var(--accent); }
-    ul { list-style: none; padding: 0; margin: 8px 0 0 0; display: grid; gap: 8px; }
-    li {
-      background: rgba(255,255,255,0.03);
-      padding: 10px 12px;
-      border-radius: 12px;
-      border: 1px solid var(--border);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 10px;
-      font-family: 'Cinzel', serif;
-      text-shadow: 1px 1px 2px #000;
+    /* Enhanced scoreboard with weathered tombstones */
+    .score {
+      display: flex; align-items: center; justify-content: center;
+      position: relative; width: 100%; height: 100%;
     }
-    li .who { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-    li.hit .who { text-decoration: line-through; color: var(--danger); text-shadow: 0 0 6px #ff0000, 0 0 10px #660000; }
-    .tag { font-size: 12px; padding: 2px 8px; border-radius: 999px; border: 1px solid var(--border); }
-    .tag.alive { color: var(--muted); }
-    .tag.dead { color: var(--danger); border-color: rgba(239,68,68,0.4); }
-    .footer { margin-top: 22px; display: grid; gap: 8px; justify-items: center; color: var(--muted); font-size: 13px; }
-    .tiny { font-size: 12px; color: var(--muted); }
+    .tombstone {
+      position: relative; width: 160px; height: 200px;
+      background: linear-gradient(135deg, #5c4033 0%, #3b2f23 70%, #2c2118 100%);
+      border: 5px solid #4a3627;
+      border-radius: 12px 12px 60px 12px;
+      text-align: center;
+      padding-top: 40px;
+      color: #fff;
+      font-family: 'Creepster', cursive;
+      font-size: 22px;
+      text-shadow: 3px 3px 6px rgba(0,0,0,0.8);
+      box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+      transform: rotate(-2deg); /* Slight tilt for character */
+      background-image: linear-gradient(45deg, rgba(0,0,0,0.2) 25%, transparent 25%, transparent 75%, rgba(0,0,0,0.2) 75%, rgba(0,0,0,0.2)), linear-gradient(45deg, rgba(0,0,0,0.2) 25%, transparent 25%, transparent 75%, rgba(0,0,0,0.2) 75%, rgba(0,0,0,0.2));
+      background-size: 20px 20px;
+    }
+    .tombstone:before {
+      content: ""; position: absolute; top: -20px; left: 50%; transform: translateX(-50%);
+      width: 0; height: 0; border-left: 25px solid transparent; border-right: 25px solid transparent;
+      border-bottom: 20px solid #4a3627;
+    }
+    .tombstone .name { font-size: 18px; color: #d1a074; margin-bottom: 8px; }
+    .tombstone .num { font-size: 40px; }
+    .num.ok { color: var(--ok); text-shadow: 0 0 8px rgba(22,163,74,0.5); }
+    .num.bad { color: var(--danger); text-shadow: 0 0 8px rgba(239,68,68,0.5); }
+    /* Enhanced timer with stone archway */
+    .timer {
+      font-family: 'Orbitron', monospace;
+      color: #ff4500;
+      text-align: center;
+      font-size: 40px;
+      font-weight: 700;
+      text-shadow: 0 0 5px rgba(255,69,0,0.3);
+      padding: 15px 20px;
+      background: linear-gradient(to bottom, #2c2118, #3b2f23);
+      border-radius: 10px;
+      border: 3px solid #4a3627;
+      position: relative;
+      overflow: hidden;
+    }
+    .timer:before, .timer:after {
+      content: ""; position: absolute; top: -10px; width: 120%; height: 20px;
+      background: linear-gradient(45deg, #4a3627 0%, #5c4033 100%);
+      transform: rotate(5deg);
+      z-index: -1;
+    }
+    .timer:before { left: -10%; }
+    .timer:after { right: -10%; transform: rotate(-5deg); }
+    .timer div { display: inline-block; margin: 0 6px; }
+    .timer .separator { color: #a94400; opacity: 0.9; }
+    /* Lists with aligned status and icons */
+    .grid { margin-top: 22px; display: grid; gap: 16px; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .card { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 16px; }
+    .card h2 { margin: 0 0 8px 0; font-size: 18px; color: var(--accent); }
+    ul { list-style:none; padding:0; margin:8px 0 0 0; display:grid; gap:8px;}
+    li { background: rgba(255,255,255,0.03); padding:10px 12px; border-radius:12px; border:1px solid var(--border); display:flex; align-items:center; justify-content:space-between; gap:10px;}
+    li .who { flex: 1; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+    li.hit .who { text-decoration: line-through; color: var(--danger); }
+    li .status { display: flex; align-items: center; justify-content: flex-end; gap: 5px; }
+    .tag.alive { color: var(--ok); }
+    .tag.dead { color: var(--danger); }
+    li .icon { font-size: 16px; }
+    .footer { margin-top: 22px; display:grid; gap:8px; justify-items:center; color:var(--muted); font-size:13px; }
+    .tiny { font-size:12px; color:var(--muted); }
+    @media(max-width:700px){.board{grid-template-columns:1fr;}.grid{grid-template-columns:1fr;}.timer{font-size:28px;}}
 
-    @media (max-width: 700px) {
-      .board { grid-template-columns: 1fr; }
-      .grid { grid-template-columns: 1fr; }
-      .timer .big { font-size: 22px; }
-    }
   </style>
 </head>
 <body>
-  <div class="wrap">
-    <header>
-      <h1>Celebrity Death Bingo 2025!! — Sean vs Morris</h1>
-      <div class="sub">Dark-humour scoreboard for two consenting adults. No real malice intended.</div>
-      <section class="board">
-        <div class="tomb" aria-live="polite">
-          <div class="name">Sean</div>
-          <div id="score-sean" class="num ok">0</div>
-        </div>
-        <div class="timer">
-          <div class="label">Time left</div>
-          <div id="countdown" class="big">—</div>
-          <div class="tiny">Ends at 00:00 on 1 Jan 2026 (Europe/Dublin)</div>
-        </div>
-        <div class="tomb" aria-live="polite">
-          <div class="name">Morris</div>
-          <div id="score-morris" class="num bad">0</div>
-        </div>
-      </section>
-    </header>
-
-    <main class="grid">
-      <!-- Sean’s Picks -->
-      <section class="card" data-player="Sean">
-        <h2>Sean’s Picks</h2>
-        <ul>
-          <li data-hit="0"><span class="who">David Attenborough</span><span class="tag alive">Alive</span></li>
-          <li data-hit="0"><span class="who">Bruce Willis</span><span class="tag alive">Alive</span></li>
-          <li data-hit="1" class="hit"><span class="who">Ozzy Osbourne</span><span class="tag dead">Dead</span></li>
-          <li data-hit="0"><span class="who">Charlie Sheen</span><span class="tag alive">Alive</span></li>
-          <li data-hit="0"><span class="who">Gerard Depardieu</span><span class="tag alive">Alive</span></li>
-          <li data-hit="0"><span class="who">Richie Blackmore</span><span class="tag alive">Alive</span></li>
-          <li data-hit="0"><span class="who">Mick Fleetwood</span><span class="tag alive">Alive</span></li>
-          <li data-hit="0"><span class="who">Anthony Hopkins</span><span class="tag alive">Alive</span></li>
-          <li data-hit="1" class="hit"><span class="who">Val Kilmer</span><span class="tag dead">Dead</span></li>
-          <li data-hit="0"><span class="who">Michael York</span><span class="tag alive">Alive</span></li>
-          <li data-hit="0"><span class="who">Yoko Ono</span><span class="tag alive">Alive</span></li>
-          <li data-hit="0"><span class="who">Joni Mitchell</span><span class="tag alive">Alive</span></li>
-          <li data-hit="0"><span class="who">Noddy Holder</span><span class="tag alive">Alive</span></li>
-          <li data-hit="0"><span class="who">Brian Blessed</span><span class="tag alive">Alive</span></li>
-          <li data-hit="0"><span class="who">Robert Wagner</span><span class="tag alive">Alive</span></li>
-          <li data-hit="0"><span class="who">Tim Curry</span><span class="tag alive">Alive</span></li>
-          <li data-hit="0"><span class="who">James Van Der Beek</span><span class="tag alive">Alive</span></li>
-          <li data-hit="0"><span class="who">Britney Spears</span><span class="tag alive">Alive</span></li>
-          <li data-hit="1" class="hit"><span class="who">Marianne Faithful</span><span class="tag dead">Dead</span></li>
-          <li data-hit="0"><span class="who">Joe Pesci</span><span class="tag alive">Alive</span></li>
-          <li data-hit="0"><span class="who">Billy Connolly</span><span class="tag alive">Alive</span></li>
-          <li data-hit="0"><span class="who">Ian McKellen</span><span class="tag alive">Alive</span></li>
-          <li data-hit="0"><span class="who">Buzz Aldrin</span><span class="tag alive">Alive</span></li>
-          <li data-hit="0"><span class="who">Shirley MacLaine</span><span class="tag alive">Alive</span></li>
-          <li data-hit="0"><span class="who">Queen Camilla</span><span class="tag alive">Alive</span></li>
-          <li data-hit="0"><span class="who">Ron Wood</span><span class="tag alive">Alive</span></li>
-          <li data-hit="0"><span class="who">Robert Duvall</span><span class="tag alive">Alive</span></li>
-          <li data-hit="0"><span class="who">Jack Nicholson</span><span class="tag alive">Alive</span></li>
-          <li data-hit="0"><span class="who">Eamon Holmes</span><span class="tag alive">Alive</span></li>
-          <li data-hit="0"><span class="who">Michael Douglas</span><span class="tag alive">Alive</span></li>
-        </ul>
-      </section>
-
-      <!-- Morris’s Picks -->
-      <section class="card" data-player="Morris">
-        <h2>Maurice’s Picks</h2>
-        <ul>
-          <li data-hit="1" class="hit"><span class="who">Ruby Druce</span><span class="tag dead">Dead</span></li>
-          <li data-hit="0"><span class="who">Billy Connolly</span><span class="tag alive">Alive</span></li>
-          <li data-hit="0"><span class="who">Julie Andrews</span><span class="tag alive">Alive</span></li>
-          <li data-hit="1" class="hit"><span class="who">Giorgio Armani</span><span class="tag dead">Dead</span></li>
-          <li data-hit="0"><span class="who">Pat Buchanan</span><span class="tag alive">Alive</span></li>
-          <li data-hit="0"><span class="who">Carol Burnett</span><span class="tag alive">Alive</span></li>
-          <li data-hit="0"><span class="who">Joan Collins</span><span class="tag alive">Alive</span></li>
-          <li data-hit="0"><span class="who">Bill Cosby</span><span class="tag alive">Alive</span></li>
-          <li data-hit="0"><span class="who">Noam Chomsky</span><span class="tag alive">Alive</span></li>
-          <li data-hit="0"><span class="who">Cleo Laine</span><span class="tag alive">Alive</span></li>
-          <li data-hit="0"><span class="who">Yoko Ono</span><span class="tag alive">Alive</span></li>
-          <li data-hit="1" class="hit"><span class="who">Gene Hackman</span><span class="tag dead">Dead</span></li>
-          <li data-hit="0"><span class="who">Rupert Murdoch</span><span class="tag alive">Alive</span></li>
-          <li data-hit="0"><span class="who">Michael Caine</span><span class="tag alive">Alive</span></li>
-          <li data-hit="0"><span class="who">Juan Carlos I</span><span class="tag alive">Alive</span></li>
-          <li data-hit="0"><span class="who">Raul Castro</span><span class="tag alive">Alive</span></li>
-          <li data-hit="0"><span class="who">George Soros</span><span class="tag alive">Alive</span></li>
-          <li data-hit="1" class="hit"><span class="who">Roberta Flack</span><span class="tag dead">Dead</span></li>
-          <li data-hit="0"><span class="who">Kim Novak</span><span class="tag alive">Alive</span></li>
-          <li data-hit="0"><span class="who">Willie Nelson</span><span class="tag alive">Alive</span></li>
-          <li data-hit="0"><span class="who">William Shatner</span><span class="tag alive">Alive</span></li>
-          <li data-hit="0"><span class="who">Dalai Lama</span><span class="tag alive">Alive</span></li>
-          <li data-hit="1" class="hit"><span class="who">Pape Francois I</span><span class="tag dead">Dead</span></li>
-          <li data-hit="0"><span class="who">Clint Eastwood</span><span class="tag alive">Alive</span></li>
-          <li data-hit="0"><span class="who">Mel Brooks</span><span class="tag alive">Alive</span></li>
-          <li data-hit="0"><span class="who">Judi Dench</span><span class="tag alive">Alive</span></li>
-          <li data-hit="0"><span class="who">Morgan Freeman</span><span class="tag alive">Alive</span></li>
-          <li data-hit="0"><span class="who">Daniel O Donnell</span><span class="tag alive">Alive</span></li>
-          <li data-hit="0"><span class="who">Arnold Schwarzenegger</span><span class="tag alive">Alive</span></li>
-          <li data-hit="0"><span class="who">Simon Harris</span><span class="tag alive">Alive</span></li>
-        </ul>
-      </section>
-    </main>
-
-    <div class="footer">
-      <div id="updated" class="tiny"></div>
-      <div class="tiny">Tip: Press <kbd>Ctrl</kbd>/<kbd>Cmd</kbd> + <kbd>Shift</kbd> + <kbd>R</kbd> to hard-refresh if changes don't appear right away.</div>
+<div class="wrap">
+<header>
+<h1>Bad luck Bingo 2025 — Sean vs Maurice</h1>
+<div class="sub">Two pals betting on bad luck. All fun, no foul play intended.</div>
+<section class="board">
+  <div class="tile score">
+    <div class="tombstone">
+      <div class="name">Sean</div>
+      <div id="score-sean" class="num ok">0</div>
     </div>
   </div>
-
-  <script>
-    const TARGET_ISO = "2026-01-01T00:00:00+00:00";
-    const target = new Date(TARGET_ISO).getTime();
-    function fmt(n) { return String(n).padStart(2, "0"); }
-    function tick() {
-      const now = Date.now();
-      let delta = Math.max(0, target - now);
-      const d = Math.floor(delta / (1000*60*60*24));
-      delta -= d * 24*60*60*1000;
-      const h = Math.floor(delta / (1000*60*60));
-      delta -= h * 60*60*1000;
-      const m = Math.floor(delta / (1000*60));
-      delta -= m * 60*1000;
-      const s = Math.floor(delta / 1000);
-      document.getElementById("countdown").textContent =
-        `${d}d ${fmt(h)}h ${fmt(m)}m ${fmt(s)}s`;
+  <div class="tile timer">
+    <div id="days">00</div><span class="separator">:</span>
+    <div id="hours">00</div><span class="separator">:</span>
+    <div id="minutes">00</div><span class="separator">:</span>
+    <div id="seconds">00</div>
+  </div>
+  <div class="tile score">
+    <div class="tombstone">
+      <div class="name">Maurice</div>
+      <div id="score-morris" class="num bad">0</div>
+    </div>
+  </div>
+</section>
+</header>
+<main class="grid">
+<section class="card" data-player="Sean">
+<h2>Sean’s Picks</h2>
+<ul>
+<li data-hit="0"><span class="who">David Attenborough</span><span class="status"><span class="icon">❤️</span><span class="tag alive">Alive</span></span></li>
+<li data-hit="0"><span class="who">Bruce Willis</span><span class="status"><span class="icon">❤️</span><span class="tag alive">Alive</span></span></li>
+<li data-hit="1" class="hit"><span class="who">Ozzy Osbourne</span><span class="status"><span class="icon">☠</span><span class="tag dead">Dead</span></span></li>
+<li data-hit="0"><span class="who">Charlie Sheen</span><span class="status"><span class="icon">❤️</span><span class="tag alive">Alive</span></span></li>
+<li data-hit="0"><span class="who">Gerard Depardieu</span><span class="status"><span class="icon">❤️</span><span class="tag alive">Alive</span></span></li>
+<li data-hit="0"><span class="who">Richie Blackmore</span><span class="status"><span class="icon">❤️</span><span class="tag alive">Alive</span></span></li>
+<li data-hit="0"><span class="who">Mick Fleetwood</span><span class="status"><span class="icon">❤️</span><span class="tag alive">Alive</span></span></li>
+<li data-hit="0"><span class="who">Anthony Hopkins</span><span class="status"><span class="icon">❤️</span><span class="tag alive">Alive</span></span></li>
+<li data-hit="1" class="hit"><span class="who">Val Kilmer</span><span class="status"><span class="icon">☠</span><span class="tag dead">Dead</span></span></li>
+<li data-hit="0"><span class="who">Michael York</span><span class="status"><span class="icon">❤️</span><span class="tag alive">Alive</span></span></li>
+<li data-hit="0"><span class="who">Yoko Ono</span><span class="status"><span class="icon">❤️</span><span class="tag alive">Alive</span></span></li>
+<li data-hit="0"><span class="who">Joni Mitchell</span><span class="status"><span class="icon">❤️</span><span class="tag alive">Alive</span></span></li>
+<li data-hit="0"><span class="who">Noddy Holder</span><span class="status"><span class="icon">❤️</span><span class="tag alive">Alive</span></span></li>
+<li data-hit="0"><span class="who">Brian Blessed</span><span class="status"><span class="icon">❤️</span><span class="tag alive">Alive</span></span></li>
+<li data-hit="0"><span class="who">Robert Wagner</span><span class="status"><span class="icon">❤️</span><span class="tag alive">Alive</span></span></li>
+<li data-hit="0"><span class="who">Tim Curry</span><span class="status"><span class="icon">❤️</span><span class="tag alive">Alive</span></span></li>
+<li data-hit="0"><span class="who">James Van Der Beek</span><span class="status"><span class="icon">❤️</span><span class="tag alive">Alive</span></span></li>
+<li data-hit="0"><span class="who">Britney Spears</span><span class="status"><span class="icon">❤️</span><span class="tag alive">Alive</span></span></li>
+<li data-hit="1" class="hit"><span class="who">Marianne Faithful</span><span class="status"><span class="icon">☠</span><span class="tag dead">Dead</span></span></li>
+<li data-hit="0"><span class="who">Joe Pesci</span><span class="status"><span class="icon">❤️</span><span class="tag alive">Alive</span></span></li>
+<li data-hit="0"><span class="who">Billy Connolly</span><span class="status"><span class="icon">❤️</span><span class="tag alive">Alive</span></span></li>
+<li data-hit="0"><span class="who">Ian McKellen</span><span class="status"><span class="icon">❤️</span><span class="tag alive">Alive</span></span></li>
+<li data-hit="0"><span class="who">Buzz Aldrin</span><span class="status"><span class="icon">❤️</span><span class="tag alive">Alive</span></span></li>
+<li data-hit="0"><span class="who">Shirley MacLaine</span><span class="status"><span class="icon">❤️</span><span class="tag alive">Alive</span></span></li>
+<li data-hit="0"><span class="who">Queen Camilla</span><span class="status"><span class="icon">❤️</span><span class="tag alive">Alive</span></span></li>
+<li data-hit="0"><span class="who">Ron Wood</span><span class="status"><span class="icon">❤️</span><span class="tag alive">Alive</span></span></li>
+<li data-hit="0"><span class="who">Robert Duvall</span><span class="status"><span class="icon">❤️</span><span class="tag alive">Alive</span></span></li>
+<li data-hit="0"><span class="who">Jack Nicholson</span><span class="status"><span class="icon">❤️</span><span class="tag alive">Alive</span></span></li>
+<li data-hit="0"><span class="who">Eamon Holmes</span><span class="status"><span class="icon">❤️</span><span class="tag alive">Alive</span></span></li>
+<li data-hit="0"><span class="who">Michael Douglas</span><span class="status"><span class="icon">❤️</span><span class="tag alive">Alive</span></span></li>
+</ul>
+</section>
+<section class="card" data-player="Morris">
+<h2>Maurice’s Picks</h2>
+<ul>
+<li data-hit="1" class="hit"><span class="who">Ruby Druce</span><span class="status"><span class="icon">☠</span><span class="tag dead">Dead</span></span></li>
+<li data-hit="0"><span class="who">Billy Connolly</span><span class="status"><span class="icon">❤️</span><span class="tag alive">Alive</span></span></li>
+<li data-hit="0"><span class="who">Julie Andrews</span><span class="status"><span class="icon">❤️</span><span class="tag alive">Alive</span></span></li>
+<li data-hit="1" class="hit"><span class="who">Giorgio Armani</span><span class="status"><span class="icon">☠</span><span class="tag dead">Dead</span></span></li>
+<li data-hit="0"><span class="who">Pat Buchanan</span><span class="status"><span class="icon">❤️</span><span class="tag alive">Alive</span></span></li>
+<li data-hit="0"><span class="who">Carol Burnett</span><span class="status"><span class="icon">❤️</span><span class="tag alive">Alive</span></span></li>
+<li data-hit="0"><span class="who">Joan Collins</span><span class="status"><span class="icon">❤️</span><span class="tag alive">Alive</span></span></li>
+<li data-hit="0"><span class="who">Bill Cosby</span><span class="status"><span class="icon">❤️</span><span class="tag alive">Alive</span></span></li>
+<li data-hit="0"><span class="who">Noam Chomsky</span><span class="status"><span class="icon">❤️</span><span class="tag alive">Alive</span></span></li>
+<li data-hit="0"><span class="who">Cleo Laine</span><span class="status"><span class="icon">❤️</span><span class="tag alive">Alive</span></span></li>
+<li data-hit="0"><span class="who">Yoko Ono</span><span class="status"><span class="icon">❤️</span><span class="tag alive">Alive</span></span></li>
+<li data-hit="1" class="hit"><span class="who">Gene Hackman</span><span class="status"><span class="icon">☠</span><span class="tag dead">Dead</span></span></li>
+<li data-hit="0"><span class="who">Rupert Murdoch</span><span class="status"><span class="icon">❤️</span><span class="tag alive">Alive</span></span></li>
+<li data-hit="0"><span class="who">Michael Caine</span><span class="status"><span class="icon">❤️</span><span class="tag alive">Alive</span></span></li>
+<li data-hit="0"><span class="who">Juan Carlos I</span><span class="status"><span class="icon">❤️</span><span class="tag alive">Alive</span></span></li>
+<li data-hit="0"><span class="who">Raul Castro</span><span class="status"><span class="icon">❤️</span><span class="tag alive">Alive</span></span></li>
+<li data-hit="0"><span class="who">George Soros</span><span class="status"><span class="icon">❤️</span><span class="tag alive">Alive</span></span></li>
+<li data-hit="1" class="hit"><span class="who">Roberta Flack</span><span class="status"><span class="icon">☠</span><span class="tag dead">Dead</span></span></li>
+<li data-hit="0"><span class="who">Kim Novak</span><span class="status"><span class="icon">❤️</span><span class="tag alive">Alive</span></span></li>
+<li data-hit="0"><span class="who">Willie Nelson</span><span class="status"><span class="icon">❤️</span><span class="tag alive">Alive</span></span></li>
+<li data-hit="0"><span class="who">William Shatner</span><span class="status"><span class="icon">❤️</span><span class="tag alive">Alive</span></span></li>
+<li data-hit="0"><span class="who">Dalai Lama</span><span class="status"><span class="icon">❤️</span><span class="tag alive">Alive</span></span></li>
+<li data-hit="1" class="hit"><span class="who">Pape Francois I</span><span class="status"><span class="icon">☠</span><span class="tag dead">Dead</span></span></li>
+<li data-hit="0"><span class="who">Clint Eastwood</span><span class="status"><span class="icon">❤️</span><span class="tag alive">Alive</span></span></li>
+<li data-hit="0"><span class="who">Mel Brooks</span><span class="status"><span class="icon">❤️</span><span class="tag alive">Alive</span></span></li>
+<li data-hit="0"><span class="who">Judi Dench</span><span class="status"><span class="icon">❤️</span><span class="tag alive">Alive</span></span></li>
+<li data-hit="0"><span class="who">Morgan Freeman</span><span class="status"><span class="icon">❤️</span><span class="tag alive">Alive</span></span></li>
+<li data-hit="0"><span class="who">Daniel O Donnell</span><span class="status"><span class="icon">❤️</span><span class="tag alive">Alive</span></span></li>
+<li data-hit="0"><span class="who">Arnold Schwarzenegger</span><span class="status"><span class="icon">❤️</span><span class="tag alive">Alive</span></span></li>
+<li data-hit="0"><span class="who">Simon Harris</span><span class="status"><span class="icon">❤️</span><span class="tag alive">Alive</span></span></li>
+</ul>
+</section>
+</main>
+<div class="footer">
+  <div id="updated" class="tiny"></div>
+  <div class="tiny">Tip: Press <kbd>Ctrl</kbd>/<kbd>Cmd</kbd> + <kbd>Shift</kbd> + <kbd>R</kbd> to hard-refresh if changes don’t appear right away.</div>
+</div>
+</div>
+<script>
+  // Countdown Timer (adjusted for IST, Sep 13, 2025, ~5:18 PM)
+  const countdownDate = new Date("Jan 1, 2026 00:00:00 GMT+0530").getTime();
+  const daysEl = document.getElementById("days");
+  const hoursEl = document.getElementById("hours");
+  const minutesEl = document.getElementById("minutes");
+  const secondsEl = document.getElementById("seconds");
+  const interval = setInterval(() => {
+    const now = new Date().getTime();
+    let distance = countdownDate - now;
+    const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+    distance -= days * 1000 * 60 * 60 * 24;
+    const hours = Math.floor(distance / (1000 * 60 * 60));
+    distance -= hours * 1000 * 60 * 60;
+    const minutes = Math.floor(distance / (1000 * 60));
+    distance -= minutes * 1000 * 60;
+    const seconds = Math.floor(distance / 1000);
+    daysEl.textContent = String(days).padStart(2, '0');
+    hoursEl.textContent = String(hours).padStart(2, '0');
+    minutesEl.textContent = String(minutes).padStart(2, '0');
+    secondsEl.textContent = String(seconds).padStart(2, '0');
+    if (distance <= 0) {
+      clearInterval(interval);
+      document.querySelector('.timer').innerHTML = "<div>Game Over: Crown the Cadaver King!</div>";
     }
-    tick();
-    setInterval(tick, 1000);
-
-    function updateScores() {
-      const getScore = (player) => {
-        const section = document.querySelector(`[data-player="${player}"]`);
-        if (!section) return 0;
-        return section.querySelectorAll('li[data-hit="1"], li.hit').length;
-      };
-      const sean = getScore("Sean");
-      const morris = getScore("Morris");
-      const sEl = document.getElementById("score-sean");
-      const mEl = document.getElementById("score-morris");
-      sEl.textContent = sean;
-      mEl.textContent = morris;
-      sEl.classList.toggle('ok', sean >= morris);
-      sEl.classList.toggle('bad', sean < morris);
-      mEl.classList.toggle('ok', morris > sean);
-      mEl.classList.toggle('bad', morris <= sean);
-    }
-    updateScores();
-
-    const updated = document.getElementById('updated');
-    if (updated) {
-      const dt = new Date(document.lastModified);
-      updated.textContent = `Last updated: ${dt.toLocaleString(undefined, {dateStyle: 'medium', timeStyle: 'short'})}`;
-    }
-  </script>
+  }, 1000);
+  // Auto-score
+  function updateScores() {
+    const getScore = (player) => {
+      const section = document.querySelector(`[data-player="${player}"]`);
+      if (!section) return 0;
+      return section.querySelectorAll('li[data-hit="1"], li.hit').length;
+    };
+    document.getElementById("score-sean").textContent = getScore("Sean");
+    document.getElementById("score-morris").textContent = getScore("Morris");
+  }
+  updateScores();
+  // Updated timestamp
+  function updateTime() {
+    const el = document.getElementById("updated");
+    if (!el) return;
+    const now = new Date();
+    el.textContent = "Updated: " + now.toLocaleString("en-GB", { weekday: "short", year: "numeric", month: "short", day: "numeric", hour: "2-digit", minute: "2-digit", second: "2-digit" });
+  }
+  updateTime();
+</script>
 </body>
 </html>
