@@ -51,7 +51,7 @@
       box-shadow: 0 10px 20px rgba(0,0,0,0.35);
       min-height: 84px;
     }
-    /* Enhanced scoreboard with weathered tombstones */
+    /* Tombstones */
     .score {
       display: flex; align-items: center; justify-content: center;
       position: relative; width: 100%; height: 100%;
@@ -68,9 +68,7 @@
       font-size: 22px;
       text-shadow: 3px 3px 6px rgba(0,0,0,0.8);
       box-shadow: 0 10px 25px rgba(0,0,0,0.5);
-      transform: rotate(-2deg); /* Slight tilt for character */
-      background-image: linear-gradient(45deg, rgba(0,0,0,0.2) 25%, transparent 25%, transparent 75%, rgba(0,0,0,0.2) 75%, rgba(0,0,0,0.2)), linear-gradient(45deg, rgba(0,0,0,0.2) 25%, transparent 25%, transparent 75%, rgba(0,0,0,0.2) 75%, rgba(0,0,0,0.2));
-      background-size: 20px 20px;
+      transform: rotate(-2deg);
     }
     .tombstone:before {
       content: ""; position: absolute; top: -20px; left: 50%; transform: translateX(-50%);
@@ -81,32 +79,27 @@
     .tombstone .num { font-size: 40px; }
     .num.ok { color: var(--ok); text-shadow: 0 0 8px rgba(22,163,74,0.5); }
     .num.bad { color: var(--danger); text-shadow: 0 0 8px rgba(239,68,68,0.5); }
-    /* Enhanced timer with stone archway */
+
+    /* NEW TIMER */
     .timer {
-      font-family: 'Orbitron', monospace;
-      color: #ff4500;
+      background: var(--card);
+      border: 2px solid var(--border);
+      border-radius: 12px;
       text-align: center;
-      font-size: 40px;
-      font-weight: 700;
-      text-shadow: 0 0 5px rgba(255,69,0,0.3);
-      padding: 15px 20px;
-      background: linear-gradient(to bottom, #2c2118, #3b2f23);
-      border-radius: 10px;
-      border: 3px solid #4a3627;
-      position: relative;
-      overflow: hidden;
+      padding: 16px;
+      font-family: 'Cinzel', serif;
+      box-shadow: inset 0 0 10px rgba(0,0,0,0.6);
     }
-    .timer:before, .timer:after {
-      content: ""; position: absolute; top: -10px; width: 120%; height: 20px;
-      background: linear-gradient(45deg, #4a3627 0%, #5c4033 100%);
-      transform: rotate(5deg);
-      z-index: -1;
+    .timer .big { 
+      font-variant-numeric: tabular-nums; 
+      font-size: 26px; 
+      font-weight: 700; 
     }
-    .timer:before { left: -10%; }
-    .timer:after { right: -10%; transform: rotate(-5deg); }
-    .timer div { display: inline-block; margin: 0 6px; }
-    .timer .separator { color: #a94400; opacity: 0.9; }
-    /* Lists with aligned status and icons */
+    .timer .label { 
+      color: var(--muted); 
+      font-size: 13px; 
+    }
+
     .grid { margin-top: 22px; display: grid; gap: 16px; grid-template-columns: repeat(2, minmax(0, 1fr)); }
     .card { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 16px; }
     .card h2 { margin: 0 0 8px 0; font-size: 18px; color: var(--accent); }
@@ -120,8 +113,7 @@
     li .icon { font-size: 16px; }
     .footer { margin-top: 22px; display:grid; gap:8px; justify-items:center; color:var(--muted); font-size:13px; }
     .tiny { font-size:12px; color:var(--muted); }
-    @media(max-width:700px){.board{grid-template-columns:1fr;}.grid{grid-template-columns:1fr;}.timer{font-size:28px;}}
-
+    @media(max-width:700px){.board{grid-template-columns:1fr;}.grid{grid-template-columns:1fr;}.timer .big{font-size:22px;}}
   </style>
 </head>
 <body>
@@ -136,12 +128,14 @@
       <div id="score-sean" class="num ok">0</div>
     </div>
   </div>
+
+  <!-- NEW TIMER HTML -->
   <div class="tile timer">
-    <div id="days">00</div><span class="separator">:</span>
-    <div id="hours">00</div><span class="separator">:</span>
-    <div id="minutes">00</div><span class="separator">:</span>
-    <div id="seconds">00</div>
+    <div class="label">Time left</div>
+    <div id="countdown" class="big">—</div>
+    <div class="tiny">Ends at 00:00 on 1 Jan 2026 (Europe/Dublin)</div>
   </div>
+
   <div class="tile score">
     <div class="tombstone">
       <div class="name">Maurice</div>
@@ -186,6 +180,7 @@
 <li data-hit="0"><span class="who">Michael Douglas</span><span class="status"><span class="icon">❤️</span><span class="tag alive">Alive</span></span></li>
 </ul>
 </section>
+
 <section class="card" data-player="Morris">
 <h2>Maurice’s Picks</h2>
 <ul>
@@ -228,31 +223,26 @@
 </div>
 </div>
 <script>
-  // Countdown Timer (adjusted for IST, Sep 13, 2025, ~5:18 PM)
-  const countdownDate = new Date("Jan 1, 2026 00:00:00 GMT+0530").getTime();
-  const daysEl = document.getElementById("days");
-  const hoursEl = document.getElementById("hours");
-  const minutesEl = document.getElementById("minutes");
-  const secondsEl = document.getElementById("seconds");
-  const interval = setInterval(() => {
-    const now = new Date().getTime();
-    let distance = countdownDate - now;
-    const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-    distance -= days * 1000 * 60 * 60 * 24;
-    const hours = Math.floor(distance / (1000 * 60 * 60));
-    distance -= hours * 1000 * 60 * 60;
-    const minutes = Math.floor(distance / (1000 * 60));
-    distance -= minutes * 1000 * 60;
-    const seconds = Math.floor(distance / 1000);
-    daysEl.textContent = String(days).padStart(2, '0');
-    hoursEl.textContent = String(hours).padStart(2, '0');
-    minutesEl.textContent = String(minutes).padStart(2, '0');
-    secondsEl.textContent = String(seconds).padStart(2, '0');
-    if (distance <= 0) {
-      clearInterval(interval);
-      document.querySelector('.timer').innerHTML = "<div>Game Over: Crown the Cadaver King!</div>";
-    }
-  }, 1000);
+  // NEW TIMER SCRIPT
+  const TARGET_ISO = "2026-01-01T00:00:00+00:00";
+  const target = new Date(TARGET_ISO).getTime();
+  function fmt(n) { return String(n).padStart(2, "0"); }
+  function tick() {
+    const now = Date.now();
+    let delta = Math.max(0, target - now);
+    const d = Math.floor(delta / (1000*60*60*24));
+    delta -= d * 24*60*60*1000;
+    const h = Math.floor(delta / (1000*60*60));
+    delta -= h * 60*60*1000;
+    const m = Math.floor(delta / (1000*60));
+    delta -= m * 60*1000;
+    const s = Math.floor(delta / 1000);
+    document.getElementById("countdown").textContent =
+      `${d}d ${fmt(h)}h ${fmt(m)}m ${fmt(s)}s`;
+  }
+  tick();
+  setInterval(tick, 1000);
+
   // Auto-score
   function updateScores() {
     const getScore = (player) => {
@@ -264,6 +254,7 @@
     document.getElementById("score-morris").textContent = getScore("Morris");
   }
   updateScores();
+
   // Updated timestamp
   function updateTime() {
     const el = document.getElementById("updated");
