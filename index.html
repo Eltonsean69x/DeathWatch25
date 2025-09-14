@@ -49,7 +49,7 @@
     }
     /* spooky scoreboard numbers */
     .score .num { 
-      /* --- spooky scoreboard style --- */
+/* --- spooky scoreboard style --- */
 .score h2 {
   font-family: 'Creepster', cursive;
   font-size: 22px;
@@ -58,7 +58,7 @@
   text-shadow: 0 2px 6px rgba(0,0,0,0.6);
 }
 
-/* Score numbers with glowing effect */
+/* Score numbers with pulsing neon glow and emoji */
 .score .num {
   font-family: 'Creepster', cursive;
   font-size: 36px;
@@ -66,30 +66,39 @@
   align-items: center;
   justify-content: center;
   gap: 6px;
-  text-shadow: 0 0 4px #000, 0 0 8px #000;
+  position: relative;
 }
 
-/* Sean's score spooky green glow */
+.score .num::before {
+  content: "🪦";
+  font-size: 24px;
+}
+
+/* Sean's score spooky green glow with pulse */
 #score-sean {
   color: #00ff00;
   text-shadow: 0 0 8px #00ff00, 0 0 16px #00ff00, 0 0 24px #00ff00;
+  animation: pulse-green 1.5s infinite alternate;
 }
 
-/* Maurice's score blood red glow */
+/* Maurice's score blood red glow with pulse */
 #score-morris {
   color: #ff3333;
   text-shadow: 0 0 8px #ff3333, 0 0 16px #ff3333, 0 0 24px #ff3333;
+  animation: pulse-red 1.5s infinite alternate;
 }
 
-      text-shadow: 0 2px 6px rgba(0,0,0,0.6);
-    }
+/* Animations for pulsing glow */
+@keyframes pulse-green {
+  0%, 100% { text-shadow: 0 0 8px #00ff00, 0 0 16px #00ff00, 0 0 24px #00ff00; }
+  50% { text-shadow: 0 0 16px #00ff00, 0 0 32px #00ff00, 0 0 48px #00ff00; }
+}
 
-    .score .num {
-      font-family: 'Creepster', cursive;
-      font-size: 36px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
+@keyframes pulse-red {
+  0%, 100% { text-shadow: 0 0 8px #ff3333, 0 0 16px #ff3333, 0 0 24px #ff3333; }
+  50% { text-shadow: 0 0 16px #ff3333, 0 0 32px #ff3333, 0 0 48px #ff3333; }
+}
+
       gap: 6px;
     }
 
