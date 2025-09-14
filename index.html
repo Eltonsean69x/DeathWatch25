@@ -47,13 +47,28 @@
       padding: 18px;
       text-align: center;
     }
-    .score .num { font-size: 36px; font-weight: bold; }
-    .num.ok { color: var(--ok); }
-    .num.bad { color: var(--danger); }
-    .timer { font-family: 'Orbitron', sans-serif; font-size: 20px; }
-    .grid { margin-top: 22px; display: grid; gap: 16px; grid-template-columns: repeat(2, minmax(0, 1fr)); }
-    .card { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 16px; }
-    .card h2 { margin: 0 0 8px 0; font-size: 18px; color: var(--accent); }
+    .score .num { 
+  font-size: 36px; 
+  font-weight: bold; 
+  font-family: 'Creepster', cursive; /* spooky font */
+}
+
+/* keep original spooky colors for each score */
+#sean-score {
+  color: #00ff00; /* green */
+}
+
+#maurice-score {
+  color: #ff3333; /* red */
+}
+
+.num.ok { color: var(--ok); }
+.num.bad { color: var(--danger); }
+.timer { font-family: 'Orbitron', sans-serif; font-size: 20px; }
+.grid { margin-top: 22px; display: grid; gap: 16px; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.card { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 16px; }
+.card h2 { margin: 0 0 8px 0; font-size: 18px; color: var(--accent); }
+
     ul { list-style:none; padding:0; margin:8px 0 0 0; display:grid; gap:8px;}
     li { background: rgba(255,255,255,0.03); padding:10px 12px; border-radius:12px; border:1px solid var(--border); display:flex; align-items:center; justify-content:space-between; gap:10px;}
     li .who { flex: 1; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
