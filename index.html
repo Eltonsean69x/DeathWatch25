@@ -58,7 +58,7 @@
   text-shadow: 0 2px 6px rgba(0,0,0,0.6);
 }
 
-/* Score numbers with pulsing neon glow and emoji */
+/* Score numbers with glowing effect */
 .score .num {
   font-family: 'Creepster', cursive;
   font-size: 36px;
@@ -66,30 +66,21 @@
   align-items: center;
   justify-content: center;
   gap: 6px;
-  position: relative;
+  text-shadow: 0 0 4px #000, 0 0 8px #000;
 }
 
-.score .num::before {
-  content: "🪦";
-  font-size: 24px;
-}
-
-/* Sean's score spooky green glow with pulse */
+/* Sean's score spooky green glow */
 #score-sean {
   color: #00ff00;
   text-shadow: 0 0 8px #00ff00, 0 0 16px #00ff00, 0 0 24px #00ff00;
-  animation: pulse-green 1.5s infinite alternate;
 }
 
-/* Maurice's score blood red glow with pulse */
+/* Maurice's score blood red glow */
 #score-morris {
   color: #ff3333;
   text-shadow: 0 0 8px #ff3333, 0 0 16px #ff3333, 0 0 24px #ff3333;
-  animation: pulse-red 1.5s infinite alternate;
 }
 
-/* Animations for pulsing glow */
-@keyframes pulse-green {
   0%, 100% { text-shadow: 0 0 8px #00ff00, 0 0 16px #00ff00, 0 0 24px #00ff00; }
   50% { text-shadow: 0 0 16px #00ff00, 0 0 32px #00ff00, 0 0 48px #00ff00; }
 }
