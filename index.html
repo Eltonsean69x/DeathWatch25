@@ -1,165 +1,443 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Celebrity Death Bingo - Ceefax Style</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Bad luck Bingo 2025 — Sean vs Maurice (Ceefax)</title>
+
+  <!-- Teletext-like monospace font -->
   <link href="https://fonts.cdnfonts.com/css/mode-seven" rel="stylesheet">
+
   <style>
-    body {
-      background: black;
-      color: white;
-      font-family: 'ModeSeven', monospace;
-      margin: 0;
-      padding: 0;
-      line-height: 1.2;
-      font-size: 18px;
+    /* --- Basic teletext canvas --- */
+    :root{
+      --black: #000;
+      --white: #fff;
+      --red: #ff0000;
+      --green: #00ff00;
+      --yellow: #ffd800;
+      --blue: #0033aa;
+      --magenta: #ff00ff;
+      --cyan: #00ffff;
+      --ticker-height: 36px;
+      --page-width: 1100px;
     }
-    .header {
-      background: black;
-      color: yellow;
-      padding: 4px 8px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      border-bottom: 2px solid yellow;
+    html,body { height:100%; margin:0; background:var(--black); color:var(--white); font-family: 'ModeSeven', monospace; -webkit-font-smoothing: none; }
+    .container { max-width: var(--page-width); margin: 10px auto 60px; padding: 6px; }
+
+    /* Header like P302 bar */
+    .ceefax-header {
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      border: 3px solid var(--yellow);
+      padding:6px;
+      background: var(--black);
     }
-    .header .page {
-      color: white;
-    }
-    .title-bar {
-      background: yellow;
-      color: black;
-      text-align: center;
-      font-size: 26px;
+    .ceefax-left { display:flex; gap:12px; align-items:center; }
+    .page-num {
+      background: var(--blue);
+      color: var(--yellow);
+      padding:6px 10px;
+      border:3px solid var(--cyan);
       font-weight: bold;
-      padding: 4px;
+      font-size:20px;
     }
-    .content {
-      padding: 8px;
+    .service-title {
+      color: var(--yellow);
+      font-size:18px;
+      padding:4px 8px;
+      border:2px solid var(--yellow);
+      background:var(--black);
     }
-    .box {
-      background: blue;
-      color: white;
-      padding: 8px;
-      margin: 12px 0;
-      border: 2px solid cyan;
+    .clock { color: var(--cyan); font-size:18px; padding:4px 8px; border:2px solid var(--cyan); background:var(--black); }
+
+    /* Big title */
+    .title {
+      margin-top:8px;
+      background: var(--yellow);
+      color: var(--black);
+      padding:6px;
+      text-align:center;
+      font-size:28px;
+      border-left: 4px solid var(--blue);
+      border-right: 4px solid var(--blue);
     }
-    .scoreboard h2, .countdown h2 {
-      color: yellow;
-      margin: 0 0 6px;
+
+    /* Top blocks for scoreboard + countdown */
+    .top-row {
+      display:grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap:8px;
+      margin:12px 0;
     }
-    .player-list {
-      margin-top: 20px;
+    .block {
+      background: var(--black);
+      padding:10px;
+      border: 4px solid var(--blue);
+      min-height:78px;
+      display:flex;
+      flex-direction:column;
+      justify-content:center;
+      align-items:center;
     }
-    .player {
-      margin: 12px 0;
+    .block h2 { margin:0; font-size:18px; color:var(--yellow); padding:2px 6px; border-bottom:2px solid var(--yellow); width:100%; text-align:center; }
+    .score-num { font-size:36px; font-weight:bold; margin-top:6px; letter-spacing:2px; }
+
+    #score-sean { color: var(--green); }
+    #score-morris { color: var(--red); }
+
+    .timer-value { color: var(--cyan); font-size:20px; margin-top:6px; letter-spacing:1px; }
+
+    /* Two-column lists */
+    .lists {
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap:10px;
+      margin-top:8px;
     }
-    .player h3 {
-      background: red;
-      color: white;
-      padding: 4px;
-      margin: 0;
-      border: 2px solid yellow;
+
+    .list-card {
+      background:var(--black);
+      border: 4px solid var(--magenta);
+      padding:6px;
+      min-height: 480px;
     }
-    .player ul {
-      list-style: none;
-      margin: 0;
-      padding: 0;
-      background: black;
-      border: 2px solid red;
+    .list-header {
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:8px;
+      margin-bottom:6px;
     }
-    .player ul li {
-      padding: 2px 4px;
-      border-bottom: 1px solid #333;
+    .list-header h3 {
+      margin:0;
+      background: var(--blue);
+      color: var(--yellow);
+      padding:4px 8px;
+      border:3px solid var(--cyan);
+      font-size:16px;
     }
-    .footer {
-      position: fixed;
-      bottom: 0;
-      width: 100%;
-      background: black;
-      color: yellow;
-      padding: 4px;
-      border-top: 2px solid yellow;
-      font-size: 16px;
+    .list-header .subtitle { color: var(--cyan); font-size:13px; padding:2px 6px; border:2px solid var(--cyan); }
+
+    /* Each row: page number at left, name and status aligned like teletext */
+    ul.telelist { list-style:none; margin:0; padding:0; font-size:16px; }
+    ul.telelist li {
+      display:flex;
+      align-items:center;
+      gap:12px;
+      padding:4px 6px;
+      border-bottom:1px solid #111;
+      white-space:nowrap;
     }
-    .footer span {
-      margin-right: 20px;
+    .pgnum {
+      width:56px;
+      min-width:56px;
+      text-align:left;
+      color:var(--cyan);
+      padding-right:6px;
+      border-right:2px solid #111;
+      font-weight:bold;
+    }
+    .who { flex:1; overflow:hidden; text-overflow:ellipsis; }
+    .status { width:80px; text-align:right; font-weight:bold; }
+
+    li.hit { background: var(--red); color: var(--black); }
+    li[data-hit="1"] .status { color: var(--yellow); } /* dead style on red bg */
+    li[data-hit="0"] .status { color: var(--green); }  /* alive */
+
+    /* Footer ticker */
+    .ticker-wrap {
+      position:fixed;
+      left:0;
+      right:0;
+      bottom:0;
+      height: var(--ticker-height);
+      background: var(--blue);
+      border-top: 4px solid var(--yellow);
+      overflow:hidden;
+      display:flex;
+      align-items:center;
+    }
+    .ticker-inner {
+      display:inline-block;
+      white-space:nowrap;
+      padding-left:100%;
+      /* animation applied via JS so we can update content length dynamically */
+    }
+    .ticker-item {
+      display:inline-block;
+      margin-right: 60px;
+      color: var(--yellow);
+      font-weight:bold;
+      font-size:16px;
+    }
+
+    /* Responsive */
+    @media(max-width:1000px){
+      .container { padding:6px; }
+      .top-row { grid-template-columns: 1fr; }
+      .lists { grid-template-columns: 1fr; }
     }
   </style>
 </head>
 <body>
-  <div class="header">
-    <div class="page">P302</div>
-    <div class="service">CEEFAX - Celebrity Death Bingo</div>
-    <div class="clock" id="clock"></div>
-  </div>
+  <div class="container">
 
-  <div class="title-bar">Celebrity Death Bingo 2025</div>
-
-  <div class="content">
-    <div class="box scoreboard">
-      <h2>Scoreboard</h2>
-      <div id="scores">Alice: 0 | Bob: 0</div>
-    </div>
-
-    <div class="box countdown">
-      <h2>Countdown</h2>
-      <div id="countdown"></div>
-    </div>
-
-    <div class="player-list">
-      <div class="player">
-        <h3>301 Alice's Picks</h3>
-        <ul>
-          <li>Celebrity 1</li>
-          <li>Celebrity 2</li>
-          <li>Celebrity 3</li>
-        </ul>
+    <div class="ceefax-header" aria-hidden="false">
+      <div class="ceefax-left">
+        <div class="page-num">P302</div>
+        <div class="service-title">CEEFAX - CELEB BINGO</div>
       </div>
-      <div class="player">
-        <h3>302 Bob's Picks</h3>
-        <ul>
-          <li>Celebrity 1</li>
-          <li>Celebrity 2</li>
-          <li>Celebrity 3</li>
-        </ul>
+      <div class="clock" id="clock">--:--:--</div>
+    </div>
+
+    <div class="title">BAD LUCK BINGO — SEAN vs MAURICE (2025)</div>
+
+    <div class="top-row" role="region" aria-label="Scoreboard and countdown">
+      <div class="block" aria-hidden="false">
+        <h2>SEAN</h2>
+        <div id="score-sean" class="score-num">0</div>
+      </div>
+
+      <div class="block" aria-hidden="false">
+        <h2>TIME LEFT</h2>
+        <div id="countdown" class="timer-value">—</div>
+        <div style="font-size:12px;color:var(--cyan);margin-top:6px">Ends at 00:00 on 1 Jan 2026 (Europe/Dublin)</div>
+      </div>
+
+      <div class="block" aria-hidden="false">
+        <h2>MAURICE</h2>
+        <div id="score-morris" class="score-num">0</div>
       </div>
     </div>
-  </div>
 
-  <div class="footer">
-    <span>NEWSFLASH 150</span>
-    <span>LATEST PAGES 190</span>
+    <div class="lists">
+
+      <!-- Sean's list (left) with page numbers 320+ -->
+      <section class="list-card" data-player="Sean" aria-labelledby="sean-title">
+        <div class="list-header">
+          <h3 id="sean-title">Sean’s Picks</h3>
+          <div class="subtitle">P320 →</div>
+        </div>
+
+        <ul class="telelist">
+<li data-hit="0"><span class="pgnum">320</span><span class="who">David Attenborough</span><span class="status">Alive</span></li>
+<li data-hit="0"><span class="pgnum">321</span><span class="who">Bruce Willis</span><span class="status">Alive</span></li>
+<li data-hit="1" class="hit"><span class="pgnum">322</span><span class="who">Ozzy Osbourne</span><span class="status">Dead</span></li>
+<li data-hit="0"><span class="pgnum">323</span><span class="who">Charlie Sheen</span><span class="status">Alive</span></li>
+<li data-hit="0"><span class="pgnum">324</span><span class="who">Gerard Depardieu</span><span class="status">Alive</span></li>
+<li data-hit="0"><span class="pgnum">325</span><span class="who">Richie Blackmore</span><span class="status">Alive</span></li>
+<li data-hit="0"><span class="pgnum">326</span><span class="who">Mick Fleetwood</span><span class="status">Alive</span></li>
+<li data-hit="0"><span class="pgnum">327</span><span class="who">Anthony Hopkins</span><span class="status">Alive</span></li>
+<li data-hit="1" class="hit"><span class="pgnum">328</span><span class="who">Val Kilmer</span><span class="status">Dead</span></li>
+<li data-hit="0"><span class="pgnum">329</span><span class="who">Michael York</span><span class="status">Alive</span></li>
+<li data-hit="0"><span class="pgnum">330</span><span class="who">Yoko Ono</span><span class="status">Alive</span></li>
+<li data-hit="0"><span class="pgnum">331</span><span class="who">Joni Mitchell</span><span class="status">Alive</span></li>
+<li data-hit="0"><span class="pgnum">332</span><span class="who">Noddy Holder</span><span class="status">Alive</span></li>
+<li data-hit="0"><span class="pgnum">333</span><span class="who">Brian Blessed</span><span class="status">Alive</span></li>
+<li data-hit="0"><span class="pgnum">334</span><span class="who">Robert Wagner</span><span class="status">Alive</span></li>
+<li data-hit="0"><span class="pgnum">335</span><span class="who">Tim Curry</span><span class="status">Alive</span></li>
+<li data-hit="0"><span class="pgnum">336</span><span class="who">James Van Der Beek</span><span class="status">Alive</span></li>
+<li data-hit="0"><span class="pgnum">337</span><span class="who">Britney Spears</span><span class="status">Alive</span></li>
+<li data-hit="1" class="hit"><span class="pgnum">338</span><span class="who">Marianne Faithful</span><span class="status">Dead</span></li>
+<li data-hit="0"><span class="pgnum">339</span><span class="who">Joe Pesci</span><span class="status">Alive</span></li>
+<li data-hit="0"><span class="pgnum">340</span><span class="who">Billy Connolly</span><span class="status">Alive</span></li>
+<li data-hit="0"><span class="pgnum">341</span><span class="who">Ian McKellen</span><span class="status">Alive</span></li>
+<li data-hit="0"><span class="pgnum">342</span><span class="who">Buzz Aldrin</span><span class="status">Alive</span></li>
+<li data-hit="0"><span class="pgnum">343</span><span class="who">Shirley MacLaine</span><span class="status">Alive</span></li>
+<li data-hit="0"><span class="pgnum">344</span><span class="who">Queen Camilla</span><span class="status">Alive</span></li>
+<li data-hit="0"><span class="pgnum">345</span><span class="who">Ron Wood</span><span class="status">Alive</span></li>
+<li data-hit="0"><span class="pgnum">346</span><span class="who">Robert Duvall</span><span class="status">Alive</span></li>
+<li data-hit="0"><span class="pgnum">347</span><span class="who">Jack Nicholson</span><span class="status">Alive</span></li>
+<li data-hit="0"><span class="pgnum">348</span><span class="who">Eamon Holmes</span><span class="status">Alive</span></li>
+<li data-hit="0"><span class="pgnum">349</span><span class="who">Michael Douglas</span><span class="status">Alive</span></li>
+        </ul>
+      </section>
+
+      <!-- Maurice's list (right) with page numbers 340+ -->
+      <section class="list-card" data-player="Morris" aria-labelledby="morris-title">
+        <div class="list-header">
+          <h3 id="morris-title">Maurice’s Picks</h3>
+          <div class="subtitle">P340 →</div>
+        </div>
+
+        <ul class="telelist">
+<li data-hit="1" class="hit"><span class="pgnum">340</span><span class="who">Ruby Druce</span><span class="status">Dead</span></li>
+<li data-hit="0"><span class="pgnum">341</span><span class="who">Billy Connolly</span><span class="status">Alive</span></li>
+<li data-hit="0"><span class="pgnum">342</span><span class="who">Julie Andrews</span><span class="status">Alive</span></li>
+<li data-hit="1" class="hit"><span class="pgnum">343</span><span class="who">Giorgio Armani</span><span class="status">Dead</span></li>
+<li data-hit="0"><span class="pgnum">344</span><span class="who">Pat Buchanan</span><span class="status">Alive</span></li>
+<li data-hit="0"><span class="pgnum">345</span><span class="who">Carol Burnett</span><span class="status">Alive</span></li>
+<li data-hit="0"><span class="pgnum">346</span><span class="who">Joan Collins</span><span class="status">Alive</span></li>
+<li data-hit="0"><span class="pgnum">347</span><span class="who">Bill Cosby</span><span class="status">Alive</span></li>
+<li data-hit="0"><span class="pgnum">348</span><span class="who">Noam Chomsky</span><span class="status">Alive</span></li>
+<li data-hit="0"><span class="pgnum">349</span><span class="who">Cleo Laine</span><span class="status">Alive</span></li>
+<li data-hit="0"><span class="pgnum">350</span><span class="who">Yoko Ono</span><span class="status">Alive</span></li>
+<li data-hit="1" class="hit"><span class="pgnum">351</span><span class="who">Gene Hackman</span><span class="status">Dead</span></li>
+<li data-hit="0"><span class="pgnum">352</span><span class="who">Rupert Murdoch</span><span class="status">Alive</span></li>
+<li data-hit="0"><span class="pgnum">353</span><span class="who">Michael Caine</span><span class="status">Alive</span></li>
+<li data-hit="0"><span class="pgnum">354</span><span class="who">Juan Carlos I</span><span class="status">Alive</span></li>
+<li data-hit="0"><span class="pgnum">355</span><span class="who">Raul Castro</span><span class="status">Alive</span></li>
+<li data-hit="0"><span class="pgnum">356</span><span class="who">George Soros</span><span class="status">Alive</span></li>
+<li data-hit="1" class="hit"><span class="pgnum">357</span><span class="who">Roberta Flack</span><span class="status">Dead</span></li>
+<li data-hit="0"><span class="pgnum">358</span><span class="who">Kim Novak</span><span class="status">Alive</span></li>
+<li data-hit="0"><span class="pgnum">359</span><span class="who">Willie Nelson</span><span class="status">Alive</span></li>
+<li data-hit="0"><span class="pgnum">360</span><span class="who">William Shatner</span><span class="status">Alive</span></li>
+<li data-hit="0"><span class="pgnum">361</span><span class="who">Dalai Lama</span><span class="status">Alive</span></li>
+<li data-hit="1" class="hit"><span class="pgnum">362</span><span class="who">Pape Francois I</span><span class="status">Dead</span></li>
+<li data-hit="0"><span class="pgnum">363</span><span class="who">Clint Eastwood</span><span class="status">Alive</span></li>
+<li data-hit="0"><span class="pgnum">364</span><span class="who">Mel Brooks</span><span class="status">Alive</span></li>
+<li data-hit="0"><span class="pgnum">365</span><span class="who">Judi Dench</span><span class="status">Alive</span></li>
+<li data-hit="0"><span class="pgnum">366</span><span class="who">Morgan Freeman</span><span class="status">Alive</span></li>
+<li data-hit="0"><span class="pgnum">367</span><span class="who">Daniel O Donnell</span><span class="status">Alive</span></li>
+<li data-hit="0"><span class="pgnum">368</span><span class="who">Arnold Schwarzenegger</span><span class="status">Alive</span></li>
+<li data-hit="0"><span class="pgnum">369</span><span class="who">Simon Harris</span><span class="status">Alive</span></li>
+        </ul>
+      </section>
+
+    </div> <!-- lists -->
+
+    <div style="margin-top:12px; color:var(--cyan); font-size:13px; text-align:center;">
+      Just a silly game. Please don’t take it seriously. Built with ♥ for laughs, not malice.
+    </div>
+
+  </div> <!-- container -->
+
+  <!-- Scrolling ticker (yellow-on-blue) -->
+  <div class="ticker-wrap" aria-hidden="false">
+    <div id="ticker" class="ticker-inner" role="marquee" aria-live="polite"></div>
   </div>
 
   <script>
-    function updateClock() {
-      const now = new Date();
-      const time = now.toTimeString().split(' ')[0];
-      document.getElementById('clock').textContent = time;
+    /* --- Scores and countdown logic (keeps your original behaviour but adapted) --- */
+
+    function updateScores(){
+      // Count hits per player (data-player attribute on their section)
+      const players = [
+        {name: 'Sean', selector: '[data-player="Sean"]', scoreEl: 'score-sean' },
+        {name: 'Morris', selector: '[data-player="Morris"]', scoreEl: 'score-morris' }
+      ];
+      players.forEach(p => {
+        let score = 0;
+        const section = document.querySelector(p.selector);
+        if(section){
+          section.querySelectorAll('li').forEach(li => {
+            if(li.getAttribute('data-hit') === '1') score++;
+          });
+        }
+        document.getElementById(p.scoreEl).textContent = score;
+      });
     }
-    setInterval(updateClock, 1000);
+
+    function updateCountdown(){
+      const end = new Date("2025-12-31T23:59:59");
+      const now = new Date();
+      const diff = end - now;
+      const el = document.getElementById('countdown');
+      if(diff <= 0){ el.textContent = "Game over!"; return; }
+      const days = Math.floor(diff/(1000*60*60*24));
+      const hrs = Math.floor((diff/(1000*60*60)) % 24);
+      const mins = Math.floor((diff/1000/60) % 60);
+      const secs = Math.floor((diff/1000) % 60);
+      el.textContent = `${days}d ${hrs}h ${mins}m ${secs}s`;
+    }
+
+    function updateClock(){
+      const now = new Date();
+      const hh = String(now.getHours()).padStart(2,'0');
+      const mm = String(now.getMinutes()).padStart(2,'0');
+      const ss = String(now.getSeconds()).padStart(2,'0');
+      document.getElementById('clock').textContent = `${hh}:${mm}:${ss}`;
+    }
+
+    // Initial updates
+    updateScores();
+    updateCountdown();
     updateClock();
 
-    const countdownDate = new Date("Dec 31, 2025 23:59:59").getTime();
-    const countdownEl = document.getElementById("countdown");
-
-    function updateCountdown() {
-      const now = new Date().getTime();
-      const distance = countdownDate - now;
-      if (distance < 0) {
-        countdownEl.innerHTML = "EXPIRED";
-        return;
-      }
-      const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-      const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-      const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-      const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-      countdownEl.innerHTML = days + "d " + hours + "h " + minutes + "m " + seconds + "s ";
-    }
+    // Timers
     setInterval(updateCountdown, 1000);
-    updateCountdown();
+    setInterval(updateClock, 1000);
+
+    /* --- Ticker logic: builds messages and scrolls them --- */
+    const tickerEl = document.getElementById('ticker');
+
+    function buildTickerText(){
+      // Static messages + live score update + cheeky headlines
+      const seanscore = document.getElementById('score-sean').textContent;
+      const morrisscore = document.getElementById('score-morris').textContent;
+
+      const msgs = [
+        "CELEBRITY DEATH BINGO 2025 — SEAN vs MAURICE. ALL FUN, NO FOUL PLAY INTENDED",
+        `SCORE UPDATE: SEAN ${seanscore} - MAURICE ${morrisscore}`,
+        "P320 SEAN'S PICKS UPDATED",
+        "P340 MAURICE STILL WAITING FOR A HIT",
+        "REMINDER: THIS IS JUST A SILLY GAME - BE NICE"
+      ];
+      // join with separator
+      return msgs.map(m => `<span class="ticker-item">${m}</span>`).join('');
+    }
+
+    // Create scroll animation based on content width
+    function startTicker(){
+      // fill content
+      tickerEl.innerHTML = buildTickerText() + buildTickerText(); // repeat for smooth loop
+
+      // measure and build animation
+      // remove previous animation if any
+      tickerEl.style.animation = 'none';
+      void tickerEl.offsetWidth;
+
+      // estimate width (we can use getBoundingClientRect)
+      const totalWidth = tickerEl.scrollWidth;
+      const viewportWidth = document.documentElement.clientWidth;
+      // duration: scale so longer text moves slower; min 12s
+      const duration = Math.max(12, totalWidth / 60);
+
+      // inject keyframes dynamically
+      const styleId = 'ticker-keyframes';
+      let styleTag = document.getElementById(styleId);
+      if(styleTag) styleTag.remove();
+      styleTag = document.createElement('style');
+      styleTag.id = styleId;
+      styleTag.textContent = `
+        @keyframes tickerMove {
+          0% { transform: translateX(0%); }
+          100% { transform: translateX(-50%); }
+        }
+      `;
+      document.head.appendChild(styleTag);
+
+      tickerEl.style.display = 'inline-block';
+      tickerEl.style.paddingLeft = '0';
+      tickerEl.style.animation = `tickerMove ${duration}s linear infinite`;
+      tickerEl.style.willChange = 'transform';
+    }
+
+    // Kick off
+    startTicker();
+
+    // Rebuild ticker when scores change (so it shows live score)
+    // We'll observe the score elements for changes
+    const scoreSeanEl = document.getElementById('score-sean');
+    const scoreMorrisEl = document.getElementById('score-morris');
+
+    const scoreObserver = new MutationObserver(() => {
+      // when scores change, rebuild messages and restart ticker
+      startTicker();
+    });
+    scoreObserver.observe(scoreSeanEl, { childList: true, subtree: true, characterData: true });
+    scoreObserver.observe(scoreMorrisEl, { childList: true, subtree: true, characterData: true });
+
+    // If you ever change hits in devtools or via scripts, call updateScores()
+    // for convenience we expose it globally:
+    window.updateScores = function(){ updateScores(); startTicker(); };
+
+    // accessibility: ensure marquee restarts if window resized
+    window.addEventListener('resize', () => {
+      startTicker();
+    });
   </script>
 </body>
 </html>
