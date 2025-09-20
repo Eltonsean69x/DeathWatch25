@@ -1,269 +1,165 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Bad luck Bingo 2025 — Sean vs Maurice</title>
-
-  <!-- Teletext style font -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Celebrity Death Bingo - Ceefax Style</title>
   <link href="https://fonts.cdnfonts.com/css/mode-seven" rel="stylesheet">
-
   <style>
     body {
-      margin: 0;
       background: black;
-      color: #fff;
+      color: white;
       font-family: 'ModeSeven', monospace;
-      font-size: 18px;
+      margin: 0;
+      padding: 0;
       line-height: 1.2;
+      font-size: 18px;
     }
-    .wrap {
-      max-width: 960px;
-      margin: 0 auto;
-      padding: 8px;
-    }
-
-    /* Header bar like Ceefax */
-    header.ceefax-header {
+    .header {
+      background: black;
+      color: yellow;
+      padding: 4px 8px;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      background: blue;
-      color: yellow;
-      padding: 4px 8px;
+      border-bottom: 2px solid yellow;
     }
-    .page-num { color: cyan; }
-    .clock { color: white; }
-
-    h1 {
-      font-size: 22px;
-      margin: 8px 0;
+    .header .page {
+      color: white;
+    }
+    .title-bar {
+      background: yellow;
+      color: black;
+      text-align: center;
+      font-size: 26px;
+      font-weight: bold;
+      padding: 4px;
+    }
+    .content {
+      padding: 8px;
+    }
+    .box {
+      background: blue;
+      color: white;
+      padding: 8px;
+      margin: 12px 0;
+      border: 2px solid cyan;
+    }
+    .scoreboard h2, .countdown h2 {
+      color: yellow;
+      margin: 0 0 6px;
+    }
+    .player-list {
+      margin-top: 20px;
+    }
+    .player {
+      margin: 12px 0;
+    }
+    .player h3 {
       background: red;
       color: white;
-      padding: 4px 6px;
-      text-align: center;
-    }
-    .sub {
-      background: black;
-      color: cyan;
-      text-align: center;
       padding: 4px;
-    }
-
-    /* Board for scores + timer */
-    .board {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 4px;
-      margin: 8px 0;
-    }
-    .tile {
-      padding: 6px;
-      border: 2px solid magenta;
-      background: black;
-      text-align: center;
-      color: white;
-    }
-    .tile h2 {
-      margin: 0 0 4px;
-      font-size: 18px;
-      color: yellow;
-    }
-    #score-sean { color: green; font-size: 24px; }
-    #score-morris { color: red; font-size: 24px; }
-
-    .timer { color: cyan; font-size: 16px; }
-
-    /* Player grids */
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 4px;
-      margin-top: 8px;
-    }
-    .card {
+      margin: 0;
       border: 2px solid yellow;
-      padding: 6px;
+    }
+    .player ul {
+      list-style: none;
+      margin: 0;
+      padding: 0;
       background: black;
+      border: 2px solid red;
     }
-    .card h2 {
-      margin: 0 0 4px;
-      font-size: 16px;
-      color: magenta;
-      background: blue;
+    .player ul li {
       padding: 2px 4px;
+      border-bottom: 1px solid #333;
     }
-
-    ul { list-style: none; padding: 0; margin: 0; }
-    li {
-      display: flex;
-      justify-content: space-between;
-      padding: 2px 4px;
-      border-bottom: 1px solid #444;
-      color: white;
-    }
-    li.hit { background: red; color: white; }
-    li .tag.alive { color: green; }
-    li .tag.dead { color: yellow; }
-
-    footer {
-      margin-top: 8px;
+    .footer {
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+      background: black;
+      color: yellow;
       padding: 4px;
-      background: blue;
-      color: white;
-      text-align: center;
-      font-size: 14px;
+      border-top: 2px solid yellow;
+      font-size: 16px;
+    }
+    .footer span {
+      margin-right: 20px;
     }
   </style>
 </head>
 <body>
-<div class="wrap">
+  <div class="header">
+    <div class="page">P302</div>
+    <div class="service">CEEFAX - Celebrity Death Bingo</div>
+    <div class="clock" id="clock"></div>
+  </div>
 
-<header class="ceefax-header">
-  <div class="page-num">302</div>
-  <div class="title">Bad Luck Bingo 2025</div>
-  <div class="clock" id="clock">--:--:--</div>
-</header>
+  <div class="title-bar">Celebrity Death Bingo 2025</div>
 
-<h1>Sean vs Maurice</h1>
-<div class="sub">Two pals betting on bad luck. All fun, no foul play intended.</div>
+  <div class="content">
+    <div class="box scoreboard">
+      <h2>Scoreboard</h2>
+      <div id="scores">Alice: 0 | Bob: 0</div>
+    </div>
 
-<section class="board">
- <div class="tile score">
-  <h2>Sean</h2>
-  <div id="score-sean">0</div>
- </div>
+    <div class="box countdown">
+      <h2>Countdown</h2>
+      <div id="countdown"></div>
+    </div>
 
- <div class="tile timer">
-  <div class="label">Time left</div>
-  <div id="countdown">—</div>
-  <div class="tiny">Ends 1 Jan 2026</div>
- </div>
+    <div class="player-list">
+      <div class="player">
+        <h3>301 Alice's Picks</h3>
+        <ul>
+          <li>Celebrity 1</li>
+          <li>Celebrity 2</li>
+          <li>Celebrity 3</li>
+        </ul>
+      </div>
+      <div class="player">
+        <h3>302 Bob's Picks</h3>
+        <ul>
+          <li>Celebrity 1</li>
+          <li>Celebrity 2</li>
+          <li>Celebrity 3</li>
+        </ul>
+      </div>
+    </div>
+  </div>
 
- <div class="tile score">
-  <h2>Maurice</h2>
-  <div id="score-morris">0</div>
- </div>
-</section>
+  <div class="footer">
+    <span>NEWSFLASH 150</span>
+    <span>LATEST PAGES 190</span>
+  </div>
 
-<main class="grid">
-<section class="card" data-player="Sean">
-<h2>Sean’s Picks</h2>
-<ul>
-<li data-hit="0"><span class="who">David Attenborough</span><span class="tag alive">Alive</span></li>
-<li data-hit="0"><span class="who">Bruce Willis</span><span class="tag alive">Alive</span></li>
-<li data-hit="1" class="hit"><span class="who">Ozzy Osbourne</span><span class="tag dead">Dead</span></li>
-<li data-hit="0"><span class="who">Charlie Sheen</span><span class="tag alive">Alive</span></li>
-<li data-hit="0"><span class="who">Gerard Depardieu</span><span class="tag alive">Alive</span></li>
-<li data-hit="0"><span class="who">Richie Blackmore</span><span class="tag alive">Alive</span></li>
-<li data-hit="0"><span class="who">Mick Fleetwood</span><span class="tag alive">Alive</span></li>
-<li data-hit="0"><span class="who">Anthony Hopkins</span><span class="tag alive">Alive</span></li>
-<li data-hit="1" class="hit"><span class="who">Val Kilmer</span><span class="tag dead">Dead</span></li>
-<li data-hit="0"><span class="who">Michael York</span><span class="tag alive">Alive</span></li>
-<li data-hit="0"><span class="who">Yoko Ono</span><span class="tag alive">Alive</span></li>
-<li data-hit="0"><span class="who">Joni Mitchell</span><span class="tag alive">Alive</span></li>
-<li data-hit="0"><span class="who">Noddy Holder</span><span class="tag alive">Alive</span></li>
-<li data-hit="0"><span class="who">Brian Blessed</span><span class="tag alive">Alive</span></li>
-<li data-hit="0"><span class="who">Robert Wagner</span><span class="tag alive">Alive</span></li>
-<li data-hit="0"><span class="who">Tim Curry</span><span class="tag alive">Alive</span></li>
-<li data-hit="0"><span class="who">James Van Der Beek</span><span class="tag alive">Alive</span></li>
-<li data-hit="0"><span class="who">Britney Spears</span><span class="tag alive">Alive</span></li>
-<li data-hit="1" class="hit"><span class="who">Marianne Faithful</span><span class="tag dead">Dead</span></li>
-<li data-hit="0"><span class="who">Joe Pesci</span><span class="tag alive">Alive</span></li>
-<li data-hit="0"><span class="who">Billy Connolly</span><span class="tag alive">Alive</span></li>
-<li data-hit="0"><span class="who">Ian McKellen</span><span class="tag alive">Alive</span></li>
-<li data-hit="0"><span class="who">Buzz Aldrin</span><span class="tag alive">Alive</span></li>
-<li data-hit="0"><span class="who">Shirley MacLaine</span><span class="tag alive">Alive</span></li>
-<li data-hit="0"><span class="who">Queen Camilla</span><span class="tag alive">Alive</span></li>
-<li data-hit="0"><span class="who">Ron Wood</span><span class="tag alive">Alive</span></li>
-<li data-hit="0"><span class="who">Robert Duvall</span><span class="tag alive">Alive</span></li>
-<li data-hit="0"><span class="who">Jack Nicholson</span><span class="tag alive">Alive</span></li>
-<li data-hit="0"><span class="who">Eamon Holmes</span><span class="tag alive">Alive</span></li>
-<li data-hit="0"><span class="who">Michael Douglas</span><span class="tag alive">Alive</span></li>
-</ul>
-</section>
+  <script>
+    function updateClock() {
+      const now = new Date();
+      const time = now.toTimeString().split(' ')[0];
+      document.getElementById('clock').textContent = time;
+    }
+    setInterval(updateClock, 1000);
+    updateClock();
 
-<section class="card" data-player="Morris">
-<h2>Maurice’s Picks</h2>
-<ul>
-<li data-hit="1" class="hit"><span class="who">Ruby Druce</span><span class="tag dead">Dead</span></li>
-<li data-hit="0"><span class="who">Billy Connolly</span><span class="tag alive">Alive</span></li>
-<li data-hit="0"><span class="who">Julie Andrews</span><span class="tag alive">Alive</span></li>
-<li data-hit="1" class="hit"><span class="who">Giorgio Armani</span><span class="tag dead">Dead</span></li>
-<li data-hit="0"><span class="who">Pat Buchanan</span><span class="tag alive">Alive</span></li>
-<li data-hit="0"><span class="who">Carol Burnett</span><span class="tag alive">Alive</span></li>
-<li data-hit="0"><span class="who">Joan Collins</span><span class="tag alive">Alive</span></li>
-<li data-hit="0"><span class="who">Bill Cosby</span><span class="tag alive">Alive</span></li>
-<li data-hit="0"><span class="who">Noam Chomsky</span><span class="tag alive">Alive</span></li>
-<li data-hit="0"><span class="who">Cleo Laine</span><span class="tag alive">Alive</span></li>
-<li data-hit="0"><span class="who">Yoko Ono</span><span class="tag alive">Alive</span></li>
-<li data-hit="1" class="hit"><span class="who">Gene Hackman</span><span class="tag dead">Dead</span></li>
-<li data-hit="0"><span class="who">Rupert Murdoch</span><span class="tag alive">Alive</span></li>
-<li data-hit="0"><span class="who">Michael Caine</span><span class="tag alive">Alive</span></li>
-<li data-hit="0"><span class="who">Juan Carlos I</span><span class="tag alive">Alive</span></li>
-<li data-hit="0"><span class="who">Raul Castro</span><span class="tag alive">Alive</span></li>
-<li data-hit="0"><span class="who">George Soros</span><span class="tag alive">Alive</span></li>
-<li data-hit="1" class="hit"><span class="who">Roberta Flack</span><span class="tag dead">Dead</span></li>
-<li data-hit="0"><span class="who">Kim Novak</span><span class="tag alive">Alive</span></li>
-<li data-hit="0"><span class="who">Willie Nelson</span><span class="tag alive">Alive</span></li>
-<li data-hit="0"><span class="who">William Shatner</span><span class="tag alive">Alive</span></li>
-<li data-hit="0"><span class="who">Dalai Lama</span><span class="tag alive">Alive</span></li>
-<li data-hit="1" class="hit"><span class="who">Pape Francois I</span><span class="tag dead">Dead</span></li>
-<li data-hit="0"><span class="who">Clint Eastwood</span><span class="tag alive">Alive</span></li>
-<li data-hit="0"><span class="who">Mel Brooks</span><span class="tag alive">Alive</span></li>
-<li data-hit="0"><span class="who">Judi Dench</span><span class="tag alive">Alive</span></li>
-<li data-hit="0"><span class="who">Morgan Freeman</span><span class="tag alive">Alive</span></li>
-<li data-hit="0"><span class="who">Daniel O Donnell</span><span class="tag alive">Alive</span></li>
-<li data-hit="0"><span class="who">Arnold Schwarzenegger</span><span class="tag alive">Alive</span></li>
-<li data-hit="0"><span class="who">Simon Harris</span><span class="tag alive">Alive</span></li>
-</ul>
-</section>
-</main>
+    const countdownDate = new Date("Dec 31, 2025 23:59:59").getTime();
+    const countdownEl = document.getElementById("countdown");
 
-<footer>
-  Just a silly game. Please don’t take it seriously.<br>
-  Built with ❤️ for laughs, not malice.
-</footer>
-</div>
-
-<script>
-function updateScores() {
-  const players = ["Sean", "Morris"];
-  players.forEach(player => {
-    let score = 0;
-    document.querySelectorAll('[data-player="'+player+'"] li').forEach(li => {
-      if (li.getAttribute("data-hit") === "1") score++;
-    });
-    document.getElementById("score-"+player.toLowerCase()).textContent = score;
-  });
-}
-
-function updateCountdown() {
-  const end = new Date("2025-12-31T23:59:59");
-  const now = new Date();
-  const diff = end - now;
-  if (diff <= 0) {
-    document.getElementById("countdown").textContent = "Game over!";
-    return;
-  }
-  const days = Math.floor(diff/(1000*60*60*24));
-  const hrs = Math.floor((diff/(1000*60*60)) % 24);
-  const mins = Math.floor((diff/1000/60) % 60);
-  const secs = Math.floor((diff/1000) % 60);
-  document.getElementById("countdown").textContent = `${days}d ${hrs}h ${mins}m ${secs}s`;
-}
-
-function updateClock() {
-  const now = new Date();
-  const hh = String(now.getHours()).padStart(2,'0');
-  const mm = String(now.getMinutes()).padStart(2,'0');
-  const ss = String(now.getSeconds()).padStart(2,'0');
-  document.getElementById("clock").textContent = `${hh}:${mm}:${ss}`;
-}
-
-updateScores();
-setInterval(updateCountdown, 1000);
-setInterval(updateClock, 1000);
-</script>
+    function updateCountdown() {
+      const now = new Date().getTime();
+      const distance = countdownDate - now;
+      if (distance < 0) {
+        countdownEl.innerHTML = "EXPIRED";
+        return;
+      }
+      const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+      countdownEl.innerHTML = days + "d " + hours + "h " + minutes + "m " + seconds + "s ";
+    }
+    setInterval(updateCountdown, 1000);
+    updateCountdown();
+  </script>
 </body>
 </html>
