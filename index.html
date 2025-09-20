@@ -4,205 +4,225 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Bad luck Bingo 2025 — Sean vs Maurice</title>
-  <!-- Keeping your spooky yet fun fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Creepster&display=swap" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&display=swap" rel="stylesheet">
+
+  <!-- Teletext style font -->
+  <link href="https://fonts.cdnfonts.com/css/mode-seven" rel="stylesheet">
+
   <style>
-    :root {
-      --bg: #0b0c10;
-      --card: #111218;
-      --muted: #8b90a0;
-      --text: #e6e7eb;
-      --accent: #7c3aed;
-      --ok: #16a34a;
-      --danger: #ef4444;
-      --border: #1f2230;
-    }
-    * { box-sizing: border-box; }
     body {
       margin: 0;
-      background:
-        url("graveyard.png") repeat-x bottom,
-        radial-gradient(1200px 600px at 20% -10%, #15172a 0%, var(--bg) 60%);
-      background-size: auto 200px, cover;
-      background-attachment: fixed;
-      color: var(--text);
-      font: 16px/1.45 system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell,
-            Noto Sans, Helvetica Neue, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+      background: black;
+      color: #fff;
+      font-family: 'ModeSeven', monospace;
+      font-size: 18px;
+      line-height: 1.2;
     }
-    .wrap { max-width: 980px; margin: 0 auto; padding: 24px; }
-    header { display: grid; gap: 12px; align-items: center; justify-items: center; }
-    h1 { margin: 0; font-family: "Creepster", cursive; font-size: clamp(28px,5vw,44px); color: #ffdede; text-shadow: 0 6px 18px rgba(0,0,0,0.6), 0 0 6px rgba(255,60,60,0.12); }
-    .sub { color: var(--muted); font-size: 14px; }
-    .board {
-      margin-top: 18px;
-      display: grid; gap: 16px;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      width: 100%;
+    .wrap {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: 8px;
     }
-    .tile {
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      padding: 18px;
+
+    /* Header bar like Ceefax */
+    header.ceefax-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: blue;
+      color: yellow;
+      padding: 4px 8px;
+    }
+    .page-num { color: cyan; }
+    .clock { color: white; }
+
+    h1 {
+      font-size: 22px;
+      margin: 8px 0;
+      background: red;
+      color: white;
+      padding: 4px 6px;
       text-align: center;
     }
-
-    /* spooky scoreboard style */
-    .score h2 {
-      font-family: 'Creepster', cursive;
-      font-size: 22px;
-      margin: 0 0 8px 0;
-      color: #ffdede;
-      text-shadow: 0 2px 6px rgba(0,0,0,0.6);
+    .sub {
+      background: black;
+      color: cyan;
+      text-align: center;
+      padding: 4px;
     }
 
-    .score .num {
-      font-family: 'Creepster', cursive;
-      font-size: 36px;
+    /* Board for scores + timer */
+    .board {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 4px;
+      margin: 8px 0;
+    }
+    .tile {
+      padding: 6px;
+      border: 2px solid magenta;
+      background: black;
+      text-align: center;
+      color: white;
+    }
+    .tile h2 {
+      margin: 0 0 4px;
+      font-size: 18px;
+      color: yellow;
+    }
+    #score-sean { color: green; font-size: 24px; }
+    #score-morris { color: red; font-size: 24px; }
+
+    .timer { color: cyan; font-size: 16px; }
+
+    /* Player grids */
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 4px;
+      margin-top: 8px;
+    }
+    .card {
+      border: 2px solid yellow;
+      padding: 6px;
+      background: black;
+    }
+    .card h2 {
+      margin: 0 0 4px;
+      font-size: 16px;
+      color: magenta;
+      background: blue;
+      padding: 2px 4px;
+    }
+
+    ul { list-style: none; padding: 0; margin: 0; }
+    li {
       display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 6px;
-      text-shadow: 0 0 4px #000, 0 0 8px #000;
+      justify-content: space-between;
+      padding: 2px 4px;
+      border-bottom: 1px solid #444;
+      color: white;
     }
+    li.hit { background: red; color: white; }
+    li .tag.alive { color: green; }
+    li .tag.dead { color: yellow; }
 
-    /* Sean's score spooky green glow */
-    #score-sean {
-      color: #00ff00;
-      text-shadow: 0 0 8px #00ff00, 0 0 16px #00ff00, 0 0 24px #00ff00;
+    footer {
+      margin-top: 8px;
+      padding: 4px;
+      background: blue;
+      color: white;
+      text-align: center;
+      font-size: 14px;
     }
-
-    /* Maurice's score blood red glow */
-    #score-morris {
-      color: #ff3333;
-      text-shadow: 0 0 8px #ff3333, 0 0 16px #ff3333, 0 0 24px #ff3333;
-    }
-
-    .score .num::before {
-      content: "🪦";
-      font-size: 24px;
-    }
-
-    .timer { font-family: 'Orbitron', sans-serif; font-size: 20px; }
-    .grid { margin-top: 22px; display: grid; gap: 16px; grid-template-columns: repeat(2, minmax(0, 1fr)); }
-    .card { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 16px; }
-    .card h2 { margin: 0 0 8px 0; font-size: 18px; color: var(--accent); }
-
-    ul { list-style:none; padding:0; margin:8px 0 0 0; display:grid; gap:8px;}
-    li { background: rgba(255,255,255,0.03); padding:10px 12px; border-radius:12px; border:1px solid var(--border); display:flex; align-items:center; justify-content:space-between; gap:10px;}
-    li .who { flex: 1; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
-    li.hit .who { text-decoration: line-through; color: var(--danger); }
-    li .status { display: flex; align-items: center; justify-content: flex-end; gap: 5px; }
-    .tag.alive { color: var(--ok); }
-    .tag.dead { color: var(--danger); }
-    li .icon { font-size: 16px; }
-    .footer { margin-top: 22px; display:grid; gap:8px; justify-items:center; color:var(--muted); font-size:13px; }
-    .tiny { font-size:12px; color:var(--muted); }
-    @media(max-width:700px){.board{grid-template-columns:1fr;}.grid{grid-template-columns:1fr;}.timer{font-size:16px;}}
   </style>
 </head>
 <body>
 <div class="wrap">
-<header>
-<h1>Bad luck Bingo 2025 — Sean vs Maurice</h1>
+
+<header class="ceefax-header">
+  <div class="page-num">302</div>
+  <div class="title">Bad Luck Bingo 2025</div>
+  <div class="clock" id="clock">--:--:--</div>
+</header>
+
+<h1>Sean vs Maurice</h1>
 <div class="sub">Two pals betting on bad luck. All fun, no foul play intended.</div>
+
 <section class="board">
  <div class="tile score">
   <h2>Sean</h2>
-  <div id="score-sean" class="num">0</div>
+  <div id="score-sean">0</div>
  </div>
 
  <div class="tile timer">
   <div class="label">Time left</div>
-  <div id="countdown" class="big">—</div>
-  <div class="tiny">Ends at 00:00 on 1 Jan 2026 (Europe/Dublin)</div>
+  <div id="countdown">—</div>
+  <div class="tiny">Ends 1 Jan 2026</div>
  </div>
 
  <div class="tile score">
   <h2>Maurice</h2>
-  <div id="score-morris" class="num">0</div>
+  <div id="score-morris">0</div>
  </div>
 </section>
-</header>
 
 <main class="grid">
 <section class="card" data-player="Sean">
 <h2>Sean’s Picks</h2>
 <ul>
-<li data-hit="0"><span class="who">David Attenborough</span><span class="status"><span class="icon">❤️</span><span class="tag alive">Alive</span></span></li>
-<li data-hit="0"><span class="who">Bruce Willis</span><span class="status"><span class="icon">❤️</span><span class="tag alive">Alive</span></span></li>
-<li data-hit="1" class="hit"><span class="who">Ozzy Osbourne</span><span class="status"><span class="icon">☠</span><span class="tag dead">Dead</span></span></li>
-<li data-hit="0"><span class="who">Charlie Sheen</span><span class="status"><span class="icon">❤️</span><span class="tag alive">Alive</span></span></li>
-<li data-hit="0"><span class="who">Gerard Depardieu</span><span class="status"><span class="icon">❤️</span><span class="tag alive">Alive</span></span></li>
-<li data-hit="0"><span class="who">Richie Blackmore</span><span class="status"><span class="icon">❤️</span><span class="tag alive">Alive</span></span></li>
-<li data-hit="0"><span class="who">Mick Fleetwood</span><span class="status"><span class="icon">❤️</span><span class="tag alive">Alive</span></span></li>
-<li data-hit="0"><span class="who">Anthony Hopkins</span><span class="status"><span class="icon">❤️</span><span class="tag alive">Alive</span></span></li>
-<li data-hit="1" class="hit"><span class="who">Val Kilmer</span><span class="status"><span class="icon">☠</span><span class="tag dead">Dead</span></span></li>
-<li data-hit="0"><span class="who">Michael York</span><span class="status"><span class="icon">❤️</span><span class="tag alive">Alive</span></span></li>
-<li data-hit="0"><span class="who">Yoko Ono</span><span class="status"><span class="icon">❤️</span><span class="tag alive">Alive</span></span></li>
-<li data-hit="0"><span class="who">Joni Mitchell</span><span class="status"><span class="icon">❤️</span><span class="tag alive">Alive</span></span></li>
-<li data-hit="0"><span class="who">Noddy Holder</span><span class="status"><span class="icon">❤️</span><span class="tag alive">Alive</span></span></li>
-<li data-hit="0"><span class="who">Brian Blessed</span><span class="status"><span class="icon">❤️</span><span class="tag alive">Alive</span></span></li>
-<li data-hit="0"><span class="who">Robert Wagner</span><span class="status"><span class="icon">❤️</span><span class="tag alive">Alive</span></span></li>
-<li data-hit="0"><span class="who">Tim Curry</span><span class="status"><span class="icon">❤️</span><span class="tag alive">Alive</span></span></li>
-<li data-hit="0"><span class="who">James Van Der Beek</span><span class="status"><span class="icon">❤️</span><span class="tag alive">Alive</span></span></li>
-<li data-hit="0"><span class="who">Britney Spears</span><span class="status"><span class="icon">❤️</span><span class="tag alive">Alive</span></span></li>
-<li data-hit="1" class="hit"><span class="who">Marianne Faithful</span><span class="status"><span class="icon">☠</span><span class="tag dead">Dead</span></span></li>
-<li data-hit="0"><span class="who">Joe Pesci</span><span class="status"><span class="icon">❤️</span><span class="tag alive">Alive</span></span></li>
-<li data-hit="0"><span class="who">Billy Connolly</span><span class="status"><span class="icon">❤️</span><span class="tag alive">Alive</span></span></li>
-<li data-hit="0"><span class="who">Ian McKellen</span><span class="status"><span class="icon">❤️</span><span class="tag alive">Alive</span></span></li>
-<li data-hit="0"><span class="who">Buzz Aldrin</span><span class="status"><span class="icon">❤️</span><span class="tag alive">Alive</span></span></li>
-<li data-hit="0"><span class="who">Shirley MacLaine</span><span class="status"><span class="icon">❤️</span><span class="tag alive">Alive</span></span></li>
-<li data-hit="0"><span class="who">Queen Camilla</span><span class="status"><span class="icon">❤️</span><span class="tag alive">Alive</span></span></li>
-<li data-hit="0"><span class="who">Ron Wood</span><span class="status"><span class="icon">❤️</span><span class="tag alive">Alive</span></span></li>
-<li data-hit="0"><span class="who">Robert Duvall</span><span class="status"><span class="icon">❤️</span><span class="tag alive">Alive</span></span></li>
-<li data-hit="0"><span class="who">Jack Nicholson</span><span class="status"><span class="icon">❤️</span><span class="tag alive">Alive</span></span></li>
-<li data-hit="0"><span class="who">Eamon Holmes</span><span class="status"><span class="icon">❤️</span><span class="tag alive">Alive</span></span></li>
-<li data-hit="0"><span class="who">Michael Douglas</span><span class="status"><span class="icon">❤️</span><span class="tag alive">Alive</span></span></li>
+<li data-hit="0"><span class="who">David Attenborough</span><span class="tag alive">Alive</span></li>
+<li data-hit="0"><span class="who">Bruce Willis</span><span class="tag alive">Alive</span></li>
+<li data-hit="1" class="hit"><span class="who">Ozzy Osbourne</span><span class="tag dead">Dead</span></li>
+<li data-hit="0"><span class="who">Charlie Sheen</span><span class="tag alive">Alive</span></li>
+<li data-hit="0"><span class="who">Gerard Depardieu</span><span class="tag alive">Alive</span></li>
+<li data-hit="0"><span class="who">Richie Blackmore</span><span class="tag alive">Alive</span></li>
+<li data-hit="0"><span class="who">Mick Fleetwood</span><span class="tag alive">Alive</span></li>
+<li data-hit="0"><span class="who">Anthony Hopkins</span><span class="tag alive">Alive</span></li>
+<li data-hit="1" class="hit"><span class="who">Val Kilmer</span><span class="tag dead">Dead</span></li>
+<li data-hit="0"><span class="who">Michael York</span><span class="tag alive">Alive</span></li>
+<li data-hit="0"><span class="who">Yoko Ono</span><span class="tag alive">Alive</span></li>
+<li data-hit="0"><span class="who">Joni Mitchell</span><span class="tag alive">Alive</span></li>
+<li data-hit="0"><span class="who">Noddy Holder</span><span class="tag alive">Alive</span></li>
+<li data-hit="0"><span class="who">Brian Blessed</span><span class="tag alive">Alive</span></li>
+<li data-hit="0"><span class="who">Robert Wagner</span><span class="tag alive">Alive</span></li>
+<li data-hit="0"><span class="who">Tim Curry</span><span class="tag alive">Alive</span></li>
+<li data-hit="0"><span class="who">James Van Der Beek</span><span class="tag alive">Alive</span></li>
+<li data-hit="0"><span class="who">Britney Spears</span><span class="tag alive">Alive</span></li>
+<li data-hit="1" class="hit"><span class="who">Marianne Faithful</span><span class="tag dead">Dead</span></li>
+<li data-hit="0"><span class="who">Joe Pesci</span><span class="tag alive">Alive</span></li>
+<li data-hit="0"><span class="who">Billy Connolly</span><span class="tag alive">Alive</span></li>
+<li data-hit="0"><span class="who">Ian McKellen</span><span class="tag alive">Alive</span></li>
+<li data-hit="0"><span class="who">Buzz Aldrin</span><span class="tag alive">Alive</span></li>
+<li data-hit="0"><span class="who">Shirley MacLaine</span><span class="tag alive">Alive</span></li>
+<li data-hit="0"><span class="who">Queen Camilla</span><span class="tag alive">Alive</span></li>
+<li data-hit="0"><span class="who">Ron Wood</span><span class="tag alive">Alive</span></li>
+<li data-hit="0"><span class="who">Robert Duvall</span><span class="tag alive">Alive</span></li>
+<li data-hit="0"><span class="who">Jack Nicholson</span><span class="tag alive">Alive</span></li>
+<li data-hit="0"><span class="who">Eamon Holmes</span><span class="tag alive">Alive</span></li>
+<li data-hit="0"><span class="who">Michael Douglas</span><span class="tag alive">Alive</span></li>
 </ul>
 </section>
 
 <section class="card" data-player="Morris">
 <h2>Maurice’s Picks</h2>
 <ul>
-<li data-hit="1" class="hit"><span class="who">Ruby Druce</span><span class="status"><span class="icon">☠</span><span class="tag dead">Dead</span></span></li>
-<li data-hit="0"><span class="who">Billy Connolly</span><span class="status"><span class="icon">❤️</span><span class="tag alive">Alive</span></span></li>
-<li data-hit="0"><span class="who">Julie Andrews</span><span class="status"><span class="icon">❤️</span><span class="tag alive">Alive</span></span></li>
-<li data-hit="1" class="hit"><span class="who">Giorgio Armani</span><span class="status"><span class="icon">☠</span><span class="tag dead">Dead</span></span></li>
-<li data-hit="0"><span class="who">Pat Buchanan</span><span class="status"><span class="icon">❤️</span><span class="tag alive">Alive</span></span></li>
-<li data-hit="0"><span class="who">Carol Burnett</span><span class="status"><span class="icon">❤️</span><span class="tag alive">Alive</span></span></li>
-<li data-hit="0"><span class="who">Joan Collins</span><span class="status"><span class="icon">❤️</span><span class="tag alive">Alive</span></span></li>
-<li data-hit="0"><span class="who">Bill Cosby</span><span class="status"><span class="icon">❤️</span><span class="tag alive">Alive</span></span></li>
-<li data-hit="0"><span class="who">Noam Chomsky</span><span class="status"><span class="icon">❤️</span><span class="tag alive">Alive</span></span></li>
-<li data-hit="0"><span class="who">Cleo Laine</span><span class="status"><span class="icon">❤️</span><span class="tag alive">Alive</span></span></li>
-<li data-hit="0"><span class="who">Yoko Ono</span><span class="status"><span class="icon">❤️</span><span class="tag alive">Alive</span></span></li>
-<li data-hit="1" class="hit"><span class="who">Gene Hackman</span><span class="status"><span class="icon">☠</span><span class="tag dead">Dead</span></span></li>
-<li data-hit="0"><span class="who">Rupert Murdoch</span><span class="status"><span class="icon">❤️</span><span class="tag alive">Alive</span></span></li>
-<li data-hit="0"><span class="who">Michael Caine</span><span class="status"><span class="icon">❤️</span><span class="tag alive">Alive</span></span></li>
-<li data-hit="0"><span class="who">Juan Carlos I</span><span class="status"><span class="icon">❤️</span><span class="tag alive">Alive</span></span></li>
-<li data-hit="0"><span class="who">Raul Castro</span><span class="status"><span class="icon">❤️</span><span class="tag alive">Alive</span></span></li>
-<li data-hit="0"><span class="who">George Soros</span><span class="status"><span class="icon">❤️</span><span class="tag alive">Alive</span></span></li>
-<li data-hit="1" class="hit"><span class="who">Roberta Flack</span><span class="status"><span class="icon">☠</span><span class="tag dead">Dead</span></span></li>
-<li data-hit="0"><span class="who">Kim Novak</span><span class="status"><span class="icon">❤️</span><span class="tag alive">Alive</span></span></li>
-<li data-hit="0"><span class="who">Willie Nelson</span><span class="status"><span class="icon">❤️</span><span class="tag alive">Alive</span></span></li>
-<li data-hit="0"><span class="who">William Shatner</span><span class="status"><span class="icon">❤️</span><span class="tag alive">Alive</span></span></li>
-<li data-hit="0"><span class="who">Dalai Lama</span><span class="status"><span class="icon">❤️</span><span class="tag alive">Alive</span></span></li>
-<li data-hit="1" class="hit"><span class="who">Pape Francois I</span><span class="status"><span class="icon">☠</span><span class="tag dead">Dead</span></span></li>
-<li data-hit="0"><span class="who">Clint Eastwood</span><span class="status"><span class="icon">❤️</span><span class="tag alive">Alive</span></span></li>
-<li data-hit="0"><span class="who">Mel Brooks</span><span class="status"><span class="icon">❤️</span><span class="tag alive">Alive</span></span></li>
-<li data-hit="0"><span class="who">Judi Dench</span><span class="status"><span class="icon">❤️</span><span class="tag alive">Alive</span></span></li>
-<li data-hit="0"><span class="who">Morgan Freeman</span><span class="status"><span class="icon">❤️</span><span class="tag alive">Alive</span></span></li>
-<li data-hit="0"><span class="who">Daniel O Donnell</span><span class="status"><span class="icon">❤️</span><span class="tag alive">Alive</span></span></li>
-<li data-hit="0"><span class="who">Arnold Schwarzenegger</span><span class="status"><span class="icon">❤️</span><span class="tag alive">Alive</span></span></li>
-<li data-hit="0"><span class="who">Simon Harris</span><span class="status"><span class="icon">❤️</span><span class="tag alive">Alive</span></span></li>
+<li data-hit="1" class="hit"><span class="who">Ruby Druce</span><span class="tag dead">Dead</span></li>
+<li data-hit="0"><span class="who">Billy Connolly</span><span class="tag alive">Alive</span></li>
+<li data-hit="0"><span class="who">Julie Andrews</span><span class="tag alive">Alive</span></li>
+<li data-hit="1" class="hit"><span class="who">Giorgio Armani</span><span class="tag dead">Dead</span></li>
+<li data-hit="0"><span class="who">Pat Buchanan</span><span class="tag alive">Alive</span></li>
+<li data-hit="0"><span class="who">Carol Burnett</span><span class="tag alive">Alive</span></li>
+<li data-hit="0"><span class="who">Joan Collins</span><span class="tag alive">Alive</span></li>
+<li data-hit="0"><span class="who">Bill Cosby</span><span class="tag alive">Alive</span></li>
+<li data-hit="0"><span class="who">Noam Chomsky</span><span class="tag alive">Alive</span></li>
+<li data-hit="0"><span class="who">Cleo Laine</span><span class="tag alive">Alive</span></li>
+<li data-hit="0"><span class="who">Yoko Ono</span><span class="tag alive">Alive</span></li>
+<li data-hit="1" class="hit"><span class="who">Gene Hackman</span><span class="tag dead">Dead</span></li>
+<li data-hit="0"><span class="who">Rupert Murdoch</span><span class="tag alive">Alive</span></li>
+<li data-hit="0"><span class="who">Michael Caine</span><span class="tag alive">Alive</span></li>
+<li data-hit="0"><span class="who">Juan Carlos I</span><span class="tag alive">Alive</span></li>
+<li data-hit="0"><span class="who">Raul Castro</span><span class="tag alive">Alive</span></li>
+<li data-hit="0"><span class="who">George Soros</span><span class="tag alive">Alive</span></li>
+<li data-hit="1" class="hit"><span class="who">Roberta Flack</span><span class="tag dead">Dead</span></li>
+<li data-hit="0"><span class="who">Kim Novak</span><span class="tag alive">Alive</span></li>
+<li data-hit="0"><span class="who">Willie Nelson</span><span class="tag alive">Alive</span></li>
+<li data-hit="0"><span class="who">William Shatner</span><span class="tag alive">Alive</span></li>
+<li data-hit="0"><span class="who">Dalai Lama</span><span class="tag alive">Alive</span></li>
+<li data-hit="1" class="hit"><span class="who">Pape Francois I</span><span class="tag dead">Dead</span></li>
+<li data-hit="0"><span class="who">Clint Eastwood</span><span class="tag alive">Alive</span></li>
+<li data-hit="0"><span class="who">Mel Brooks</span><span class="tag alive">Alive</span></li>
+<li data-hit="0"><span class="who">Judi Dench</span><span class="tag alive">Alive</span></li>
+<li data-hit="0"><span class="who">Morgan Freeman</span><span class="tag alive">Alive</span></li>
+<li data-hit="0"><span class="who">Daniel O Donnell</span><span class="tag alive">Alive</span></li>
+<li data-hit="0"><span class="who">Arnold Schwarzenegger</span><span class="tag alive">Alive</span></li>
+<li data-hit="0"><span class="who">Simon Harris</span><span class="tag alive">Alive</span></li>
 </ul>
 </section>
 </main>
 
-<footer class="footer">
-  <div>Just a silly game. Please don’t take it seriously.</div>
-  <div class="tiny">Built with ❤️ for laughs, not malice.</div>
+<footer>
+  Just a silly game. Please don’t take it seriously.<br>
+  Built with ❤️ for laughs, not malice.
 </footer>
 </div>
 
@@ -233,8 +253,17 @@ function updateCountdown() {
   document.getElementById("countdown").textContent = `${days}d ${hrs}h ${mins}m ${secs}s`;
 }
 
+function updateClock() {
+  const now = new Date();
+  const hh = String(now.getHours()).padStart(2,'0');
+  const mm = String(now.getMinutes()).padStart(2,'0');
+  const ss = String(now.getSeconds()).padStart(2,'0');
+  document.getElementById("clock").textContent = `${hh}:${mm}:${ss}`;
+}
+
 updateScores();
 setInterval(updateCountdown, 1000);
+setInterval(updateClock, 1000);
 </script>
 </body>
 </html>
